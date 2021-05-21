@@ -196,15 +196,17 @@ def test_permutation_corr(corr_func, n_reps=20, n_meas=25, n_vars=10,
     ppstats.permutation_corr(np.random.randn(n_meas, n_vars),
                              x=np.random.randn(n_meas),
                              n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # not same n_meas
         ppstats.permutation_corr(np.random.randn(n_meas, n_vars),
                                  x=np.random.randn(n_meas+1),
-                                 n=1) # not same n_meas
+                                 n=1)
+    with pytest.raises(ValueError): # x not univariate
         ppstats.permutation_corr(np.random.randn(n_meas, n_vars),
                                  x=np.random.randn(n_meas, n_vars),
-                                 n=1) # x not univariate
+                                 n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_corr(np.random.randn(n_meas, n_vars, 3),
-                                 n=1) # more than 2 dims
+                                 n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -289,16 +291,18 @@ def test_permutation_ttest_rel(n_reps=50, n_meas=100, n_vars=10,
     ppstats.permutation_ttest_rel(np.random.randn(n_meas, n_vars),
                                   np.random.randn(n_meas, n_vars),
                                   n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # not same n_meas
         ppstats.permutation_ttest_rel(np.random.randn(n_meas, n_vars),
                                       np.random.randn(n_meas+1, n_vars),
-                                      n=1) # not same n_meas
+                                      n=1)
+    with pytest.raises(ValueError): # not same n_vars
         ppstats.permutation_ttest_rel(np.random.randn(n_meas, n_vars),
                                       np.random.randn(n_meas, n_vars+1),
-                                      n=1) # not same n_vars
+                                      n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_ttest_rel(np.random.randn(n_meas, n_vars, 3),
                                       np.random.randn(n_meas, n_vars, 3),
-                                      n=1) # more than 2 dims
+                                      n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -388,13 +392,14 @@ def test_permutation_ttest_ind(equal_var, n_reps=50, n_meas_X=100,
     ppstats.permutation_ttest_ind(np.random.randn(n_meas_X, n_vars),
                                   np.random.randn(n_meas_Y, n_vars),
                                   n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # not same n_vars
         ppstats.permutation_ttest_ind(np.random.randn(n_meas_X, n_vars),
                                       np.random.randn(n_meas_Y, n_vars+1),
-                                      n=1) # not same n_vars
+                                      n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_ttest_ind(np.random.randn(n_meas_X, n_vars, 3),
                                       np.random.randn(n_meas_Y, n_vars, 3),
-                                      n=1) # more than 2 dims
+                                      n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -490,16 +495,18 @@ def test_permutation_wilcoxon(zero_method, n_reps=50, n_meas=100,
     ppstats.permutation_wilcoxon(np.random.randn(n_meas, n_vars),
                                  np.random.randn(n_meas, n_vars),
                                  n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # not same n_meas
         ppstats.permutation_wilcoxon(np.random.randn(n_meas, n_vars),
-                                      np.random.randn(n_meas+1, n_vars),
-                                      n=1) # not same n_meas
+                                     np.random.randn(n_meas+1, n_vars),
+                                     n=1)
+    with pytest.raises(ValueError): # not same n_vars
         ppstats.permutation_wilcoxon(np.random.randn(n_meas, n_vars),
                                      np.random.randn(n_meas, n_vars+1),
-                                     n=1) # not same n_vars
+                                     n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_wilcoxon(np.random.randn(n_meas, n_vars, 3),
                                      np.random.randn(n_meas, n_vars, 3),
-                                     n=1) # more than 2 dims
+                                     n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -585,13 +592,14 @@ def test_permutation_mannwhitneyu(n_reps=50, n_meas_X=100, n_meas_Y=110,
     ppstats.permutation_mannwhitneyu(np.random.randn(n_meas_X, n_vars),
                                      np.random.randn(n_meas_Y, n_vars),
                                      n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # not same n_vars
         ppstats.permutation_mannwhitneyu(np.random.randn(n_meas_X, n_vars),
                                          np.random.randn(n_meas_Y, n_vars+1),
-                                         n=1) # not same n_vars
+                                         n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_mannwhitneyu(np.random.randn(n_meas_X, n_vars, 3),
                                          np.random.randn(n_meas_Y, n_vars, 3),
-                                         n=1) # more than 2 dims
+                                         n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -675,17 +683,19 @@ def test_permutation_f_oneway(n_reps=50, list_meas=[80, 100, 50, 70],
     ppstats.permutation_f_oneway(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
         n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # only one group
         ppstats.permutation_f_oneway(*[np.random.randn(list_meas[0], n_vars)],
-                                     n=1) # only one group
+                                     n=1)
+    with pytest.raises(ValueError): # not same n_vars
         list_vars = np.random.randint(1, 10, size=len(list_meas))
         ppstats.permutation_f_oneway(
             *[np.random.randn(n_meas, n_vars_)
             for n_meas, n_vars_ in zip(list_meas, list_vars)],
-            n=1) # not same n_vars
+            n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_f_oneway(
             *[np.random.randn(n_meas, n_vars, 3) for n_meas in list_meas],
-            n=1) # more than 2 dims
+            n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -769,17 +779,19 @@ def test_permutation_kruskal(n_reps=50, list_meas=[80, 100, 50, 70],
     ppstats.permutation_kruskal(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
         n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # only one group
         ppstats.permutation_kruskal(*[np.random.randn(list_meas[0], n_vars)],
-                                    n=1) # only one group
+                                    n=1)
+    with pytest.raises(ValueError): # not same n_vars
         list_vars = np.random.randint(1, 10, size=len(list_meas))
         ppstats.permutation_kruskal(
             *[np.random.randn(n_meas, n_vars_)
             for n_meas, n_vars_ in zip(list_meas, list_vars)],
-            n=1) # not same n_vars
+            n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_kruskal(
             *[np.random.randn(n_meas, n_vars, 3) for n_meas in list_meas],
-            n=1) # more than 2 dims
+            n=1)
 
     ### check false positive and true positive rates
     false_positives = []
@@ -862,20 +874,23 @@ def test_permutation_friedmanchisquare(n_reps=50, n_meas=10, n_vars=3,
     ppstats.permutation_friedmanchisquare(
         *[np.random.randn(n_meas, n_vars) for g in range(n_groups)],
         n=1)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError): # 1D inputs # TODO: should be OK
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas) for g in range(n_groups)],
-            n=1) # not 2D inputs # TODO
+            n=1)
+    with pytest.raises(ValueError): # only two groups
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas) for g in range(2)],
-            n=1) # only two groups
-        list_vars = np.random.randint(1, 10, size=len(n_groups))
+            n=1)
+    with pytest.raises(ValueError): # not same n_vars
+        list_vars = np.random.randint(1, 10, size=n_groups)
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas, n_vars_) for n_vars_ in list_vars],
-            n=1) # not same n_vars
+            n=1)
+    with pytest.raises(ValueError): # more than 2 dims
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas, n_vars, 3) for g in range(n_groups)],
-            n=1) # more than 2 dims
+            n=1)
 
     ### check false positive and true positive rates
     false_positives = []
