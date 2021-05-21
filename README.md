@@ -1,17 +1,20 @@
 # P*y*&#43004;*ermut*
 
 [![Code PythonVersion](https://img.shields.io/badge/python-3.7+-blue)](https://img.shields.io/badge/python-3.7+-blue)
+[![License](https://img.shields.io/badge/licence-BSD--3--Clause-green)](https://img.shields.io/badge/license-BSD--3--Clause-green)
 [![Country](https://img.shields.io/badge/made%20in-France-blue)](https://img.shields.io/badge/made%20in-France-blue)
 
 PyPermut is a Python package implementing permutation tests, for statistics and
 machine learning.
 
+PyPermut is distributed under the open source 3-clause BSD license.
+
 ## Description
 
 In a nutshell, this package extends some parametric and non-parametric
 [statistical tests](https://docs.scipy.org/doc/scipy/reference/stats.html#statistical-tests)
-into permutation tests for multivariate samples, allowing the computation of exact
-p-values and the correction for multiple tests.
+into permutation tests for multivariate samples, allowing the computation of
+exact p-values and the correction for multiple tests.
 
 Futhermore, this package offers several functions for machine learning, like a
 generic permutation test for any metric based on the predictions of a model
@@ -78,12 +81,19 @@ See examples.
 Westfall and Young, *Resampling-based multiple testing: examples and methods*
 *for p-value adjustment*, Wiley-Blackwell, 1993.
 
+Pesarin, *Multivariate Permutation Tests – With Applications in Biostatistics*,
+Wiley-Blackwell, 2001.
+
 Nichols and Holmes, "Nonparametric permutation tests for functional
-neuroimaging: A primer with examples", *Human Brain Mapping*, 2002.
+neuroimaging: A primer with examples", *Human Brain Mapping*, vol 15, pp 1-25,
+2001.
+
+Edgington and Onghena, *Randomization Tests, Fourth Edition*, Chapman and
+Hall/CRC, 2007.
 
 ## Documentation
 
-TODO
+TODO: put doc on RTD.
 
 ## Installation
 

@@ -3,10 +3,10 @@ name = "pypermut"
 version = "0.1.0"
 description = "PyPermut is a Python package implementing permutation tests"
 authors = ["Quentin Barthelemy", "Anonymous", "Louis Mayaud"]
+license = "BSD-3-Clause"
 readme = "README.md"
 homepage = "https://github.com/qbarthelemy/PyPermut"
 classifiers = [
-    "Development Status :: 4 - Beta",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development :: Libraries :: Python Modules",
