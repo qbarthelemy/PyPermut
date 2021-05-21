@@ -448,6 +448,7 @@ def permutation_mannwhitneyu(X, Y, *,
     -------
     Ustat : list of int, length (n_vars)
         List of statistics U between variables of X and Y.
+        Warning: these statistics U are not computed like scipy.stats.mannwhitneyu.
 
     pvals : list of float, length (n_vars)
         List of p-values computed from Umin distribution of permuted
