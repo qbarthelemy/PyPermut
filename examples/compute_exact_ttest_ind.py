@@ -71,7 +71,7 @@ ax1.fill_between(x, t.pdf(x, df), where=(x>=t_exact), facecolor='r',
 plt.legend(loc='upper left')
 ax2 = fig.add_subplot(122, title='Exact p-value', xlabel='t', sharey=ax1)
 ax2.axvline(x=t_exact, c='r', label='Real statistic t')
-y, x, _ = ax2.hist(t_dist, 50, density=True, alpha=0.4,
+y, x, _ = ax2.hist(t_dist, 50, density=True, histtype='step',
                    label='Exact t-distribution')
 ax2.fill_between(x[1:], y, where=(x[1:]>=t_exact), facecolor='r', step='pre',
                  label='Exact p-value')

@@ -44,10 +44,12 @@ Ordinal and numerical
 In permutation tests, the null distribution is sampled by random permutations
 of measurements. Making no hypothesis on the statistic distribution, the
 p-value is defined as the proportion of the null distribution with test
-statistic greater (or lower, depending on the test) than or equal to the test
-statistic of the observed data.
+statistic greater (or, for certain test statistic, lower) than or equal to the
+test statistic of the observed data.
 When all permutations are evaluated, these permutation tests give
 [exact tests](https://en.wikipedia.org/wiki/Exact_test).
+
+![](/doc/fig_approx_vs_exact.png)
 
 In case of several variables, they naturally perform a correction for
 [multiple tests](https://en.wikipedia.org/wiki/Multiple_comparisons_problem):
@@ -93,7 +95,7 @@ Hall/CRC, 2007.
 
 ## Documentation
 
-TODO: put doc on RTD.
+TODO: put documentation on RTD.
 
 ## Installation
 
@@ -116,5 +118,5 @@ Use `pytest`.
 
 ## Authors
 
-Quentin Barthélemy, an anonymous researcher and Louis Mayaud, 
+Quentin Barthélemy, an anonymous researcher and Louis Mayaud,
 under the wisdom of [Marco Congedo](https://github.com/Marco-Congedo).
