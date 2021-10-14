@@ -49,7 +49,7 @@ def _check_permutations(n_perms_requested, n_perms_max, with_replacement):
     """ This function checks the requested permutations. """
     if n_perms_requested == 'all' or n_perms_requested >= n_perms_max:
         # => exact test, with all permutations
-        perms = range(0, n_perms_max) # from 0, to include the null permutation
+        perms = range(0, n_perms_max)  # from 0, to include null permutation
         n_perms = len(perms)
         with_replacement = False
 

@@ -9,7 +9,7 @@ from scipy.stats import percentileofscore
 from .misc import perc_to_pval
 
 
-def permutation_metric(y_labels, y_probas, func, *, n=10000, side='right'):
+def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
     """ This function performs a permutation test on any metric based on the
     predictions of a model.
 
@@ -23,16 +23,16 @@ def permutation_metric(y_labels, y_probas, func, *, n=10000, side='right'):
 
     Parameters
     ----------
-    y_labels : array_like, shape (n_samples, n_classes)
+    y_true : array_like, shape (n_samples, n_classes)
         True binary labels, with first dimension representing the sample
         dimension and with second dimension representing the different classes.
 
-    y_probas : array_like, shape (n_samples, n_classes)
-        Probabilities of predicted labels, same dimensions as y_labels.
+    y_score : array_like, shape (n_samples, n_classes)
+        Scores of prediction, same dimensions as y_true. Scores can be
+        probabilities or labels.
 
     func : callable
-        Function to compute the metric,
-        with signature `func(y_labels, y_probas)`.
+        Function to compute the metric, with signature `func(y_true, y_score)`.
 
     n : int (default 10000)
         Number of permutations for the permutation test.
@@ -56,23 +56,23 @@ def permutation_metric(y_labels, y_probas, func, *, n=10000, side='right'):
     ----------
     .. [1] https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics
     """
-    y_labels = np.asarray(y_labels)
-    y_probas = np.asarray(y_probas)
-    if y_labels.shape != y_probas.shape:
+    y_true = np.asarray(y_true)
+    y_score = np.asarray(y_score)
+    if y_true.shape != y_score.shape:
         raise ValueError(
-            'Inputs y_labels and y_probas do not have compatible dimensions: '
-            'y_labels is of dimension {} while y_probas is {}.'
-            .format(y_labels.shape, y_probas.shape))
-    sample_count = y_labels.shape[0]
+            'Inputs y_true and y_score do not have compatible dimensions: '
+            'y_true is of dimension {} while y_score is {}.'
+            .format(y_true.shape, y_score.shape))
+    n_samples = y_true.shape[0]
 
     # under the null hypothesis, sample the metric distribution
     null_dist = np.empty(n, dtype=float)
     for p in range(n):
-        permuted_indices = np.random.permutation(sample_count)
-        null_dist[p] = func(y_labels[permuted_indices], y_probas)
+        permuted_indices = np.random.permutation(n_samples)
+        null_dist[p] = func(y_true[permuted_indices], y_score)
 
     # compute the real metric
-    m = func(y_labels, y_probas)
+    m = func(y_true, y_score)
     perc = percentileofscore(null_dist, m, kind='strict')
     pval = perc_to_pval(perc, side)
 

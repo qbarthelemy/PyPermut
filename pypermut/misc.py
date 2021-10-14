@@ -16,9 +16,9 @@ def perc_to_pval(perc, side):
     side : string
         Side of the test:
 
-        * 'left' or 'lower' for a left-sided test,
-        * 'two' or 'double' for a two-sided test,
-        * 'right' or 'upper' for a right-sided test.
+        * 'left', 'lower' or 'less', for a left-sided test;
+        * 'two', 'double' or 'two-sided', for a two-sided test;
+        * 'right', 'upper' or 'greater', for a right-sided test.
 
     Returns
     -------
@@ -29,11 +29,11 @@ def perc_to_pval(perc, side):
         raise ValueError('Input percentile="{}" must be included in [0, 100].'
                          .format(perc))
 
-    if side in ['left', 'lower']:
+    if side in ['left', 'lower', 'less']:
         pval = perc / 100
-    elif side in ['two', 'double']:
+    elif side in ['two', 'double', 'two-sided']:
         pval = 2 * min(perc / 100, (100 - perc) / 100)
-    elif side in ['right', 'upper']:
+    elif side in ['right', 'upper', 'greater']:
         pval = (100 - perc) / 100
     else:
         raise ValueError('Invalid value for side="{}".'.format(side))
