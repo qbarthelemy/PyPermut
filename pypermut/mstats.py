@@ -227,7 +227,7 @@ def mannwhitneyu(C, list_meas):
     ranked = np.apply_along_axis(stats.rankdata, 0, C)
     ranks_X = ranked[0:n_meas_X]
     U_X = np.sum(ranks_X, axis=0) - (n_meas_X * (n_meas_X + 1)) / 2.
-    U_Y = n_meas_X * n_meas_Y - U_X # because U_X + U_Y = n_meas_X * n_meas_Y
+    U_Y = n_meas_X * n_meas_Y - U_X  # because U_X + U_Y = n_meas_X * n_meas_Y
     U = np.minimum(U_X, U_Y)
     return U
 
@@ -253,7 +253,7 @@ def f_oneway(C, list_meas):
     # indices of each group after vertical concatenation
     list_inds = np.insert(np.cumsum(list_meas), 0, 0)
     n_groups = len(list_meas)
-    n_meas = list_inds[-1] # total number of measurements
+    n_meas = list_inds[-1]  # total number of measurements
 
     normalized_ss = np.sum(C, 0)**2 / n_meas
     sstot = np.sum(C**2, 0) - normalized_ss
@@ -289,7 +289,7 @@ def kruskal(C, list_meas):
     # indices of each group after vertical concatenation
     list_inds = np.insert(np.cumsum(list_meas), 0, 0)
     n_groups = len(list_meas)
-    n_meas = list_inds[-1] # total number of measurements
+    n_meas = list_inds[-1]  # total number of measurements
 
     ranked = np.apply_along_axis(stats.rankdata, 0, C)
     ties = np.apply_along_axis(stats.tiecorrect, 0, ranked)

@@ -81,7 +81,7 @@ def permutation_corr(Y, *,
     n_meas = Y.shape[0]
 
     if x is None:
-        x = np.arange(n_meas) # monotonous vector
+        x = np.arange(n_meas)  # monotonous vector
     else:
         x = np.asarray(x)
         if x.ndim != 1 or x.shape[0] != n_meas:
@@ -677,16 +677,16 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
     if not isinstance(n, int):
         raise ValueError('Parameter n must be an integer.')
 
-    Data_ = np.dstack(args) # shape = (n_meas, n_vars, n_groups)
+    Data_ = np.dstack(args)  # shape = (n_meas, n_vars, n_groups)
     Data = np.transpose(Data_.astype(float),
-                        axes=(0, 2, 1)) # shape = (n_meas, n_groups, n_vars)
+                        axes=(0, 2, 1))  # shape = (n_meas, n_groups, n_vars)
 
     # under the null hypothesis, sample the chi2max distribution
     chi2max = np.empty(n, dtype=float)
 
     for i_perm in range(n):
         Dataperm = Data.copy()
-        for m in range(n_meas): # for each measure, permute along groups
+        for m in range(n_meas):  # for each measure, permute along groups
             permuted_indices = np.random.permutation(n_groups)
             Dataperm[m] = Dataperm[m][permuted_indices]
 

@@ -72,10 +72,10 @@ def permute_measurements(Y, x,
             permuted_indices = get_permutation_measurements(
                 n_meas,
                 perms[i_perm])
-        xperm = x[permuted_indices] # permute x along measurements
+        xperm = x[permuted_indices]  # permute x along measurements
 
         stat = stat_func(np.c_[xperm, Y])
-        if side == 'two': # for a two-sided test
+        if side == 'two':  # for a two-sided test
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
@@ -159,7 +159,7 @@ def permute_paired_samples(X, Y,
         Dperm = np.tile(perm_coeffs, D.shape[1]) * D
 
         stat = stat_func(Dperm, **kwargs)
-        if side == 'two': # for a two-sided test
+        if side == 'two':  # for a two-sided test
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
@@ -220,7 +220,7 @@ def permute_unpaired_samples(args,
     # number of measurements for each sample / group
     list_meas = np.asarray(list(map(len, args)))
     C = np.concatenate(args, axis=0)
-    C -= C.mean(axis=0, keepdims=True) # centering improves numerical stability
+    C -= C.mean(axis=0, keepdims=True)  # centering improves num. stability
     n_meas = C.shape[0]
 
     n_perms_max = count_permutations_unpaired_samples(list_meas)
@@ -244,10 +244,10 @@ def permute_unpaired_samples(args,
             permuted_indices = get_permutation_unpaired_samples(
                 list_meas,
                 list(combs[perms[i_perm]]))
-        Cperm = C[permuted_indices] # permute measurements between samples
+        Cperm = C[permuted_indices]  # permute measurements between samples
 
         stat = stat_func(Cperm, list_meas)
-        if side == 'two': # for a two-sided test
+        if side == 'two':  # for a two-sided test
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
