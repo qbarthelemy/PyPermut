@@ -23,7 +23,7 @@ generic permutation test for any metric based on the predictions of a model
 #### Permutations for statistical tests
 
 This package implements several
-[permutation tests](https://en.wikipedia.org/wiki/Resampling_statistics#Permutation_tests)
+[permutation tests](https://en.wikipedia.org/wiki/Permutation_tests)
 (also called randomization tests).
 
 Correlation tests:
