@@ -6,7 +6,7 @@ Correct multiple Student's t-tests for independent samples
 Correct multiple Student's t-tests for trivariate independent samples,
 comparing three methods: Bonferroni, permutations, and Hotelling.
 """
-# Authors: Quentin Barthélemy
+# Author: Quentin Barthélemy
 
 import numpy as np
 from scipy.stats import ttest_ind, f

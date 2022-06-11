@@ -6,7 +6,7 @@ Compute exact Student's t-test for independent samples
 Compute classical, permutated and exact right-sided Student's t-tests, for
 independent / unpaired samples.
 """
-# Authors: Quentin Barthélemy
+# Author: Quentin Barthélemy
 
 import numpy as np
 from scipy.stats import t, ttest_ind, mannwhitneyu, shapiro, levene

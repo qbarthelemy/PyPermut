@@ -129,7 +129,7 @@ def plot_pairwise_results(ax, names, pvals):
     matrix.
 
     Parameters
-    ----------    
+    ----------
     ax : matplotlib axes
         Axis of the figure.
 

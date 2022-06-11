@@ -1,4 +1,4 @@
-""" Tests for module ml. 
+""" Tests for module ml.
 
 To execute tests:
 >>> py.test -k test_ml

@@ -1,4 +1,4 @@
-""" Tests for module stats. 
+""" Tests for module stats.
 
 To execute tests:
 >>> py.test -k test_stats

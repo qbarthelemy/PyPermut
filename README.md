@@ -76,7 +76,7 @@ These multiple variables can be useful to compute pairwise post-hoc tests.
 
 #### How to use PyPermut
 
-See examples.
+See `examples`.
 
 #### References
 

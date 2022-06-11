@@ -3,13 +3,13 @@
 Compute the p-value associated to AUROC
 ===============================================================================
 
-Compute the p-value associated to the area under the curve (AUC) of the 
+Compute the p-value associated to the area under the curve (AUC) of the
 receiver operating characteristic (ROC), for a binary (two-class)
 classification problem.
 
 Warning: this example requires scikit-learn dependency (0.22 at least).
 """
-# Authors: Quentin Barthélemy
+# Author: Quentin Barthélemy
 
 import numpy as np
 from sklearn.datasets import make_classification

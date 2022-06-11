@@ -110,7 +110,7 @@ def studentt_rel(D):
 
 def studentt_ind(C, list_meas):
     """ Student t statistic for independent multivariate samples X and Y.
-    
+
     Parameters
     ----------
     C : array, shape (n_meas_X + n_meas_Y, n_vars)
@@ -284,7 +284,7 @@ def kruskal(C, list_meas):
     Returns
     -------
     H : array, shape (n_vars,)
-        The statistics H between variables of groups. 
+        The statistics H between variables of groups.
     """
     # indices of each group after vertical concatenation
     list_inds = np.insert(np.cumsum(list_meas), 0, 0)
@@ -331,6 +331,6 @@ def friedmanchisquare(Data):
     c = 1 - ties / (n_groups * (n_groups*n_groups - 1) * n_meas)
 
     ssbn = np.sum(ranked.sum(axis=0)**2, axis=0)
-    chisq = (12.0 / (n_groups*n_meas*(n_groups+1)) * ssbn 
+    chisq = (12.0 / (n_groups*n_meas*(n_groups+1)) * ssbn
              - 3*n_meas*(n_groups+1)) / c
     return chisq

@@ -6,7 +6,7 @@ Correct Pearson and Spearman correlations on Anscombe's data
 Compare classical and permutated tests on Anscombe's data sets [1],
 for Pearson and Spearman correlations after correction for multiple tests.
 """
-# Authors: Quentin Barthélemy
+# Author: Quentin Barthélemy
 
 import numpy as np
 from scipy.stats import pearsonr, spearmanr

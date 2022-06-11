@@ -1,4 +1,4 @@
-""" Tests for module core. 
+""" Tests for module core.
 
 To execute tests:
 >>> py.test -k test_core
