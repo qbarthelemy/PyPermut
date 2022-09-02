@@ -1,12 +1,14 @@
-""" Functions to compute statistics of multivariate samples. """
+"""Functions to compute statistics of multivariate samples."""
 
 import numpy as np
 import scipy.stats as stats
 
 
 def pearsonr(xY):
-    """ Pearson correlation coefficient between a multivariate sample Y and a
-    univariate sample x.
+    """Pearson correlation coefficient.
+
+    This function computes the Pearson correlation coefficient between a
+    multivariate sample Y and a univariate sample x.
 
     Parameters
     ----------
@@ -22,8 +24,10 @@ def pearsonr(xY):
 
 
 def spearmanr(xY):
-    """ Spearman correlation coefficient between a multivariate sample Y and a
-    univariate sample x.
+    """Spearman correlation coefficient.
+
+    This function computes the Spearman correlation coefficient between a
+    multivariate sample Y and a univariate sample x.
 
     Parameters
     ----------
@@ -45,8 +49,10 @@ def spearmanr(xY):
 
 
 def spearmanr_fast(xY):
-    """ Spearman correlation coefficient between a multivariate sample Y and a
-    univariate sample x.
+    """Spearman correlation coefficient, faster version.
+
+    This function computes the Spearman correlation coefficient between a
+    multivariate sample Y and a univariate sample x.
     Faster version, without checking on data (we have to ensure the data is on
     the correct shape).
 
@@ -66,8 +72,10 @@ def spearmanr_fast(xY):
 
 
 def spearmanr_fast_unique(xY):
-    """ Spearman correlation coefficient between a multivariate sample Y and a
-    univariate sample x.
+    """Spearman correlation coefficient, faster version for unique data.
+
+    This function computes the Spearman correlation coefficient between a
+    multivariate sample Y and a univariate sample x.
     Faster version, that needs the data to be unique.
 
     Parameters
@@ -88,7 +96,10 @@ def spearmanr_fast_unique(xY):
 
 
 def studentt_rel(D):
-    """ Student t statistic for related multivariate samples X and Y.
+    """Student t statistic for related samples.
+
+    This function computes the Student t statistic for related multivariate
+    samples X and Y.
 
     Parameters
     ----------
@@ -109,7 +120,10 @@ def studentt_rel(D):
 
 
 def studentt_ind(C, list_meas):
-    """ Student t statistic for independent multivariate samples X and Y.
+    """Student t statistic for independent samples.
+
+    This function computes the Student t statistic for independent multivariate
+    samples X and Y.
 
     Parameters
     ----------
@@ -137,8 +151,10 @@ def studentt_ind(C, list_meas):
 
 
 def welcht_ind(C, list_meas):
-    """ Welch t statistic for independent multivariate samples X and Y.
-    It does not assume equal variance.
+    """Welch t statistic for independent samples.
+
+    This function computes the Welch t statistic for independent multivariate
+    samples X and Y. It does not assume equal variance.
 
     Parameters
     ----------
@@ -164,7 +180,10 @@ def welcht_ind(C, list_meas):
 
 
 def wilcoxon(D, zero_method):
-    """ Wilcoxon T statistic for paired multivariate samples X and Y.
+    """Wilcoxon T statistic for paired samples.
+
+    This function computes the Wilcoxon T statistic for paired multivariate
+    samples X and Y.
 
     Parameters
     ----------
@@ -206,7 +225,10 @@ def wilcoxon(D, zero_method):
 
 
 def mannwhitneyu(C, list_meas):
-    """ Mann-Whitney U statistic for unpaired multivariate samples X and Y.
+    """Mann-Whitney U statistic for unpaired samples.
+
+    This function computes the Mann-Whitney U statistic for unpaired
+    multivariate samples X and Y.
 
     Warning: statistic U is not computed like scipy.stats.mannwhitneyu.
 
@@ -233,8 +255,10 @@ def mannwhitneyu(C, list_meas):
 
 
 def f_oneway(C, list_meas):
-    """ Fisher F statistic for one-way ANOVA applied on independent samples,
-    with several variables.
+    """Fisher F statistic for one-way ANOVA for independent samples.
+
+    This function computes the Fisher F statistic for one-way ANOVA applied on
+    independent samples, with several variables.
 
     Parameters
     ----------
@@ -271,7 +295,10 @@ def f_oneway(C, list_meas):
 
 
 def kruskal(C, list_meas):
-    """ Kruskal–Wallis H statistic for independent multivariate samples.
+    """Kruskal–Wallis H statistic for independent samples.
+
+    This function computes the Kruskal–Wallis H statistic for independent
+    multivariate samples.
 
     Parameters
     ----------
@@ -306,7 +333,10 @@ def kruskal(C, list_meas):
 
 
 def friedmanchisquare(Data):
-    """ Friedman chi-squared statistic for paired multivariate samples.
+    """Friedman chi-squared statistic for paired samples.
+
+    This function computes the Friedman chi-squared statistic for paired
+    multivariate samples.
 
     Parameters
     ----------

@@ -1,7 +1,7 @@
-""" Tests for module core.
+"""Tests for module core.
 
 To execute tests:
->>> py.test -k test_core
+>>> pytest -k test_core
 """
 
 import pytest
@@ -11,8 +11,7 @@ import pypermut.core as core
 
 @pytest.mark.parametrize("n", range(2, 9))
 def test_permutations_measurements(n):
-    """ Test permutations along measurements:
-        uniqueness and null permutation.
+    """Test permutations along measurements: uniqueness and null permutation.
 
     Parameter
     ---------
@@ -40,8 +39,8 @@ def test_permutations_measurements(n):
 
 @pytest.mark.parametrize("n", range(2, 15))
 def test_permutations_paired_samples(n):
-    """ Test permutations for paired samples:
-        uniqueness and null/full permutations.
+    """Test permutations for paired samples: uniqueness and null/full
+    permutations.
 
     Parameter
     ---------
@@ -70,8 +69,7 @@ def test_permutations_paired_samples(n):
 @pytest.mark.parametrize("n1", range(2, 14))
 @pytest.mark.parametrize("n2", range(2, 10))
 def test_permutations_unpaired_samples(n1, n2):
-    """ Test permutations for unpaired samples:
-        uniqueness and null permutation.
+    """Test permutations for unpaired samples: uniqueness and null permutation.
 
     Parameters
     ----------

@@ -1,4 +1,4 @@
-""" Permutations for statistical tests.
+"""Permutations for statistical tests.
 
 Random state can be fixed before calling permutation tests,
 using np.random.seed().
@@ -20,8 +20,10 @@ def permutation_corr(Y, *,
                      side='one',
                      return_dist=False):
 # TODO: allow x to be multivariate -> X
-    """ This function performs a Rmax permutation test from correlations
-    between a multivariate sample Y and a univariate sample x.
+    """Rmax permutation test.
+
+    This function performs a Rmax permutation test from correlations between a
+    multivariate sample Y and a univariate sample x.
 
     Parameters
     ----------
@@ -160,7 +162,9 @@ def permutation_ttest_rel(X, Y, *,
                           with_replacement=True,
                           side='one',
                           return_dist=False):
-    """ This function performs a tmax permutation test from Student's t-tests,
+    """tmax permutation test for related / paired samples.
+
+    This function performs a tmax permutation test from Student's t-tests,
     applied on related / paired samples with several variables.
 
     Parameters
@@ -243,7 +247,9 @@ def permutation_ttest_ind(X, Y, *,
                           side='one',
                           equal_var=True,
                           return_dist=False):
-    """ This function performs a tmax permutation test from Student's t-tests,
+    """tmax permutation test for independent / unpaired samples.
+
+    This function performs a tmax permutation test from Student's t-tests,
     applied on independent / unpaired samples with several variables.
 
     Parameters
@@ -338,7 +344,9 @@ def permutation_wilcoxon(X, Y, *,
                          with_replacement=True,
                          zero_method='wilcox',
                          return_dist=False):
-    """ This function performs a Tmin permutation test from Wilcoxon T tests
+    """Tmin permutation test.
+
+    This function performs a Tmin permutation test from Wilcoxon T tests
     (also called Wilcoxon signed-rank test), applied on paired samples with
     several variables.
 
@@ -418,9 +426,11 @@ def permutation_mannwhitneyu(X, Y, *,
                              n=10000,
                              with_replacement=True,
                              return_dist=False):
-    """ This function performs a Umin permutation test from Mann-Whitney U
-    tests (sometimes called Wilcoxon rank-sum tests), applied on unpaired
-    samples with several variables.
+    """Umin permutation test.
+
+    This function performs a Umin permutation test from Mann-Whitney U tests
+    (sometimes called Wilcoxon rank-sum tests), applied on unpaired samples
+    with several variables.
 
     It is a Umin test, because low values of U are required for significance.
 
@@ -490,7 +500,9 @@ def permutation_mannwhitneyu(X, Y, *,
 
 def permutation_f_oneway(*args, n=10000, return_dist=False):
 # TODO: allow n='all'
-    """ This function performs a Fmax permutation test from one-way ANOVAs,
+    """Fmax permutation test.
+
+    This function performs a Fmax permutation test from one-way ANOVAs,
     applied on independent / unpaired samples with several variables.
 
     Parameters
@@ -558,7 +570,9 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
 
 def permutation_kruskal(*args, n=10000, return_dist=False):
 # TODO: allow n='all'
-    """ This function performs a Hmax permutation test from Kruskal-Wallis H
+    """Hmax permutation test.
+
+    This function performs a Hmax permutation test from Kruskal-Wallis H
     tests (sometimes called one-way ANOVA on ranks), applied on independent
     samples with several variables.
 
@@ -627,7 +641,9 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
 def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
 # TODO: allow n='all'; and use core.permute_paired_samples after its
 # generalization to S samples
-    """ This function performs a chi2max permutation test from Friedman chi2
+    """chi2max permutation test.
+
+    This function performs a chi2max permutation test from Friedman chi2
     (chi-square) tests, applied on paired samples with several variables.
 
     Parameters

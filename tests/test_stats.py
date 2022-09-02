@@ -1,7 +1,7 @@
-""" Tests for module stats.
+"""Tests for module stats.
 
 To execute tests:
->>> py.test -k test_stats
+>>> pytest -k test_stats
 """
 
 import warnings
@@ -22,8 +22,8 @@ np.random.seed(17)
     ('pearson', 'spearman', 'spearman_fast', 'spearman_fast_nonunique')
 )
 def test_permutation_measurements_best(n, corr_func):
-    """ This function tests the statistic r and the exact p-value p of
-    correlation tests, when no permutation can improve the statistic.
+    """Test the statistic r and the exact p-value p of correlation tests,
+    when no permutation can improve the statistic.
 
     Parameters
     ----------
@@ -65,8 +65,8 @@ def test_permutation_measurements_best(n, corr_func):
 
 @pytest.mark.parametrize("n", range(2, 15))
 def test_permutation_paired_samples_best(n):
-    """ This function tests the exact p-value of tests for two related samples,
-    when no permutation can improve the statistic.
+    """Test the exact p-value of tests for two related samples, when no
+    permutation can improve the statistic.
 
     Parameter
     ---------
@@ -110,8 +110,8 @@ def test_permutation_paired_samples_best(n):
 @pytest.mark.parametrize("n1", range(2, 10))
 @pytest.mark.parametrize("n2", range(2, 10))
 def test_permutation_unpaired_samples_best(n1, n2):
-    """ This function tests the exact p-value of tests for two independent
-    samples, when no permutation can improve the statistic.
+    """Test the exact p-value of tests for two independent samples, when no
+    permutation can improve the statistic.
 
     Parameters
     ----------
@@ -170,7 +170,7 @@ def test_permutation_unpaired_samples_best(n1, n2):
 @pytest.mark.parametrize("side", ('one', 'two'))
 def test_permutation_corr_args(corr_func, with_replacement, side,
                                n_meas=5, n_vars=3):
-    """ This function checks permutation_corr arguments.
+    """Check permutation_corr arguments.
 
     Parameters
     ----------
@@ -217,7 +217,7 @@ def test_permutation_corr_args(corr_func, with_replacement, side,
     ('pearson', 'spearman', 'spearman_fast', 'spearman_fast_nonunique')
 )
 def test_permutation_corr_errors(corr_func, n_meas=5, n_vars=3):
-    """ This function checks permutation_corr errors.
+    """Check permutation_corr errors.
 
     Parameters
     ----------
@@ -257,9 +257,9 @@ def test_permutation_corr_errors(corr_func, n_meas=5, n_vars=3):
 )
 def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
                                 trend_amplitude=3., side='one', alpha=0.05):
-    """ This function validates the permutation_corr function by generating
-    random samples on which statistics and p-values are computed, and checking
-    false positive and true positive rates.
+    """Validate the permutation_corr function by generating random samples on
+    which statistics and p-values are computed, and checking false positive and
+    true positive rates.
 
     Parameters
     ----------
@@ -342,7 +342,7 @@ def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
 @pytest.mark.parametrize("side", ('one', 'two'))
 def test_permutation_ttest_rel_args(with_replacement, side,
                                     n_meas=5, n_vars=3):
-    """ This function checks permutation_ttest_rel arguments.
+    """Check permutation_ttest_rel arguments.
 
     Parameters
     ----------
@@ -376,7 +376,7 @@ def test_permutation_ttest_rel_args(with_replacement, side,
 
 
 def test_permutation_ttest_rel_errors(n_meas=5, n_vars=3):
-    """ This function checks permutation_ttest_rel errors.
+    """Check permutation_ttest_rel errors.
 
     Parameters
     ----------
@@ -404,9 +404,9 @@ def test_permutation_ttest_rel_errors(n_meas=5, n_vars=3):
 
 def test_permutation_ttest_rel_rates(n_reps=50, n_meas=100, n_vars=10,
                                      diff_mean=-2., diff_std=0.8, alpha=0.05):
-    """ This function validates the permutation_ttest_rel function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_ttest_rel function by generating random samples
+    on which statistics and p-values are computed, and checking false positive
+    and true positive rates.
 
     H0: difference between pairs follows a Gaussian distribution.
 
@@ -483,7 +483,7 @@ def test_permutation_ttest_rel_rates(n_reps=50, n_meas=100, n_vars=10,
 @pytest.mark.parametrize("equal_var", (True, False))
 def test_permutation_ttest_ind_args(with_replacement, side, equal_var,
                                     n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """ This function checks permutation_ttest_ind arguments.
+    """Check permutation_ttest_ind arguments.
 
     Parameters
     ----------
@@ -528,7 +528,7 @@ def test_permutation_ttest_ind_args(with_replacement, side, equal_var,
 
 
 def test_permutation_ttest_ind_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """ This function checks permutation_ttest_ind errors.
+    """Check permutation_ttest_ind errors.
 
     Parameters
     ----------
@@ -556,9 +556,9 @@ def test_permutation_ttest_ind_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
 def test_permutation_ttest_ind_rates(equal_var, n_reps=50, n_meas_X=100,
                                      n_meas_Y=110, n_vars=10,
                                      diff_mean=-2., alpha=0.05):
-    """ This function validates the permutation_ttest_ind function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_ttest_ind function by generating random samples
+    on which statistics and p-values are computed, and checking false positive
+    and true positive rates.
 
     H0: samples are drawn from the same Gaussian distribution, ie with equal
     means and variances (excepted for Welch's version).
@@ -647,7 +647,7 @@ def test_permutation_ttest_ind_rates(equal_var, n_reps=50, n_meas_X=100,
 @pytest.mark.parametrize("zero_method", ('pratt', 'wilcox', 'zsplit'))
 def test_permutation_wilcoxon_args(with_replacement, zero_method,
                                    n_meas=5, n_vars=3):
-    """ This function checks permutation_wilcoxon arguments.
+    """Check permutation_wilcoxon arguments.
 
     Parameters
     ----------
@@ -676,7 +676,7 @@ def test_permutation_wilcoxon_args(with_replacement, zero_method,
 
 
 def test_permutation_wilcoxon_errors(n_meas=5, n_vars=3):
-    """ This function checks permutation_wilcoxon errors.
+    """Check permutation_wilcoxon errors.
 
     Parameters
     ----------
@@ -706,9 +706,9 @@ def test_permutation_wilcoxon_errors(n_meas=5, n_vars=3):
 def test_permutation_wilcoxon_rates(zero_method, n_reps=50, n_meas=100,
                                     n_vars=10, diff_mean=2., diff_std=1.,
                                     alpha=0.05):
-    """ This function validates the permutation_wilcoxon function by generating
-    random samples on which statistics and p-values are computed, and checking
-    false positive and true positive rates.
+    """Validate the permutation_wilcoxon function by generating random samples
+    on which statistics and p-values are computed, and checking false positive
+    and true positive rates.
 
     H0: difference between pairs follows a symmetric distribution around zero.
     H1: difference between pairs does not follow a symmetric distribution
@@ -788,7 +788,7 @@ def test_permutation_wilcoxon_rates(zero_method, n_reps=50, n_meas=100,
 @pytest.mark.parametrize("with_replacement", (True, False))
 def test_permutation_mannwhitneyu_args(with_replacement,
                                        n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """ This function checks permutation_mannwhitneyu arguments.
+    """Check permutation_mannwhitneyu arguments.
 
     Parameters
     ----------
@@ -817,7 +817,7 @@ def test_permutation_mannwhitneyu_args(with_replacement,
 
 
 def test_permutation_mannwhitneyu_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """ This function checks permutation_mannwhitneyu errors.
+    """Check permutation_mannwhitneyu errors.
 
     Parameters
     ----------
@@ -844,9 +844,9 @@ def test_permutation_mannwhitneyu_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
 def test_permutation_mannwhitneyu_rates(n_reps=50, n_meas_X=100, n_meas_Y=110,
                                         n_vars=10, diff_mean=1., diff_std=1.,
                                         alpha=0.05):
-    """ This function validates the permutation_mannwhitneyu function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_mannwhitneyu function by generating random
+    samples on which statistics and p-values are computed, and checking false
+    positive and true positive rates.
 
     H0: samples are drawn from the same distribution, that may not be normal.
 
@@ -921,7 +921,7 @@ def test_permutation_mannwhitneyu_rates(n_reps=50, n_meas_X=100, n_meas_Y=110,
 
 
 def test_permutation_f_oneway_args_errors(list_meas=[5, 7, 6, 4], n_vars=3):
-    """ This function checks permutation_f_oneway arguments and errors.
+    """Check permutation_f_oneway arguments and errors.
 
     Parameters
     ----------
@@ -960,9 +960,9 @@ def test_permutation_f_oneway_args_errors(list_meas=[5, 7, 6, 4], n_vars=3):
 def test_permutation_f_oneway_rates(n_reps=50, list_meas=[80, 100, 50, 70],
                                     n_vars=3, diff_mean=1., diff_std=1.,
                                     alpha=0.05):
-    """ This function validates the permutation_f_oneway function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_f_oneway function by generating random samples
+    on which statistics and p-values are computed, and checking false positive
+    and true positive rates.
 
     H0: means of Gaussian samples are all equal.
 
@@ -1036,7 +1036,7 @@ def test_permutation_f_oneway_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 
 
 def test_permutation_kruskal_args_errors(list_meas=[4, 3, 5, 7], n_vars=3):
-    """ This function checks permutation_kruskal arguments and errors.
+    """Check permutation_kruskal arguments and errors.
 
     Parameters
     ----------
@@ -1076,9 +1076,9 @@ def test_permutation_kruskal_args_errors(list_meas=[4, 3, 5, 7], n_vars=3):
 def test_permutation_kruskal_rates(n_reps=50, list_meas=[80, 100, 50, 70],
                                    n_vars=3, diff_mean=1., diff_std=1.,
                                    alpha=0.05):
-    """ This function validates the permutation_kruskal function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_kruskal function by generating random samples
+    on which statistics and p-values are computed, and checking false positive
+    and true positive rates.
 
     H0: medians of samples are all equal.
 
@@ -1153,8 +1153,7 @@ def test_permutation_kruskal_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 
 def test_permutation_friedmanchisquare_args_errors(n_meas=5, n_vars=3,
                                                    n_groups=4):
-    """ This function checks permutation_friedmanchisquare arguments and
-    errors.
+    """Check permutation_friedmanchisquare arguments and errors.
 
     Parameters
     ----------
@@ -1196,9 +1195,9 @@ def test_permutation_friedmanchisquare_args_errors(n_meas=5, n_vars=3,
 def test_permutation_friedmanchisquare_rates(n_reps=50, n_meas=10, n_vars=3,
                                              n_groups=5, diff_mean=3.,
                                              diff_std=0.5, alpha=0.05):
-    """ This function validates the permutation_friedmanchisquare function by
-    generating random samples on which statistics and p-values are computed,
-    and checking false positive and true positive rates.
+    """Validate the permutation_friedmanchisquare function by generating random
+    samples on which statistics and p-values are computed, and checking false
+    positive and true positive rates.
 
     H0: medians of samples are all equal.
 

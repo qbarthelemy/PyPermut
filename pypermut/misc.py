@@ -1,12 +1,11 @@
-""" Miscellaneous functions. """
+"""Miscellaneous functions."""
 
 import numpy as np
 from matplotlib import pyplot as plt
 
 
 def perc_to_pval(perc, side):
-    """ This function transforms a percentile into a p-value,
-    depending on the side of the test.
+    """Transform percentile into p-value, depending on the side of the test.
 
     Parameters
     ----------
@@ -44,7 +43,7 @@ def perc_to_pval(perc, side):
 def pvals_to_stars(p_vals, *,
                    p_thresholds=[0.001, 0.01, 0.05, 0.1, 1],
                    p_notations=['***', '**', '*', '+', '', '']):
-    """ This function transforms p-values into the star-based notation.
+    """Transform p-values into the star-based notation.
 
     Parameters
     ----------
@@ -75,8 +74,7 @@ def pvals_to_stars(p_vals, *,
 
 
 def print_results(results, r_labels, stat_label):
-    """ This function prints results of several tests: statistic value and the
-    p-value.
+    """Print results of several tests: statistic value and the p-value.
 
     Parameters
     ----------
@@ -104,7 +102,7 @@ def print_results(results, r_labels, stat_label):
 
 
 def print_pvals(pvals, r_labels):
-    """ This function prints p-values of several tests.
+    """Print p-values of several tests.
 
     Parameters
     ----------
@@ -125,8 +123,7 @@ def print_pvals(pvals, r_labels):
 
 
 def plot_pairwise_results(ax, names, pvals):
-    """ This function plots the significance of pairwise tests in a square
-    matrix.
+    """Plot the significance of pairwise tests in a square matrix.
 
     Parameters
     ----------

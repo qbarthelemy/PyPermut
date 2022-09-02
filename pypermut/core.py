@@ -12,7 +12,9 @@ def permute_measurements(Y, x,
                          stat_func,
                          var_func,
                          side):
-    """ This generic function permutes two samples along measurement dimension.
+    """Permute two samples along measurement.
+
+    This generic function permutes two samples along measurement dimension.
 
     The number of permutations is: n_meas!
 
@@ -90,7 +92,9 @@ def permute_paired_samples(X, Y,
                            side,
                            **kwargs):
 # TODO: generalization to S paired samples
-    """ This generic function permutes two paired samples X and Y:
+    """Permute two paired samples.
+
+    This generic function permutes two paired samples X and Y:
     it flips randomly each pair of multivariate measurements.
     It applies random coeffs -1 or +1 on differences X - Y, along the
     measurement dimension.
@@ -172,7 +176,9 @@ def permute_unpaired_samples(args,
                              stat_func,
                              var_func,
                              side):
-    """ This generic function permutes S unpaired samples:
+    """Permute unpaired samples.
+
+    This generic function permutes S unpaired samples:
     it vertically concatenates samples into C, and then, it permutes C along
     its measurement dimension.
 
@@ -255,8 +261,9 @@ def permute_unpaired_samples(args,
 
 
 def count_permutation_measurements(n_meas):
-    """ This function compute the number of unique permutations along
-    measurements.
+    """Compute the number of unique permutations along measurements.
+
+    This function compute the number of unique permutations along measurements.
 
     For n_meas measurements, the number of possible permutations is: n_meas!
 
@@ -276,8 +283,9 @@ def count_permutation_measurements(n_meas):
 
 
 def count_permutations_paired_samples(n_samples, n_meas):
-    """ This function compute the number of unique permutations for paired
-    samples.
+    """Compute the number of unique permutations for paired samples.
+
+    This function compute the number of unique permutations for paired samples.
 
     For n_samples samples of size n_meas, the number of possible permutations
     is: (n_samples!)**n_meas.
@@ -301,8 +309,10 @@ def count_permutations_paired_samples(n_samples, n_meas):
 
 
 def count_permutations_unpaired_samples(list_meas):
-    """ This function compute the number of unique permutations for S
-    unpaired samples.
+    """Compute the number of unique permutations for unpaired samples.
+
+    This function compute the number of unique permutations for S unpaired
+    samples.
 
     For S samples X1 ... XS, the number of possible permutations is:
     (n_meas_X1 + ... + n_meas_XS)! / (n_meas_X1! * ... * n_meas_XS!).
@@ -327,7 +337,9 @@ def count_permutations_unpaired_samples(list_meas):
 
 
 def get_permutation_measurements(n_meas, perm_number):
-    """ This function returns a list of indices to permute samples along
+    """Return the list of indices to permute samples along measurements.
+
+    This function returns a list of indices to permute samples along
     measurements, according to a permutation number.
 
     This function returns a given permutation.
@@ -368,7 +380,9 @@ def get_permutation_measurements(n_meas, perm_number):
 
 
 def get_permutation_2_paired_samples(n_meas, perm_number):
-    """ This function returns coefficients to permute two paired samples,
+    """Return coefficients to permute two paired samples.
+
+    This function returns coefficients to permute two paired samples,
     according to a permutation number.
 
     This function returns a given permutation.
@@ -404,8 +418,10 @@ def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
 # TODO: generalization to more than 2 samples; and the signature should be:
 # get_permutation_unpaired_samples(list_meas, perm_number)
 # requiring to get combinations by their indices.
-    """ This function returns the indices to permute two unpaired samples X and
-    Y, according to permutation indices of X.
+    """Return the indices to permute two unpaired samples.
+
+    This function returns the indices to permute two unpaired samples X and Y,
+    according to permutation indices of X.
 
     Parameters
     ----------

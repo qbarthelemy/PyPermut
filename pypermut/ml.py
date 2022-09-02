@@ -1,4 +1,4 @@
-""" Permutations for machine learning.
+"""Permutations for machine learning.
 
 Random state can be fixed before calling permutation tests,
 using np.random.seed().
@@ -10,11 +10,11 @@ from .misc import perc_to_pval
 
 
 def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
-    """ This function performs a permutation test on any metric based on the
-    predictions of a model.
+    """Permutation test for machine learning metric.
 
-    It permutes labels and predictions to obtain a p-value for any machine
-    learning metrics:
+    This function performs a permutation test on any metric based on the
+    predictions of a model. It permutes labels and predictions to obtain a
+    p-value for any machine learning metrics:
 
     * the Area Under the Receiver Operating Characteristic (AUROC) curve,
     * the Area Under the Precision-Recall (AUPR) curve,
@@ -80,7 +80,9 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
 
 
 def standard_error_auroc(y_labels, y_probas, auroc):
-    """ This function computes the standard error of the area under the
+    """Standard error of AUROC.
+
+    This function computes the standard error of the area under the
     receiver operating characteristic (ROC) curve, ie AUROC.
 
     Parameters
