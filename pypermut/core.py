@@ -62,7 +62,8 @@ def permute_measurements(Y, x,
     perms, n_perms, with_replacement = helpers._check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
-        with_replacement=with_replacement)
+        with_replacement=with_replacement,
+    )
 
     # loop on permutations to sample the null distribution
     null_dist = np.empty(n_perms, dtype=float)
@@ -73,7 +74,8 @@ def permute_measurements(Y, x,
         else:
             permuted_indices = get_permutation_measurements(
                 n_meas,
-                perms[i_perm])
+                perms[i_perm],
+            )
         xperm = x[permuted_indices]  # permute x along measurements
 
         stat = stat_func(np.c_[xperm, Y])
@@ -144,7 +146,8 @@ def permute_paired_samples(X, Y,
     perms, n_perms, with_replacement = helpers._check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
-        with_replacement=with_replacement)
+        with_replacement=with_replacement,
+    )
 
     # loop on permutations to sample the null distribution
     null_dist = np.empty(n_perms, dtype=float)
@@ -158,7 +161,8 @@ def permute_paired_samples(X, Y,
         else:
             perm_coeffs = get_permutation_2_paired_samples(
                 n_meas,
-                perms[i_perm])
+                perms[i_perm],
+            )
         # permute each pair: apply random coeffs -1 or +1 on differences
         Dperm = np.tile(perm_coeffs, D.shape[1]) * D
 
@@ -233,7 +237,8 @@ def permute_unpaired_samples(args,
     perms, n_perms, with_replacement = helpers._check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
-        with_replacement=with_replacement)
+        with_replacement=with_replacement,
+    )
     if not with_replacement:
         if len(args) != 2:
             raise ValueError('Without replacement strategy is available only '
@@ -249,7 +254,8 @@ def permute_unpaired_samples(args,
         else:
             permuted_indices = get_permutation_unpaired_samples(
                 list_meas,
-                list(combs[perms[i_perm]]))
+                list(combs[perms[i_perm]]),
+            )
         Cperm = C[permuted_indices]  # permute measurements between samples
 
         stat = stat_func(Cperm, list_meas)
@@ -406,8 +412,10 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
         raise IndexError('Permutation number {} is out of range [0 ... {}].'
                          .format(perm_number, 2**n_meas))
     # transform number into binary
-    bin_coeffs = np.fromiter(np.binary_repr(perm_number, width=n_meas),
-                             dtype=int)
+    bin_coeffs = np.fromiter(
+        np.binary_repr(perm_number, width=n_meas),
+        dtype=int,
+    )
     # transform binaries 0/1 into coefficients 1/-1
     perm_coeffs = 1 - 2 * np.array(bin_coeffs)[:, np.newaxis]
 

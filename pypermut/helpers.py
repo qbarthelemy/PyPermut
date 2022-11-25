@@ -64,7 +64,8 @@ def _check_permutations(n_perms_requested, n_perms_max, with_replacement):
             perms = np.random.choice(
                 np.arange(0, n_perms_max),
                 size=n_perms,
-                replace=False)
+                replace=False,
+            )
         else:
             # => permutation test, using bootstrap with replacement
             perms = []

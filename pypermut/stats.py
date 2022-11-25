@@ -6,7 +6,7 @@ using np.random.seed().
 
 import warnings
 import numpy as np
-import scipy.stats as stats
+from scipy.stats import percentileofscore
 from . import helpers
 from . import core
 from . import mstats
@@ -129,7 +129,8 @@ def permutation_corr(Y, *,
         with_replacement,
         stat_func=corr_func,
         var_func=np.max,
-        side=side)
+        side=side,
+    )
 
     # compute the real R statistics
     Rstats = Rstats_ = corr_func(np.c_[x, Y])
@@ -138,8 +139,9 @@ def permutation_corr(Y, *,
     # compare them to the Rmax distribution with a right-sided test,
     # because significance is obtained for high R stats
     pvals = np.array([
-        (100 - stats.percentileofscore(Rmax, R, kind='strict')) / 100
-        for R in Rstats_])
+        (100 - percentileofscore(Rmax, R, kind='strict')) / 100
+        for R in Rstats_
+    ])
 
     if return_dist:
         return Rstats, pvals, Rmax
@@ -223,7 +225,8 @@ def permutation_ttest_rel(X, Y, *,
         with_replacement=with_replacement,
         stat_func=mstats.studentt_rel,
         var_func=np.max,
-        side=side)
+        side=side,
+    )
 
     # compute the real t statistics
     tstats = tstats_ = mstats.studentt_rel(X - Y)
@@ -232,8 +235,9 @@ def permutation_ttest_rel(X, Y, *,
     # compare them to the tmax distribution with a right-sided test,
     # because significance is obtained for high t stats
     pvals = np.array([
-        (100 - stats.percentileofscore(tmax, t, kind='strict')) / 100
-        for t in tstats_])
+        (100 - percentileofscore(tmax, t, kind='strict')) / 100
+        for t in tstats_
+    ])
 
     if return_dist:
         return tstats, pvals, tmax
@@ -320,18 +324,22 @@ def permutation_ttest_ind(X, Y, *,
         with_replacement=with_replacement,
         stat_func=stat_func,
         var_func=np.max,
-        side=side)
+        side=side,
+    )
 
     # compute the real t statistics
-    tstats = tstats_ = stat_func(np.concatenate((X, Y), axis=0),
-                                 [X.shape[0], Y.shape[0]])
+    tstats = tstats_ = stat_func(
+        np.concatenate((X, Y), axis=0),
+        [X.shape[0], Y.shape[0]],
+    )
     if side == 'two':
         tstats_ = np.abs(tstats_)
     # compare it to the tmax distribution with a right-sided test,
     # because significance is obtained for high t stats
     pvals = np.array([
-        (100 - stats.percentileofscore(tmax, t, kind='strict')) / 100
-        for t in tstats_])
+        (100 - percentileofscore(tmax, t, kind='strict')) / 100
+        for t in tstats_
+    ])
 
     if return_dist:
         return tstats, pvals, tmax
@@ -407,14 +415,16 @@ def permutation_wilcoxon(X, Y, *,
         stat_func=mstats.wilcoxon,
         var_func=np.min,
         side='one',
-        zero_method=zero_method)
+        zero_method=zero_method,
+    )
 
     # compute the real T statistics
     Tstats = mstats.wilcoxon(X - Y, zero_method)
     # compare it to the Tmin distribution with a left-sided test,
     # because significance is obtained for low T stats
     pvals = np.array([
-        stats.percentileofscore(Tmin, T, kind='weak') / 100 for T in Tstats])
+        percentileofscore(Tmin, T, kind='weak') / 100 for T in Tstats
+    ])
 
     if return_dist:
         return Tstats, pvals, Tmin
@@ -482,15 +492,19 @@ def permutation_mannwhitneyu(X, Y, *,
         with_replacement=with_replacement,
         stat_func=mstats.mannwhitneyu,
         var_func=np.min,
-        side='one')
+        side='one',
+    )
 
     # compute the real U statistics
-    Ustats = mstats.mannwhitneyu(np.concatenate((X, Y), axis=0),
-                                 [X.shape[0], Y.shape[0]])
+    Ustats = mstats.mannwhitneyu(
+        np.concatenate((X, Y), axis=0),
+        [X.shape[0], Y.shape[0]],
+    )
     # compare it to the Umin distribution with a left-sided test,
     # because significance is obtained for low U stats
     pvals = np.array([
-        stats.percentileofscore(Umin, U, kind='weak') / 100 for U in Ustats])
+        percentileofscore(Umin, U, kind='weak') / 100 for U in Ustats
+    ])
 
     if return_dist:
         return Ustats, pvals, Umin
@@ -550,7 +564,8 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
         with_replacement=True,
         stat_func=mstats.f_oneway,
         var_func=np.max,
-        side='one')
+        side='one',
+    )
 
     # number of measurements for each sample / group
     list_meas = np.asarray(list(map(len, args)))
@@ -559,8 +574,8 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
     # compare it to the Fmax distribution with a right-sided test,
     # because significance is obtained for high F stats
     pvals = np.array([
-        (100 - stats.percentileofscore(Fmax, F, kind='strict')) / 100
-        for F in Fstats])
+        (100 - percentileofscore(Fmax, F, kind='strict')) / 100 for F in Fstats
+    ])
 
     if return_dist:
         return Fstats, pvals, Fmax
@@ -621,7 +636,8 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
         with_replacement=True,
         stat_func=mstats.kruskal,
         var_func=np.max,
-        side='one')
+        side='one',
+    )
 
     list_meas = np.asarray(list(map(len, args)))
     # compute the real H statistics
@@ -629,8 +645,8 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
     # compare it to the Hmax distribution with a right-sided test,
     # because significance is obtained for high H stats
     pvals = np.array([
-        (100 - stats.percentileofscore(Hmax, H, kind='strict')) / 100
-        for H in Hstats])
+        (100 - percentileofscore(Hmax, H, kind='strict')) / 100 for H in Hstats
+    ])
 
     if return_dist:
         return Hstats, pvals, Hmax
@@ -714,8 +730,9 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
     # compare it to the chimax distribution with a right-sided test,
     # because significance is obtained for high chi2 stats
     pvals = np.array([
-       (100 - stats.percentileofscore(chi2max, chi2, kind='strict')) / 100
-       for chi2 in chi2stats])
+        (100 - percentileofscore(chi2max, chi2, kind='strict')) / 100
+        for chi2 in chi2stats
+    ])
 
     if return_dist:
         return chi2stats, pvals, chi2max
