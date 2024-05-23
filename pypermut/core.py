@@ -30,11 +30,11 @@ def permute_measurements(Y, x,
 
     n_permutations : int | 'all'
         Number of permutations for the permutation test.
-        If n is 'all', all possible permutations are tested.
+        If n_permutations is 'all', all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n_permutations is 'all'.
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
@@ -114,11 +114,11 @@ def permute_paired_samples(X, Y,
 
     n_permutations : int | 'all'
         Number of permutations for the permutation test.
-        If n is 'all', all possible permutations are tested.
+        If n_permutations is 'all', all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n_permutations is 'all'.
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
@@ -199,12 +199,12 @@ def permute_unpaired_samples(args,
 
     n_permutations : int | 'all'
         Number of permutations for the permutation test.
-        If n is 'all', all possible permutations are tested.
+        If n_permutations is 'all', all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement (currently, available only for two samples).
-        Unused if n_permutations == 'all'.
+        Unused if n_permutations is 'all'.
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),

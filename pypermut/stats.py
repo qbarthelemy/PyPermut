@@ -43,7 +43,7 @@ def permutation_corr(Y, *,
 
     with_replacement : bool (default True)
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n is 'all'.
 
     corr : string (default 'pearson')
         Define the correlation type:
@@ -184,7 +184,7 @@ def permutation_ttest_rel(X, Y, *,
 
     with_replacement : bool (default True)
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n is 'all'.
 
     side : {'one', 'two'}, (default 'one')
         Side of the test:
@@ -271,7 +271,7 @@ def permutation_ttest_ind(X, Y, *,
 
     with_replacement : bool (default True)
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n is 'all'.
 
     side : {'one', 'two'}, (default 'one')
         Side of the test:
@@ -375,7 +375,7 @@ def permutation_wilcoxon(X, Y, *,
 
     with_replacement : bool (default True)
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n is 'all'.
 
     zero_method : {'pratt', 'wilcox', 'zsplit'}, (default 'wilcox')
         Method for zero-differences processing.
@@ -459,7 +459,7 @@ def permutation_mannwhitneyu(X, Y, *,
 
     with_replacement : bool (default True)
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations == 'all'.
+        replacement. Unused if n is 'all'.
 
     return_dist : bool (default False)
         Boolean to choose if null distribution is added to outputs.
