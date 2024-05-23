@@ -2,7 +2,9 @@
 
 from itertools import combinations
 from math import factorial
+
 import numpy as np
+
 from . import helpers
 
 
@@ -28,13 +30,13 @@ def permute_measurements(Y, x,
     x : array_like, shape (n_meas,)
         Another sample, same number of measurements as Y.
 
-    n_permutations : int | 'all'
+    n_permutations : int | "all"
         Number of permutations for the permutation test.
-        If n_permutations is 'all', all possible permutations are tested.
+        If n_permutations is "all", all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations is 'all'.
+        replacement. Unused if n_permutations is "all".
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
@@ -45,11 +47,11 @@ def permute_measurements(Y, x,
         Function to estimate the null distribution across the several
         variables.
 
-    side : {'one', 'two'}
+    side : {"one", "two"}
         Side of the test:
 
-        * 'one' for a one-sided test (right side),
-        * 'two' for a two-sided test.
+        * "one" for a one-sided test (right side),
+        * "two" for a two-sided test.
 
     Returns
     -------
@@ -79,7 +81,7 @@ def permute_measurements(Y, x,
         xperm = x[permuted_indices]  # permute x along measurements
 
         stat = stat_func(np.c_[xperm, Y])
-        if side == 'two':  # for a two-sided test
+        if side == "two":
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
@@ -112,13 +114,13 @@ def permute_paired_samples(X, Y,
     Y : array_like, shape (n_meas, n_vars)
         A second sample, same dimensions as X.
 
-    n_permutations : int | 'all'
+    n_permutations : int | "all"
         Number of permutations for the permutation test.
-        If n_permutations is 'all', all possible permutations are tested.
+        If n_permutations is "all", all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
-        replacement. Unused if n_permutations is 'all'.
+        replacement. Unused if n_permutations is "all".
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
@@ -128,11 +130,11 @@ def permute_paired_samples(X, Y,
         Function to estimate the null distribution across the several
         variables.
 
-    side : {'one', 'two'}
+    side : {"one", "two"}
         Side of the test:
 
-        * 'one' for a one-sided test (right side),
-        * 'two' for a two-sided test.
+        * "one" for a one-sided test (right side),
+        * "two" for a two-sided test.
 
     Returns
     -------
@@ -167,7 +169,7 @@ def permute_paired_samples(X, Y,
         Dperm = np.tile(perm_coeffs, D.shape[1]) * D
 
         stat = stat_func(Dperm, **kwargs)
-        if side == 'two':  # for a two-sided test
+        if side == "two":
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
@@ -197,14 +199,14 @@ def permute_unpaired_samples(args,
         (which can be different for each sample), and the second dimension
         represents different variables (identical for all samples).
 
-    n_permutations : int | 'all'
+    n_permutations : int | "all"
         Number of permutations for the permutation test.
-        If n_permutations is 'all', all possible permutations are tested.
+        If n_permutations is "all", all possible permutations are tested.
 
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement (currently, available only for two samples).
-        Unused if n_permutations is 'all'.
+        Unused if n_permutations is "all".
 
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
@@ -216,11 +218,11 @@ def permute_unpaired_samples(args,
         Function to estimate the null distribution across the several
         variables.
 
-    side : {'one', 'two'}
+    side : {"one", "two"}
         Side of the test:
 
-        * 'one' for a one-sided test (right side),
-        * 'two' for a two-sided test.
+        * "one" for a one-sided test (right side),
+        * "two" for a two-sided test.
 
     Returns
     -------
@@ -241,8 +243,8 @@ def permute_unpaired_samples(args,
     )
     if not with_replacement:
         if len(args) != 2:
-            raise ValueError('Without replacement strategy is available only '
-                             'for two samples.')
+            raise ValueError("Without replacement strategy is available only "
+                             "for two samples.")
         combs = list(combinations(range(n_meas), len(args[0])))
 
     # loop on permutations to sample the null distribution
@@ -259,7 +261,7 @@ def permute_unpaired_samples(args,
         Cperm = C[permuted_indices]  # permute measurements between samples
 
         stat = stat_func(Cperm, list_meas)
-        if side == 'two':  # for a two-sided test
+        if side == "two":
             stat = np.abs(stat)
         null_dist[i_perm] = var_func(stat)
 
@@ -362,14 +364,14 @@ def get_permutation_measurements(n_meas, perm_number):
 
     Returns
     -------
-    permuted_indices : list, length(n_meas)
+    permuted_indices : list, length (n_meas)
         The list of permuted indices, for the permutation number.
     """
     sequence = range(n_meas)
     level = len(sequence)
     level_size = factorial(level)
     if perm_number < 0 or perm_number >= level_size:
-        raise IndexError('Permutation number {} is out of range [0 ... {}].'
+        raise IndexError("Permutation number {} is out of range [0 ... {}]."
                          .format(perm_number, level_size))
 
     indices = list(range(level))
@@ -409,7 +411,7 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
         Array of permutation coefficients, containing 1 and -1.
     """
     if perm_number < 0 or perm_number >= 2**n_meas:
-        raise IndexError('Permutation number {} is out of range [0 ... {}].'
+        raise IndexError("Permutation number {} is out of range [0 ... {}]."
                          .format(perm_number, 2**n_meas))
     # transform number into binary
     bin_coeffs = np.fromiter(
@@ -436,15 +438,15 @@ def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
     list_meas : list of two int
         List of number of measurements for samples X and Y.
 
-    permutated_inds_X : list, length(n_meas_X)
+    permutated_inds_X : list, length (n_meas_X)
         List of permutation indices for X.
 
     Returns
     -------
-    permutated_inds : list, length(n_meas_X + n_meas_Y)
+    permutated_inds : list, length (n_meas_X + n_meas_Y)
         List of permutation indices to apply to the concatenation of X and Y.
     """
-    assert len(list_meas) == 2, 'Function valid only for 2 samples.'
+    assert len(list_meas) == 2, "Function valid only for 2 samples."
     permutated_inds_Y = [
         ind for ind in range(list_meas[0] + list_meas[1])
         if ind not in permutated_inds_X

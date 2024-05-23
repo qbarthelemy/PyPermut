@@ -6,10 +6,11 @@ using np.random.seed().
 
 import numpy as np
 from scipy.stats import percentileofscore
+
 from .misc import perc_to_pval
 
 
-def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
+def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
     """Permutation test for machine learning metric.
 
     This function performs a permutation test on any metric based on the
@@ -34,15 +35,15 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
     func : callable
         Function to compute the metric, with signature `func(y_true, y_score)`.
 
-    n : int (default 10000)
+    n : int, default=10000
         Number of permutations for the permutation test.
 
-    side : string (default 'right')
+    side : string, default="right"
         Side of the test:
 
-        * 'left' for a left-sided test,
-        * 'two' or 'double' for a two-sided test,
-        * 'right' for a right-sided test.
+        * "left" for a left-sided test,
+        * "two" or "double" for a two-sided test,
+        * "right" for a right-sided test.
 
     Returns
     -------
@@ -60,8 +61,8 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
     y_score = np.asarray(y_score)
     if y_true.shape != y_score.shape:
         raise ValueError(
-            'Inputs y_true and y_score do not have compatible dimensions: '
-            'y_true is of dimension {} while y_score is {}.'
+            "Inputs y_true and y_score do not have compatible dimensions: "
+            "y_true is of dimension {} while y_score is {}."
             .format(y_true.shape, y_score.shape))
     n_samples = y_true.shape[0]
 
@@ -73,7 +74,7 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side='right'):
 
     # compute the real metric
     m = func(y_true, y_score)
-    perc = percentileofscore(null_dist, m, kind='strict')
+    perc = percentileofscore(null_dist, m, kind="strict")
     pval = perc_to_pval(perc, side)
 
     return m, pval
@@ -87,10 +88,10 @@ def standard_error_auroc(y_labels, y_probas, auroc):
 
     Parameters
     ----------
-    y_labels : array_like, shape (n_samples)
+    y_labels : array_like, shape (n_samples,)
         True binary labels.
 
-    y_probas : array_like, shape (n_samples)
+    y_probas : array_like, shape (n_samples,)
         Probabilities of predicted labels, same dimension as y_labels.
 
     auroc : float
@@ -108,16 +109,15 @@ def standard_error_auroc(y_labels, y_probas, auroc):
     """
     y_labels = np.asarray(y_labels)
     if y_labels.ndim != 1:
-        raise ValueError('Inputs must have only one dimension')
+        raise ValueError("Inputs must have only one dimension")
     y_probas = np.asarray(y_probas)
     if y_labels.shape != y_probas.shape:
         raise ValueError(
-            'Inputs y_labels and y_probas do not have compatible dimensions: '
-            'y_labels is of dimension {} while y_probas is {}.'
+            "Inputs y_labels and y_probas do not have compatible dimensions: "
+            "y_labels is of dimension {} while y_probas is {}."
             .format(y_labels.shape, y_probas.shape))
     if not 0 <= auroc <= 1:
-        raise ValueError('Input auroc="{}" must be included in [0, 1].'
-                         .format(auroc))
+        raise ValueError(f"Input auroc={auroc} must be included in [0, 1].")
 
     X_A = y_probas[y_labels==1]
     n_A = X_A.shape[0]

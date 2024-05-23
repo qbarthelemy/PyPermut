@@ -114,7 +114,7 @@ def studentt_rel(D):
     D_mean = np.mean(D, axis=0)
     D_var = np.var(D, axis=0, ddof=1)
     denom = np.sqrt(D_var / D.shape[0])
-    with np.errstate(divide='ignore', invalid='ignore'):
+    with np.errstate(divide="ignore", invalid="ignore"):
         t = np.divide(D_mean, denom)
     return t
 
@@ -145,7 +145,7 @@ def studentt_ind(C, list_meas):
     svar = ((n_meas_X-1) * var1 + (n_meas_Y-1) * var2) \
            / (n_meas_X + n_meas_Y - 2.0)
     denom = np.sqrt(svar * (1.0/n_meas_X + 1.0/n_meas_Y))
-    with np.errstate(divide='ignore', invalid='ignore'):
+    with np.errstate(divide="ignore", invalid="ignore"):
         t = np.divide(D, denom)
     return t
 
@@ -174,7 +174,7 @@ def welcht_ind(C, list_meas):
     var1 = np.var(C[0:n_meas_X], axis=0, ddof=1)
     var2 = np.var(C[n_meas_X:], axis=0, ddof=1)
     denom = np.sqrt(var1/n_meas_X + var2/n_meas_Y)
-    with np.errstate(divide='ignore', invalid='ignore'):
+    with np.errstate(divide="ignore", invalid="ignore"):
         t = np.divide(D, denom)
     return t
 
@@ -190,7 +190,7 @@ def wilcoxon(D, zero_method):
     D : array, shape (n_meas, n_vars)
         The difference between sets of measurements: D = X - Y.
 
-    zero_method : {'pratt', 'wilcox', 'zsplit'}
+    zero_method : {"pratt", "wilcox", "zsplit"}
         Method for zero-differences processing.
 
     Returns
@@ -198,7 +198,7 @@ def wilcoxon(D, zero_method):
     T : array, shape (n_vars,)
         The statistics T (not W) between variables of X and Y.
     """
-    if zero_method == 'wilcox':
+    if zero_method == "wilcox":
         # WARNING: non-multivariate processing for this option
         T = np.zeros(D.shape[1])
         for v, d in enumerate(D.T): # loop on variables...
@@ -215,7 +215,7 @@ def wilcoxon(D, zero_method):
     r_plus = np.sum((D > 0) * r, axis=0)
     r_minus = np.sum((D < 0) * r, axis=0)
 
-    if zero_method == 'zsplit':
+    if zero_method == "zsplit":
         r_zero = np.sum((D == 0) * r, axis=0)
         r_plus += r_zero / 2.
         r_minus += r_zero / 2.
@@ -289,7 +289,7 @@ def f_oneway(C, list_meas):
     ssbn -= normalized_ss
     msb = ssbn / (n_groups - 1)
     msw = (sstot - ssbn) / (n_meas - n_groups)
-    with np.errstate(divide='ignore', invalid='ignore'):
+    with np.errstate(divide="ignore", invalid="ignore"):
         F = msb / msw
     return np.atleast_1d(F)
 
@@ -321,7 +321,7 @@ def kruskal(C, list_meas):
     ranked = np.apply_along_axis(stats.rankdata, 0, C)
     ties = np.apply_along_axis(stats.tiecorrect, 0, ranked)
     if np.any(ties == 0):
-        raise ValueError('All numbers are identical in Kruskal-Wallis test.')
+        raise ValueError("All numbers are identical in Kruskal-Wallis test.")
 
     ssbn = 0
     for i in range(n_groups):

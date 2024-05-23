@@ -1,7 +1,7 @@
 """Miscellaneous functions."""
 
-import numpy as np
 from matplotlib import pyplot as plt
+import numpy as np
 
 
 def perc_to_pval(perc, side):
@@ -15,9 +15,9 @@ def perc_to_pval(perc, side):
     side : string
         Side of the test:
 
-        * 'left', 'lower' or 'less', for a left-sided test;
-        * 'two', 'double' or 'two-sided', for a two-sided test;
-        * 'right', 'upper' or 'greater', for a right-sided test.
+        * "left", "lower" or "less", for a left-sided test;
+        * "two", "double" or "two-sided", for a two-sided test;
+        * "right", "upper" or "greater", for a right-sided test.
 
     Returns
     -------
@@ -25,24 +25,25 @@ def perc_to_pval(perc, side):
         The p-value associated to the stat.
     """
     if not 0 <= perc <= 100:
-        raise ValueError('Input percentile="{}" must be included in [0, 100].'
-                         .format(perc))
+        raise ValueError(
+            f"Input percentile='{perc}' must be included in [0, 100]."
+        )
 
-    if side in ['left', 'lower', 'less']:
+    if side in ["left", "lower", "less"]:
         pval = perc / 100
-    elif side in ['two', 'double', 'two-sided']:
+    elif side in ["two", "double", "two-sided"]:
         pval = 2 * min(perc / 100, (100 - perc) / 100)
-    elif side in ['right', 'upper', 'greater']:
+    elif side in ["right", "upper", "greater"]:
         pval = (100 - perc) / 100
     else:
-        raise ValueError('Invalid value for side="{}".'.format(side))
+        raise ValueError(f"Invalid value for side={side}.")
 
     return pval
 
 
 def pvals_to_stars(p_vals, *,
                    p_thresholds=[0.001, 0.01, 0.05, 0.1, 1],
-                   p_notations=['***', '**', '*', '+', '', '']):
+                   p_notations=["***", "**", "*", "+", "", ""]):
     """Transform p-values into the star-based notation.
 
     Parameters
@@ -50,10 +51,10 @@ def pvals_to_stars(p_vals, *,
     p_vals : array of float
         Array of p-values.
 
-    p_thresholds : list of float (default [0.001, 0.01, 0.05, 0.1, 1])
+    p_thresholds : list of float, default=[0.001, 0.01, 0.05, 0.1, 1]
         List of p-value thresholds.
 
-    p_notations : list of string (default ['***', '**', '*', '+', '', ''])
+    p_notations : list of string, default=["***", "**", "*", "+", "", ""]
         List of star-based notations, of length(p_thresholds) + 1.
 
     Returns
@@ -63,8 +64,8 @@ def pvals_to_stars(p_vals, *,
     """
     if len(p_thresholds) != len(p_notations) - 1:
         raise ValueError(
-            'Input p_thresholds must have one element less than p_thresholds: '
-            'p_thresholds is of length {} while p_notations is {}.'
+            "Input p_thresholds must have one element less than p_thresholds: "
+            "p_thresholds is of length {} while p_notations is {}."
             .format(len(p_thresholds), len(p_notations)))
 
     notations = np.array(p_notations)
@@ -90,12 +91,12 @@ def print_results(results, r_labels, stat_label):
     """
     if len(results) != len(r_labels):
         raise ValueError(
-            'Inputs results and r_labels do not have compatible lengths: '
-            'results is of length {} while r_labels is {}.'
+            "Inputs results and r_labels do not have compatible lengths: "
+            "results is of length {} while r_labels is {}."
             .format(len(results), len(r_labels)))
 
     for r_label, res in zip(r_labels, results):
-        print(' {} : {}={:.3f}, p={:.3e} ({})'
+        print(" {} : {}={:.3f}, p={:.3e} ({})"
               .format(r_label, stat_label, res[0], res[1],
                       pvals_to_stars(res[1]))
         )
@@ -114,12 +115,12 @@ def print_pvals(pvals, r_labels):
     """
     if len(pvals) != len(r_labels):
         raise ValueError(
-            'Inputs pvals and r_labels do not have compatible lengths: '
-            'pvals is of length {} while r_labels is {}.'
+            "Inputs pvals and r_labels do not have compatible lengths: "
+            "pvals is of length {} while r_labels is {}."
             .format(len(pvals), len(r_labels)))
 
     for r_label, p in zip(r_labels, pvals):
-        print(' {} : p={:.3e} ({})'.format(r_label, p, pvals_to_stars(p)))
+        print(" {} : p={:.3e} ({})".format(r_label, p, pvals_to_stars(p)))
 
 
 def plot_pairwise_results(ax, names, pvals):
@@ -130,10 +131,10 @@ def plot_pairwise_results(ax, names, pvals):
     ax : matplotlib axes
         Axis of the figure.
 
-    names : list of string, length(n_names)
+    names : list of string, length (n_names)
         Names of tested pairs.
 
-    pvals : list of float, length(n_names * (n_names - 1) / 2)
+    pvals : list of float, length (n_names * (n_names - 1) / 2)
         List of p-values for all pairwise tests.
 
     Returns
@@ -144,8 +145,8 @@ def plot_pairwise_results(ax, names, pvals):
     n_names, n_pvals = len(names), len(pvals)
     if  n_pvals != n_names * (n_names - 1) // 2:
         raise ValueError(
-            'Inputs names and pvals do not have compatible lengths: '
-            'names is of length {} while pvals is {}.'
+            "Inputs names and pvals do not have compatible lengths: "
+            "names is of length {} while pvals is {}."
             .format(n_names, n_pvals))
 
     # prepare pairwise indices
@@ -162,10 +163,10 @@ def plot_pairwise_results(ax, names, pvals):
     ax.set_yticks(tick_marks)
     ax.set_yticklabels([])
     for i, name in enumerate(names):
-        ax.text(i, i, name, horizontalalignment='center',
-                verticalalignment='top')
+        ax.text(i, i, name, horizontalalignment="center",
+                verticalalignment="top")
     for i, pval in enumerate(pvals):
         ax.text(unravel_inds[i][0], unravel_inds[i][1], pvals_to_stars(pval),
-                horizontalalignment='center', verticalalignment='top')
+                horizontalalignment="center", verticalalignment="top")
 
     return ax
