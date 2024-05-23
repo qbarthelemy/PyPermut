@@ -554,6 +554,7 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
     args = list(map(np.asarray, args))
     if len(args) < 2:
         raise ValueError("Need at least two groups.")
+    [helpers._check_array(arg, "") for arg in args]
 
     if not isinstance(n, int):
         raise ValueError("Parameter n must be an integer.")
@@ -626,6 +627,7 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
     args = list(map(np.asarray, args))
     if len(args) < 2:
         raise ValueError("Need at least two groups.")
+    [helpers._check_array(arg, "") for arg in args]
 
     if not isinstance(n, int):
         raise ValueError("Parameter n must be an integer.")
