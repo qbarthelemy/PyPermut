@@ -4,8 +4,9 @@ To execute tests:
 >>> pytest -k test_ml
 """
 
-import pytest
 import numpy as np
+import pytest
+
 import pypermut.ml as ppml
 
 np.random.seed(17)
@@ -16,7 +17,7 @@ def permutation_metric_func(y_true, y_score):
     return np.mean(y_true - y_score)
 
 
-@pytest.mark.parametrize("side", ('left', 'two', 'right'))
+@pytest.mark.parametrize("side", ("left", "two", "right"))
 def test_permutation_metric_args(side, n_samples=10, n_classes=3):
     """Check permutation_metric arguments.
 
@@ -25,14 +26,14 @@ def test_permutation_metric_args(side, n_samples=10, n_classes=3):
     side : string
         Side of the test:
 
-        * 'left' for a left-sided test,
-        * 'two' or 'double' for a two-sided test,
-        * 'right' for a right-sided test.
+        * "left" for a left-sided test,
+        * "two" or 'double' for a two-sided test,
+        * "right" for a right-sided test.
 
-    n_samples : int, optional
+    n_samples : int, default=10
         Number of samples.
 
-    n_classes : int, optional
+    n_classes : int, default=3
         Number of classes.
     """
     y_true = np.random.randn(n_samples, n_classes)
@@ -52,10 +53,10 @@ def test_permutation_metric_errors(n_samples=10, n_classes=3):
 
     Parameters
     ----------
-    n_samples : int, optional
+    n_samples : int, default=10
         Number of samples.
 
-    n_classes : int, optional
+    n_classes : int, default=3
         Number of classes.
     """
     with pytest.raises(ValueError):  # not same n_samples
@@ -80,5 +81,5 @@ def test_permutation_metric_errors(n_samples=10, n_classes=3):
             np.random.randn(n_samples, n_classes),
             permutation_metric_func,
             n=1,
-            side='abc'
+            side="abc"
         )
