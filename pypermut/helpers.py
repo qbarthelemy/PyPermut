@@ -49,8 +49,17 @@ def _check_unpaired_arrays(X, Y):
     return X, Y
 
 
+def _check_n_permutations(n_permutations):
+    """This function checks the parameter n_permutations."""
+    if not isinstance(n_permutations, int):
+        raise ValueError("Parameter n_perms_requested must be an integer.")
+    if n_permutations < 1:
+        raise ValueError("Parameter n_perms_requested must be at least 1.")
+
+
 def _check_permutations(n_perms_requested, n_perms_max, with_replacement):
     """This function checks the requested permutations."""
+
     if n_perms_requested == "all" or n_perms_requested >= n_perms_max:
         # => exact test, with all permutations
         perms = range(0, n_perms_max)  # from 0, to include null permutation
@@ -58,6 +67,8 @@ def _check_permutations(n_perms_requested, n_perms_max, with_replacement):
         with_replacement = False
 
     else:
+        _check_n_permutations(n_perms_requested)
+
         n_perms = n_perms_requested
         if not with_replacement and n_perms_max < sys.maxsize:
             # => permutation test, using bootstrap without replacement

@@ -8,12 +8,15 @@ import numpy as np
 from . import helpers
 
 
-def permute_measurements(Y, x,
-                         n_permutations,
-                         with_replacement,
-                         stat_func,
-                         var_func,
-                         side):
+def permute_measurements(
+    Y,
+    x,
+    n_permutations,
+    with_replacement,
+    stat_func,
+    var_func,
+    side,
+):
     """Permute two samples along measurement.
 
     This generic function permutes two samples along measurement dimension.
@@ -88,13 +91,16 @@ def permute_measurements(Y, x,
     return null_dist
 
 
-def permute_paired_samples(X, Y,
-                           n_permutations,
-                           with_replacement,
-                           stat_func,
-                           var_func,
-                           side,
-                           **kwargs):
+def permute_paired_samples(
+    X,
+    Y,
+    n_permutations,
+    with_replacement,
+    stat_func,
+    var_func,
+    side,
+    **kwargs,
+):
 # TODO: generalization to S paired samples
     """Permute two paired samples.
 
@@ -176,12 +182,14 @@ def permute_paired_samples(X, Y,
     return null_dist
 
 
-def permute_unpaired_samples(args,
-                             n_permutations,
-                             with_replacement,
-                             stat_func,
-                             var_func,
-                             side):
+def permute_unpaired_samples(
+    args,
+    n_permutations,
+    with_replacement,
+    stat_func,
+    var_func,
+    side,
+):
     """Permute unpaired samples.
 
     This generic function permutes S unpaired samples:
@@ -351,8 +359,8 @@ def get_permutation_measurements(n_meas, perm_number):
     measurements, according to a permutation number.
 
     This function returns a given permutation.
-    The null permutation corresponds to perm_number == 0.
-    The reverse permutation corresponds to perm_number == n_meas!-1.
+    The null permutation corresponds to perm_number = 0.
+    The reverse permutation corresponds to perm_number = n_meas!-1.
 
     Parameters
     ----------
@@ -365,7 +373,7 @@ def get_permutation_measurements(n_meas, perm_number):
     Returns
     -------
     permuted_indices : list, length (n_meas)
-        The list of permuted indices, for the permutation number.
+        List of permuted indices, for the permutation number.
     """
     sequence = range(n_meas)
     level = len(sequence)
@@ -394,8 +402,8 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
     according to a permutation number.
 
     This function returns a given permutation.
-    The null permutation corresponds to perm_number == 0.
-    The full permutation corresponds to perm_number == 2**n_meas-1.
+    The null permutation corresponds to perm_number = 0.
+    The full permutation corresponds to perm_number = 2**n_meas-1.
 
     Parameters
     ----------
@@ -408,7 +416,7 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
     Returns
     -------
     perm_coeffs : array_like, shape (n_meas, 1)
-        Array of permutation coefficients, containing 1 and -1.
+        Permutation coefficients, containing 1 and -1.
     """
     if perm_number < 0 or perm_number >= 2**n_meas:
         raise IndexError("Permutation number {} is out of range [0 ... {}]."

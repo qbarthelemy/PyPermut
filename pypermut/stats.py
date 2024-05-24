@@ -14,13 +14,16 @@ from . import core
 from . import mstats
 
 
-def permutation_corr(Y, *,
-                     x=None,
-                     n=10000,
-                     with_replacement=True,
-                     corr="pearson",
-                     side="one",
-                     return_dist=False):
+def permutation_corr(
+    Y,
+    *,
+    x=None,
+    n=10000,
+    with_replacement=True,
+    corr="pearson",
+    side="one",
+    return_dist=False
+):
 # TODO: allow x to be multivariate -> X
     """Rmax permutation test.
 
@@ -80,7 +83,7 @@ def permutation_corr(Y, *,
     .. [2] https://en.wikipedia.org/wiki/Pearson_correlation_coefficient
     .. [3] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html
     .. [4] https://en.wikipedia.org/wiki/Spearman's_rank_correlation_coefficient
-    """
+    """  # noqa
     Y = helpers._check_array(Y, "Y")
     n_meas = Y.shape[0]
 
@@ -161,11 +164,15 @@ def permutation_spearmanr(*args, **kwargs):
                      "Use permutation_corr with corr='spearman'.")
 
 
-def permutation_ttest_rel(X, Y, *,
-                          n=10000,
-                          with_replacement=True,
-                          side="one",
-                          return_dist=False):
+def permutation_ttest_rel(
+    X,
+    Y,
+    *,
+    n=10000,
+    with_replacement=True,
+    side="one",
+    return_dist=False
+):
     """tmax permutation test for related / paired samples.
 
     This function performs a tmax permutation test from Student's t-tests,
@@ -214,7 +221,7 @@ def permutation_ttest_rel(X, Y, *,
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html
     .. [2] https://en.wikipedia.org/wiki/Student's_t-test#Dependent_t-test_for_paired_samples
-    """
+    """  # noqa
     X, Y = helpers._check_paired_arrays(X, Y)
 
     if side not in ["one", "two"]:
@@ -308,7 +315,7 @@ def permutation_ttest_ind(X, Y, *,
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_ind.html
     .. [2] https://en.wikipedia.org/wiki/Student's_t-test#Independent_two-sample_t-test
     .. [3] https://en.wikipedia.org/wiki/Welch's_t-test
-    """
+    """  # noqa
     X, Y = helpers._check_unpaired_arrays(X, Y)
 
     if side not in ["one", "two"]:
@@ -349,11 +356,15 @@ def permutation_ttest_ind(X, Y, *,
         return tstats, pvals
 
 
-def permutation_wilcoxon(X, Y, *,
-                         n=10000,
-                         with_replacement=True,
-                         zero_method="wilcox",
-                         return_dist=False):
+def permutation_wilcoxon(
+    X,
+    Y,
+    *,
+    n=10000,
+    with_replacement=True,
+    zero_method="wilcox",
+    return_dist=False
+):
     """Tmin permutation test.
 
     This function performs a Tmin permutation test from Wilcoxon T tests
@@ -402,7 +413,7 @@ def permutation_wilcoxon(X, Y, *,
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
     .. [2] https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test
-    """
+    """  # noqa
     X, Y = helpers._check_paired_arrays(X, Y)
 
     if not zero_method in ["wilcox", "pratt", "zsplit"]:
@@ -483,7 +494,7 @@ def permutation_mannwhitneyu(X, Y, *,
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
     .. [2] https://en.wikipedia.org/wiki/Mann-Whitney_U_test
-    """
+    """  # noqa
     X, Y = helpers._check_unpaired_arrays(X, Y)
 
     # under the null hypothesis, sample the Umin distribution
@@ -550,14 +561,11 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html
     .. [2] https://en.wikipedia.org/wiki/Analysis_of_variance
-    """
+    """  # noqa
     args = list(map(np.asarray, args))
     if len(args) < 2:
         raise ValueError("Need at least two groups.")
     [helpers._check_array(arg, "") for arg in args]
-
-    if not isinstance(n, int):
-        raise ValueError("Parameter n must be an integer.")
 
     # under the null hypothesis, sample the Fmax distribution
     Fmax = core.permute_unpaired_samples(
@@ -623,14 +631,11 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html
     .. [2] https://en.wikipedia.org/wiki/Kruskal-Wallis_one-way_analysis_of_variance
-    """
+    """  # noqa
     args = list(map(np.asarray, args))
     if len(args) < 2:
         raise ValueError("Need at least two groups.")
     [helpers._check_array(arg, "") for arg in args]
-
-    if not isinstance(n, int):
-        raise ValueError("Parameter n must be an integer.")
 
     # under the null hypothesis, sample the Hmax distribution
     Hmax = core.permute_unpaired_samples(
@@ -696,7 +701,7 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
     ----------
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.friedmanchisquare.html
     .. [2] https://en.wikipedia.org/wiki/Friedman_test
-    """
+    """  # noqa
     args = list(map(np.asarray, args))
     n_groups = len(args)
     if len(args) < 3:
@@ -707,9 +712,7 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
     for i in range(1, n_groups):
         if args[i].shape != (n_meas, n_vars):
             raise ValueError("Unequal sample shapes in friedmanchisquare.")
-
-    if not isinstance(n, int):
-        raise ValueError("Parameter n must be an integer.")
+    helpers._check_n_permutations(n)
 
     Data_ = np.dstack(args)  # shape = (n_meas, n_vars, n_groups)
     Data = np.transpose(Data_.astype(float),

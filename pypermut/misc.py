@@ -22,11 +22,11 @@ def perc_to_pval(perc, side):
     Returns
     -------
     pval : float
-        The p-value associated to the stat.
+        The p-value associated to the statistic.
     """
     if not 0 <= perc <= 100:
         raise ValueError(
-            f"Input percentile='{perc}' must be included in [0, 100]."
+            f"Input percentile={perc} must be included in [0, 100]."
         )
 
     if side in ["left", "lower", "less"]:
@@ -41,9 +41,12 @@ def perc_to_pval(perc, side):
     return pval
 
 
-def pvals_to_stars(p_vals, *,
-                   p_thresholds=[0.001, 0.01, 0.05, 0.1, 1],
-                   p_notations=["***", "**", "*", "+", "", ""]):
+def pvals_to_stars(
+    p_vals,
+    *,
+    p_thresholds=[0.001, 0.01, 0.05, 0.1, 1],
+    p_notations=["***", "**", "*", "+", "", ""],
+):
     """Transform p-values into the star-based notation.
 
     Parameters
@@ -66,7 +69,8 @@ def pvals_to_stars(p_vals, *,
         raise ValueError(
             "Input p_thresholds must have one element less than p_thresholds: "
             "p_thresholds is of length {} while p_notations is {}."
-            .format(len(p_thresholds), len(p_notations)))
+            .format(len(p_thresholds), len(p_notations))
+        )
 
     notations = np.array(p_notations)
     stars = notations[np.digitize(p_vals, p_thresholds, right=True)]
@@ -93,13 +97,13 @@ def print_results(results, r_labels, stat_label):
         raise ValueError(
             "Inputs results and r_labels do not have compatible lengths: "
             "results is of length {} while r_labels is {}."
-            .format(len(results), len(r_labels)))
+            .format(len(results), len(r_labels))
+        )
 
     for r_label, res in zip(r_labels, results):
-        print(" {} : {}={:.3f}, p={:.3e} ({})"
-              .format(r_label, stat_label, res[0], res[1],
-                      pvals_to_stars(res[1]))
-        )
+        print(" {} : {}={:.3f}, p={:.3e} ({})".format(
+            r_label, stat_label, res[0], res[1], pvals_to_stars(res[1])
+        ))
 
 
 def print_pvals(pvals, r_labels):
@@ -117,7 +121,8 @@ def print_pvals(pvals, r_labels):
         raise ValueError(
             "Inputs pvals and r_labels do not have compatible lengths: "
             "pvals is of length {} while r_labels is {}."
-            .format(len(pvals), len(r_labels)))
+            .format(len(pvals), len(r_labels))
+        )
 
     for r_label, p in zip(r_labels, pvals):
         print(" {} : p={:.3e} ({})".format(r_label, p, pvals_to_stars(p)))
@@ -147,7 +152,8 @@ def plot_pairwise_results(ax, names, pvals):
         raise ValueError(
             "Inputs names and pvals do not have compatible lengths: "
             "names is of length {} while pvals is {}."
-            .format(n_names, n_pvals))
+            .format(n_names, n_pvals)
+        )
 
     # prepare pairwise indices
     unravel_inds = []
