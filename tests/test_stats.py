@@ -19,7 +19,7 @@ np.random.seed(17)
 ###############################################################################
 
 
-@pytest.mark.parametrize("n", range(2, 9))
+@pytest.mark.parametrize("n", range(2, 8))
 @pytest.mark.parametrize("corr_func",
     ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
 )
@@ -41,25 +41,25 @@ def test_permutation_measurements_best(n, corr_func):
     """
     assert n > 1, "Need at least 2 values."
 
-    # Silence warning in spearman_fast_non_unique
+    # silent warning in spearman_fast_non_unique
     if corr_func == "spearman_fast_nonunique":
         warnings.simplefilter("ignore", UserWarning)
 
-    # Create a vector that increases monotonically: 0,1,2,...,n-3,n-2,n-1
-    # Consequently, no permutation can improve the correlation.
+    # create a vector that increases monotonically: 0,1,2,...,n-3,n-2,n-1.
+    # consequently, no permutation can improve the correlation
     y = np.arange(n)
 
-    # There are n! different permutations.
+    # there are n! different permutations
     max_perms = core.count_permutation_measurements(n)
 
-    # Use a correlation permutation test with all permutations:
+    # use a correlation permutation test with all permutations:
     # it should give a p-value of exactly 1/(n!)
     r, p, dist = ppstats.permutation_corr(
         y,
         n="all",
         side="one",
         corr=corr_func,
-        return_dist=True
+        return_dist=True,
     )
 
     assert dist.shape[0] == max_perms, "Null distribution should contain n! statistics."
@@ -67,7 +67,7 @@ def test_permutation_measurements_best(n, corr_func):
     assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Best permutation case should give p-value of exactly 1/(n!)."
 
 
-@pytest.mark.parametrize("n", range(2, 15))
+@pytest.mark.parametrize("n", range(2, 14))
 def test_permutation_paired_samples_best(n):
     """Test the exact p-value of tests for two related samples, when no
     permutation can improve the statistic.
@@ -79,44 +79,44 @@ def test_permutation_paired_samples_best(n):
     """
     assert n > 1, "Need at least 2 values."
 
-    # Create a first random vector x, with positive values
+    # create a first random vector x, with positive values
     x = np.random.randn(n) + 5
     x[x < 0] = 0
 
-    # Create a second vector y, a quasi-shift of x, but without overlap with x.
-    # Consequently, no permutation can improve the statistic.
+    # create a second vector y, a quasi-shift of x, but without overlap with x:
+    # consequently, no permutation can improve the statistic
     y = x + 0.001 * np.random.randn(n) - 10
 
-    # There are 2^n different permutations.
+    # there are 2^n different permutations
     max_perms = core.count_permutations_paired_samples(2, n)
 
-    # Use a Student's permutation t-test for related samples with all possible
+    # use a Student's permutation t-test for related samples with all possible
     # permutations: it should give a p-value of exactly 1/(2^n)
     t, p, dist = ppstats.permutation_ttest_rel(
         x, y,
         n="all",
         side="one",
-        return_dist=True
+        return_dist=True,
     )
     assert dist.shape[0] == max_perms, "Student t-test rel: null distribution should contain 2^n statistics."
     assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Student t-test rel: best permutation case should give p-value of exactly 1/(2^n)."
 
-    # Use a Wilcoxon permutation T test for paired samples with all possible
+    # use a Wilcoxon permutation T test for paired samples with all possible
     # permutations: it should give a p-value of exactly 2/(2^n)
-    # (because T stat is computed on the absolute differences, so full
-    # permutation gives the same T as null permutation)
+    # (because T stat is computed on the absolute differences,
+    # so full permutation gives the same T as null permutation)
     T, p, dist = ppstats.permutation_wilcoxon(
         x, y,
         n="all",
         zero_method="wilcox",
-        return_dist=True
+        return_dist=True,
     )
     assert dist.shape[0] == max_perms, "Wilcoxon T test: null distribution should contain 2^n statistics."
     assert np.isclose(p[0], 2./max_perms, atol=1e-9), "Wilcoxon T test: best permutation case should give p-value of exactly 1/(2^n)."
 
 
-@pytest.mark.parametrize("n1", range(2, 10))
-@pytest.mark.parametrize("n2", range(2, 10))
+@pytest.mark.parametrize("n1", range(2, 9))
+@pytest.mark.parametrize("n2", range(2, 9))
 def test_permutation_unpaired_samples_best(n1, n2):
     """Test the exact p-value of tests for two independent samples, when no
     permutation can improve the statistic.
@@ -132,26 +132,26 @@ def test_permutation_unpaired_samples_best(n1, n2):
     assert n1 > 1, "Need at least 2 values."
     assert n2 > 1, "Need at least 2 values."
 
-    # Create a first random vector x, with positive values
+    # create a first random vector x, with positive values
     x = np.random.randn(n1) + 5
     x[x < 0] = 0
 
-    # Create a second vector y, with negative values, without overlap with x.
-    # Consequently, no permutation can improve the statistic.
+    # create a second vector y, with negative values, without overlap with x.
+    # consequently, no permutation can improve the statistic
     y = np.random.randn(n2) - 5
     y[y > 0] = 0
 
-    # There are (n1+n2)!/(n1!n2!) different permutations.
+    # there are (n1+n2)!/(n1!n2!) different permutations
     max_perms = core.count_permutations_unpaired_samples([n1, n2])
 
-    # Use a Student's permutation t-test for independent samples with all
+    # use a Student's permutation t-test for independent samples with all
     # possible permutations: it should give a p-value of exactly
     # 1/((n1+n2)!/(n1!n2!))
     t, p, dist = ppstats.permutation_ttest_ind(
         x, y,
         n="all",
         side="one",
-        return_dist=True
+        return_dist=True,
     )
     assert dist.shape[0] == max_perms, "Student t-test ind: null distribution should contain (n1+n2)!/(n1!n2!) statistics."
     # TODO: assert p-value
@@ -159,13 +159,15 @@ def test_permutation_unpaired_samples_best(n1, n2):
     # of null permutation in vector dist...
     #assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Student t-test ind: best permutation case should give p-value of exactly 1/((n1+n2)!/(n1!n2!))."
 
-    # Use a Mann-Whitney permutation U test for unpaired samples with all
+    # use a Mann-Whitney permutation U test for unpaired samples with all
     # possible permutations: it should give a p-value of exactly
     # 2/((n1+n2)!/(n1!n2!))
     # (because computing U = min(U_x, U_y) gives two identical U)
-    U, p, dist = ppstats.permutation_mannwhitneyu(x, y,
-                                                  n="all",
-                                                  return_dist=True)
+    U, p, dist = ppstats.permutation_mannwhitneyu(
+        x, y,
+        n="all",
+        return_dist=True,
+    )
     assert dist.shape[0] == max_perms, "Mann-Whitney U test: null distribution should contain (n1+n2)!/(n1!n2!) statistics."
     assert np.isclose(p[0], 2./max_perms, atol=1e-9), "Mann-Whitney U test: best permutation case should give p-value of exactly 1/((n1+n2)!/(n1!n2!))."
 
@@ -178,8 +180,15 @@ def test_permutation_unpaired_samples_best(n1, n2):
 )
 @pytest.mark.parametrize("with_replacement", (True, False))
 @pytest.mark.parametrize("side", ("one", "two"))
-def test_permutation_corr_args(corr_func, with_replacement, side,
-                               n_meas=5, n_vars=3):
+@pytest.mark.parametrize("n_meas", range(2, 5))
+@pytest.mark.parametrize("n_vars", range(1, 5))
+def test_permutation_corr_args(
+    corr_func,
+    with_replacement,
+    side,
+    n_meas,
+    n_vars,
+):
     """Check permutation_corr arguments.
 
     Parameters
@@ -200,83 +209,71 @@ def test_permutation_corr_args(corr_func, with_replacement, side,
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
 
-    n_meas : int, default=5
+    n_meas : int
         Number of measurements in samples X and Y.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples X and Y.
     """
-    # Silence warning in spearman_fast_non_unique
+    # silent warning in spearman_fast_non_unique
     if corr_func == "spearman_fast_nonunique":
         warnings.simplefilter("ignore", UserWarning)
 
-    ppstats.permutation_corr(
-        np.random.randn(n_meas),
-        x=np.random.randn(n_meas),
-        n=1,
-        with_replacement=with_replacement,
-        side=side
-    )
+    if n_vars == 1:
+        ppstats.permutation_corr(
+            np.random.randn(n_meas),
+            x=np.random.randn(n_meas),
+            n=1,
+            with_replacement=with_replacement,
+            corr=corr_func,
+            side=side,
+        )
 
     ppstats.permutation_corr(
         np.random.randn(n_meas, n_vars),
         x=np.random.randn(n_meas),
         n=1,
         with_replacement=with_replacement,
-        side=side
+        corr=corr_func,
+        side=side,
     )
 
 
-@pytest.mark.parametrize("corr_func",
-    ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
-)
-def test_permutation_corr_errors(corr_func, n_meas=5, n_vars=3):
-    """Check permutation_corr errors.
-
-    Parameters
-    ----------
-    corr_func : string
-        Define the correlation type:
-
-        * "pearson" for the Pearson product-moment correlation coefficient r,
-        * "spearman" for the Spearman rank-order correlation coefficient rho.
-
-    n_meas : int, default=5
-        Number of measurements in samples X and Y.
-
-    n_vars : int, default=3
-        Number of variables in samples X and Y.
-    """
-    # Silence warning in spearman_fast_non_unique
-    if corr_func == "spearman_fast_nonunique":
-        warnings.simplefilter("ignore", UserWarning)
-
+def test_permutation_corr_errors(n_meas=5, n_vars=3):
+    """Check permutation_corr errors."""
     with pytest.raises(ValueError):  # not same n_meas
         ppstats.permutation_corr(
             np.random.randn(n_meas, n_vars),
             x=np.random.randn(n_meas + 1),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # x not univariate
         ppstats.permutation_corr(
             np.random.randn(n_meas, n_vars),
             x=np.random.randn(n_meas, n_vars),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_corr(
             np.random.randn(n_meas, n_vars, 3),
-            n=1
+            n=1,
         )
 
 
 @pytest.mark.parametrize("corr_func",
     ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
 )
-def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
-                                trend_amplitude=3., side="one", alpha=0.05):
+def test_permutation_corr_rates(
+    corr_func,
+    n_reps=20,
+    n_meas=25,
+    n_vars=10,
+    trend_amplitude=3.,
+    side="one",
+    alpha=0.05,
+):
     """Validate the permutation_corr function by generating random samples on
     which statistics and p-values are computed, and checking false positive and
     true positive rates.
@@ -315,7 +312,7 @@ def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
     tpr : float
         True positive rate.
     """
-    # Silence warning in spearman_fast_non_unique
+    # silent warning in spearman_fast_non_unique
     if corr_func == "spearman_fast_nonunique":
         warnings.simplefilter("ignore", UserWarning)
 
@@ -335,10 +332,10 @@ def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
             n=100,
             with_replacement=False,
             side=side,
-            corr=corr_func
+            corr=corr_func,
         )
 
-        # assert r values with respect scipy
+        # assert r values with respect SciPy
         x = np.arange(n_meas)
         R_sp = np.zeros(n_vars)
         for v, y in enumerate(Y.T):
@@ -347,7 +344,7 @@ def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
                 R_sp[v] = r
             else:
                 R_sp[v] = stats.spearmanr(x, y).correlation
-        assert np.allclose(R_pp, R_sp, atol=1e-9), "Statistics R should be equivalent to scipy."
+        assert np.allclose(R_pp, R_sp, atol=1e-9), "Statistics R should be equivalent to SciPy."
 
         # the trend was only added to the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -365,8 +362,14 @@ def test_permutation_corr_rates(corr_func, n_reps=20, n_meas=25, n_vars=10,
 
 @pytest.mark.parametrize("with_replacement", (True, False))
 @pytest.mark.parametrize("side", ("one", "two"))
-def test_permutation_ttest_rel_args(with_replacement, side,
-                                    n_meas=5, n_vars=3):
+@pytest.mark.parametrize("n_meas", range(1, 5))
+@pytest.mark.parametrize("n_vars", range(1, 5))
+def test_permutation_ttest_rel_args(
+    with_replacement,
+    side,
+    n_meas,
+    n_vars,
+):
     """Check permutation_ttest_rel arguments.
 
     Parameters
@@ -381,64 +384,62 @@ def test_permutation_ttest_rel_args(with_replacement, side,
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
 
-    n_meas : int, default=5
+    n_meas : int
         Number of measurements in samples X and Y.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples X and Y.
     """
-    ppstats.permutation_ttest_rel(
-        np.random.randn(n_meas),
-        np.random.randn(n_meas),
-        n=1,
-        with_replacement=with_replacement,
-        side=side
-    )
+    if n_vars == 1:
+        ppstats.permutation_ttest_rel(
+            np.random.randn(n_meas),
+            np.random.randn(n_meas),
+            n=1,
+            with_replacement=with_replacement,
+            side=side,
+        )
 
     ppstats.permutation_ttest_rel(
         np.random.randn(n_meas, n_vars),
         np.random.randn(n_meas, n_vars),
         n=1,
         with_replacement=with_replacement,
-        side=side
+        side=side,
     )
 
 
 def test_permutation_ttest_rel_errors(n_meas=5, n_vars=3):
-    """Check permutation_ttest_rel errors.
-
-    Parameters
-    ----------
-    n_meas : int, default=5
-        Number of measurements in samples X and Y.
-
-    n_vars : int, default=3
-        Number of variables in samples X and Y.
-    """
+    """Check permutation_ttest_rel errors."""
     with pytest.raises(ValueError):  # not same n_meas
         ppstats.permutation_ttest_rel(
             np.random.randn(n_meas, n_vars),
             np.random.randn(n_meas + 1, n_vars),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # not same n_vars
         ppstats.permutation_ttest_rel(
             np.random.randn(n_meas, n_vars),
             np.random.randn(n_meas, n_vars + 1),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_ttest_rel(
             np.random.randn(n_meas, n_vars, 3),
             np.random.randn(n_meas, n_vars, 3),
-            n=1
+            n=1,
         )
 
 
-def test_permutation_ttest_rel_rates(n_reps=50, n_meas=100, n_vars=10,
-                                     diff_mean=-2., diff_std=0.8, alpha=0.05):
+def test_permutation_ttest_rel_rates(
+    n_reps=50,
+    n_meas=100,
+    n_vars=10,
+    diff_mean=-2.,
+    diff_std=0.8,
+    alpha=0.05,
+):
     """Validate the permutation_ttest_rel function by generating random samples
     on which statistics and p-values are computed, and checking false positive
     and true positive rates.
@@ -488,16 +489,18 @@ def test_permutation_ttest_rel_rates(n_reps=50, n_meas=100, n_vars=10,
         # because should give a high value t
         Y[:, -1] = diff_std * np.random.randn(n_meas) + diff_mean
 
-        t_pp, pvals = ppstats.permutation_ttest_rel(X, Y,
-                                                    n=100,
-                                                    with_replacement=False,
-                                                    side="one")
+        t_pp, pvals = ppstats.permutation_ttest_rel(
+            X, Y,
+            n=100,
+            with_replacement=False,
+            side="one",
+        )
 
-        # assert t values with respect scipy
+        # assert t values with respect SciPy
         t_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             t_sp[v] = stats.ttest_rel(x, y).statistic
-        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to scipy."
+        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -516,8 +519,17 @@ def test_permutation_ttest_rel_rates(n_reps=50, n_meas=100, n_vars=10,
 @pytest.mark.parametrize("with_replacement", (True, False))
 @pytest.mark.parametrize("side", ("one", "two"))
 @pytest.mark.parametrize("equal_var", (True, False))
-def test_permutation_ttest_ind_args(with_replacement, side, equal_var,
-                                    n_meas_X=5, n_meas_Y=6, n_vars=3):
+@pytest.mark.parametrize("n_meas_X", [5, 6, 7])
+@pytest.mark.parametrize("n_meas_Y", [10, 12, 15])
+@pytest.mark.parametrize("n_vars", range(1, 5))
+def test_permutation_ttest_ind_args(
+    with_replacement,
+    side,
+    equal_var,
+    n_meas_X,
+    n_meas_Y,
+    n_vars,
+):
     """Check permutation_ttest_ind arguments.
 
     Parameters
@@ -538,23 +550,24 @@ def test_permutation_ttest_ind_args(with_replacement, side, equal_var,
         If False, it performs the Welch's t-test, which does not assume equal
         variance.
 
-    n_meas_X : int, default=5
+    n_meas_X : int
         Number of measurements in X.
 
-    n_meas_Y : int, default=6
+    n_meas_Y : int
         Number of measurements in Y.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in X and Y.
     """
-    ppstats.permutation_ttest_ind(
-        np.random.randn(n_meas_X),
-        np.random.randn(n_meas_Y),
-        n=1,
-        with_replacement=with_replacement,
-        side=side,
-        equal_var=equal_var
-    )
+    if n_vars == 1:
+        ppstats.permutation_ttest_ind(
+            np.random.randn(n_meas_X),
+            np.random.randn(n_meas_Y),
+            n=1,
+            with_replacement=with_replacement,
+            side=side,
+            equal_var=equal_var,
+        )
 
     ppstats.permutation_ttest_ind(
         np.random.randn(n_meas_X, n_vars),
@@ -562,43 +575,37 @@ def test_permutation_ttest_ind_args(with_replacement, side, equal_var,
         n=1,
         with_replacement=with_replacement,
         side=side,
-        equal_var=equal_var
+        equal_var=equal_var,
     )
 
 
 def test_permutation_ttest_ind_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """Check permutation_ttest_ind errors.
-
-    Parameters
-    ----------
-    n_meas_X : int, default=5
-        Number of measurements in X.
-
-    n_meas_Y : int, default=6
-        Number of measurements in Y.
-
-    n_vars : int, default=3
-        Number of variables in X and Y.
-    """
+    """Check permutation_ttest_ind errors."""
     with pytest.raises(ValueError):  # not same n_vars
         ppstats.permutation_ttest_ind(
             np.random.randn(n_meas_X, n_vars),
             np.random.randn(n_meas_Y, n_vars + 1),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_ttest_ind(
             np.random.randn(n_meas_X, n_vars, 3),
             np.random.randn(n_meas_Y, n_vars, 3),
-            n=1
+            n=1,
         )
 
 
 @pytest.mark.parametrize("equal_var", (True, False))
-def test_permutation_ttest_ind_rates(equal_var, n_reps=50, n_meas_X=100,
-                                     n_meas_Y=110, n_vars=10,
-                                     diff_mean=-2., alpha=0.05):
+def test_permutation_ttest_ind_rates(
+    equal_var,
+    n_reps=50,
+    n_meas_X=100,
+    n_meas_Y=110,
+    n_vars=10,
+    diff_mean=-2.,
+    alpha=0.05,
+):
     """Validate the permutation_ttest_ind function by generating random samples
     on which statistics and p-values are computed, and checking false positive
     and true positive rates.
@@ -665,14 +672,14 @@ def test_permutation_ttest_ind_rates(equal_var, n_reps=50, n_meas_X=100,
             n=100,
             with_replacement=False,
             side="one",
-            equal_var=equal_var
+            equal_var=equal_var,
         )
 
-        # assert t values with respect scipy
+        # assert t values with respect SciPy
         t_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             t_sp[v] = stats.ttest_ind(x, y, equal_var=equal_var).statistic
-        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to scipy."
+        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -690,8 +697,14 @@ def test_permutation_ttest_ind_rates(equal_var, n_reps=50, n_meas_X=100,
 
 @pytest.mark.parametrize("with_replacement", (True, False))
 @pytest.mark.parametrize("zero_method", ("pratt", "wilcox", "zsplit"))
-def test_permutation_wilcoxon_args(with_replacement, zero_method,
-                                   n_meas=5, n_vars=3):
+@pytest.mark.parametrize("n_meas", [5, 7])
+@pytest.mark.parametrize("n_vars", range(1, 5))
+def test_permutation_wilcoxon_args(
+    with_replacement,
+    zero_method,
+    n_meas,
+    n_vars,
+):
     """Check permutation_wilcoxon arguments.
 
     Parameters
@@ -703,64 +716,62 @@ def test_permutation_wilcoxon_args(with_replacement, zero_method,
     zero_method : {"pratt", "wilcox", "zsplit"}
         Method for zero-differences processing.
 
-    n_meas : int, default=5
+    n_meas : int
         Number of measurements in samples X and Y.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples X and Y.
     """
-    ppstats.permutation_wilcoxon(
-        np.random.randn(n_meas),
-        np.random.randn(n_meas),
-        n=1,
-        with_replacement=with_replacement
-    )
+    if n_vars == 1:
+        ppstats.permutation_wilcoxon(
+            np.random.randn(n_meas),
+            np.random.randn(n_meas),
+            n=1,
+            with_replacement=with_replacement,
+        )
 
     ppstats.permutation_wilcoxon(
         np.random.randn(n_meas, n_vars),
         np.random.randn(n_meas, n_vars),
         n=1,
-        with_replacement=with_replacement
+        with_replacement=with_replacement,
     )
 
 
 def test_permutation_wilcoxon_errors(n_meas=5, n_vars=3):
-    """Check permutation_wilcoxon errors.
-
-    Parameters
-    ----------
-    n_meas : int, default=5
-        Number of measurements in samples X and Y.
-
-    n_vars : int, default=3
-        Number of variables in samples X and Y.
-    """
+    """Check permutation_wilcoxon errors."""
     with pytest.raises(ValueError):  # not same n_meas
         ppstats.permutation_wilcoxon(
             np.random.randn(n_meas, n_vars),
             np.random.randn(n_meas + 1, n_vars),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # not same n_vars
         ppstats.permutation_wilcoxon(
             np.random.randn(n_meas, n_vars),
             np.random.randn(n_meas, n_vars + 1),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_wilcoxon(
             np.random.randn(n_meas, n_vars, 3),
             np.random.randn(n_meas, n_vars, 3),
-            n=1
+            n=1,
         )
 
 
 @pytest.mark.parametrize("zero_method", ("pratt", "wilcox", "zsplit"))
-def test_permutation_wilcoxon_rates(zero_method, n_reps=50, n_meas=100,
-                                    n_vars=10, diff_mean=2., diff_std=1.,
-                                    alpha=0.05):
+def test_permutation_wilcoxon_rates(
+    zero_method,
+    n_reps=50,
+    n_meas=100,
+    n_vars=10,
+    diff_mean=2.,
+    diff_std=1.,
+    alpha=0.05,
+):
     """Validate the permutation_wilcoxon function by generating random samples
     on which statistics and p-values are computed, and checking false positive
     and true positive rates.
@@ -819,14 +830,14 @@ def test_permutation_wilcoxon_rates(zero_method, n_reps=50, n_meas=100,
             X, Y,
             n=100,
             with_replacement=False,
-            zero_method=zero_method
+            zero_method=zero_method,
         )
 
-        # assert T values with respect scipy
+        # assert T values with respect SciPy
         T_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             T_sp[v] = stats.wilcoxon(x, y, zero_method=zero_method).statistic
-        assert np.allclose(T_pp, T_sp, atol=1e-9), "Statistics T should be equivalent to scipy."
+        assert np.allclose(T_pp, T_sp, atol=1e-9), "Statistics T should be equivalent to SciPy."
 
         # the offset was only added to the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -843,8 +854,15 @@ def test_permutation_wilcoxon_rates(zero_method, n_reps=50, n_meas=100,
 
 
 @pytest.mark.parametrize("with_replacement", (True, False))
-def test_permutation_mannwhitneyu_args(with_replacement,
-                                       n_meas_X=5, n_meas_Y=6, n_vars=3):
+@pytest.mark.parametrize("n_meas_X", [10, 15, 20])
+@pytest.mark.parametrize("n_meas_Y", [6, 7, 8])
+@pytest.mark.parametrize("n_vars", range(1, 5))
+def test_permutation_mannwhitneyu_args(
+    with_replacement,
+    n_meas_X,
+    n_meas_Y,
+    n_vars,
+):
     """Check permutation_mannwhitneyu arguments.
 
     Parameters
@@ -853,62 +871,57 @@ def test_permutation_mannwhitneyu_args(with_replacement,
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
 
-    n_meas_X : int, default=5
+    n_meas_X : int
         Number of measurements in X.
 
-    n_meas_Y : int, default=6
+    n_meas_Y : int
         Number of measurements in Y.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in X and Y.
     """
-    ppstats.permutation_mannwhitneyu(
-        np.random.randn(n_meas_X),
-        np.random.randn(n_meas_Y),
-        n=1,
-        with_replacement=with_replacement
-    )
+    if n_vars == 1:
+        ppstats.permutation_mannwhitneyu(
+            np.random.randn(n_meas_X),
+            np.random.randn(n_meas_Y),
+            n=1,
+            with_replacement=with_replacement,
+        )
 
     ppstats.permutation_mannwhitneyu(
         np.random.randn(n_meas_X, n_vars),
         np.random.randn(n_meas_Y, n_vars),
         n=1,
-        with_replacement=with_replacement
+        with_replacement=with_replacement,
     )
 
 
-def test_permutation_mannwhitneyu_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
-    """Check permutation_mannwhitneyu errors.
-
-    Parameters
-    ----------
-    n_meas_X : int, default=5
-        Number of measurements in X.
-
-    n_meas_Y : int, default=6
-        Number of measurements in Y.
-
-    n_vars : int, default=3
-        Number of variables in X and Y.
-    """
+def test_permutation_mannwhitneyu_errors(n_meas_X=3, n_meas_Y=4, n_vars=2):
+    """Check permutation_mannwhitneyu errors."""
     with pytest.raises(ValueError):  # not same n_vars
         ppstats.permutation_mannwhitneyu(
             np.random.randn(n_meas_X, n_vars),
             np.random.randn(n_meas_Y, n_vars + 1),
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_mannwhitneyu(
             np.random.randn(n_meas_X, n_vars, 3),
             np.random.randn(n_meas_Y, n_vars, 3),
-            n=1
+            n=1,
         )
 
 
-def test_permutation_mannwhitneyu_rates(n_reps=50, n_meas_X=100, n_meas_Y=110,
-                                        n_vars=10, diff_mean=1., diff_std=1.,
-                                        alpha=0.05):
+def test_permutation_mannwhitneyu_rates(
+    n_reps=50,
+    n_meas_X=100,
+    n_meas_Y=110,
+    n_vars=10,
+    diff_mean=1.,
+    diff_std=1.,
+    alpha=0.05,
+):
     """Validate the permutation_mannwhitneyu function by generating random
     samples on which statistics and p-values are computed, and checking false
     positive and true positive rates.
@@ -963,15 +976,15 @@ def test_permutation_mannwhitneyu_rates(n_reps=50, n_meas_X=100, n_meas_Y=110,
         U_pp, pvals = ppstats.permutation_mannwhitneyu(
             X, Y,
             n=100,
-            with_replacement=False
+            with_replacement=False,
         )
 
-        # TODO: assert U values with respect scipy
+        # TODO: assert U values with respect SciPy
         # NOT DONE, because scipy implementation is really "different" ...
 #        U_sp = np.zeros(n_vars)
 #        for v, (x, y) in enumerate(zip(X.T, Y.T)):
 #            U_sp[v] = stats.mannwhitneyu(x, y, alternative="less").statistic
-#        assert np.allclose(U_pp, U_sp, atol=1e-9), "Statistics U should be equivalent to scipy."
+#        assert np.allclose(U_pp, U_sp, atol=1e-9), "Statistics U should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -987,32 +1000,38 @@ def test_permutation_mannwhitneyu_rates(n_reps=50, n_meas_X=100, n_meas_Y=110,
 ###############################################################################
 
 
-def test_permutation_f_oneway_args_errors(list_meas=[5, 7, 6, 4], n_vars=3):
-    """Check permutation_f_oneway arguments and errors.
+@pytest.mark.parametrize("list_meas", [[5, 7, 6, 4], [10, 2, 5]])
+@pytest.mark.parametrize("n_vars", range(1, 4))
+def test_permutation_f_oneway_args(list_meas, n_vars):
+    """Check permutation_f_oneway arguments.
 
     Parameters
     ----------
-    list_meas : list of int, default=[5, 7, 6, 4]
+    list_meas : list of int
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples.
     """
-    ppstats.permutation_f_oneway(
-        *[np.random.randn(n_meas) for n_meas in list_meas],
-        n=1
-    )
+    if n_vars == 1:
+        ppstats.permutation_f_oneway(
+            *[np.random.randn(n_meas) for n_meas in list_meas],
+            n=1,
+        )
 
     ppstats.permutation_f_oneway(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
-        n=1
+        n=1,
     )
 
+
+def test_permutation_f_oneway_errors(list_meas=[2, 4, 6, 3], n_vars=3):
+    """Check permutation_f_oneway errors."""
     with pytest.raises(ValueError):  # only one group
         ppstats.permutation_f_oneway(
             *[np.random.randn(list_meas[0], n_vars)],
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # not same n_vars
@@ -1020,19 +1039,24 @@ def test_permutation_f_oneway_args_errors(list_meas=[5, 7, 6, 4], n_vars=3):
         ppstats.permutation_f_oneway(
             *[np.random.randn(n_meas, n_vars_)
             for n_meas, n_vars_ in zip(list_meas, list_vars)],
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_f_oneway(
             *[np.random.randn(n_meas, n_vars, 3) for n_meas in list_meas],
-            n=1
+            n=1,
         )
 
 
-def test_permutation_f_oneway_rates(n_reps=50, list_meas=[80, 100, 50, 70],
-                                    n_vars=3, diff_mean=1., diff_std=1.,
-                                    alpha=0.05):
+def test_permutation_f_oneway_rates(
+    n_reps=50,
+    list_meas=[80, 100, 50, 70],
+    n_vars=3,
+    diff_mean=1.,
+    diff_std=1.,
+    alpha=0.05,
+):
     """Validate the permutation_f_oneway function by generating random samples
     on which statistics and p-values are computed, and checking false positive
     and true positive rates.
@@ -1087,12 +1111,12 @@ def test_permutation_f_oneway_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 
         F_pp, pvals = ppstats.permutation_f_oneway(*args, n=500)
 
-        # assert F values with respect scipy
+        # assert F values with respect SciPy
         F_sp = np.zeros(n_vars)
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             F_sp[v] = stats.f_oneway(*args_).statistic
-        assert np.allclose(F_pp, F_sp, atol=1e-9), "Statistics F should be equivalent to scipy."
+        assert np.allclose(F_pp, F_sp, atol=1e-9), "Statistics F should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -1108,32 +1132,38 @@ def test_permutation_f_oneway_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 ###############################################################################
 
 
-def test_permutation_kruskal_args_errors(list_meas=[4, 3, 5, 7], n_vars=3):
-    """Check permutation_kruskal arguments and errors.
+@pytest.mark.parametrize("list_meas", [[4, 3, 5, 7], [10, 2, 5]])
+@pytest.mark.parametrize("n_vars", range(1, 4))
+def test_permutation_kruskal_args(list_meas, n_vars):
+    """Check permutation_kruskal arguments.
 
     Parameters
     ----------
-    list_meas : list of int, default=[4, 3, 5, 7]
+    list_meas : list of int
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples.
     """
-    ppstats.permutation_kruskal(
-        *[np.random.randn(n_meas) for n_meas in list_meas],
-        n=1
-    )
+    if n_vars == 1:
+        ppstats.permutation_kruskal(
+            *[np.random.randn(n_meas) for n_meas in list_meas],
+            n=1,
+        )
 
     ppstats.permutation_kruskal(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
-        n=1
+        n=1,
     )
 
+
+def test_permutation_kruskal_errors(list_meas=[4, 3, 5, 3], n_vars=3):
+    """Check permutation_kruskal errors."""
     with pytest.raises(ValueError):  # only one group
         ppstats.permutation_kruskal(
             *[np.random.randn(list_meas[0], n_vars)],
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # not same n_vars
@@ -1141,20 +1171,24 @@ def test_permutation_kruskal_args_errors(list_meas=[4, 3, 5, 7], n_vars=3):
         ppstats.permutation_kruskal(
             *[np.random.randn(n_meas, n_vars_)
             for n_meas, n_vars_ in zip(list_meas, list_vars)],
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_kruskal(
             *[np.random.randn(n_meas, n_vars, 3) for n_meas in list_meas],
-            n=1
+            n=1,
         )
 
 
-
-def test_permutation_kruskal_rates(n_reps=50, list_meas=[80, 100, 50, 70],
-                                   n_vars=3, diff_mean=1., diff_std=1.,
-                                   alpha=0.05):
+def test_permutation_kruskal_rates(
+    n_reps=50,
+    list_meas=[80, 100, 50, 70],
+    n_vars=3,
+    diff_mean=1.,
+    diff_std=1.,
+    alpha=0.05,
+):
     """Validate the permutation_kruskal function by generating random samples
     on which statistics and p-values are computed, and checking false positive
     and true positive rates.
@@ -1209,12 +1243,12 @@ def test_permutation_kruskal_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 
         H_pp, pvals = ppstats.permutation_kruskal(*args, n=500)
 
-        # assert H values with respect scipy
+        # assert H values with respect SciPy
         H_sp = np.zeros(n_vars)
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             H_sp[v] = stats.kruskal(*args_).statistic
-        assert np.allclose(H_pp, H_sp, atol=1e-9), "Statistics H should be equivalent to scipy."
+        assert np.allclose(H_pp, H_sp, atol=1e-9), "Statistics H should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -1230,55 +1264,73 @@ def test_permutation_kruskal_rates(n_reps=50, list_meas=[80, 100, 50, 70],
 ###############################################################################
 
 
-def test_permutation_friedmanchisquare_args_errors(n_meas=5, n_vars=3,
-                                                   n_groups=4):
-    """Check permutation_friedmanchisquare arguments and errors.
+@pytest.mark.parametrize("n_meas", range(1, 5))
+@pytest.mark.parametrize("n_vars", range(1, 5))
+@pytest.mark.parametrize("n_groups", range(3, 5))
+def test_permutation_friedmanchisquare_args(n_meas, n_vars, n_groups):
+    """Check permutation_friedmanchisquare arguments.
 
     Parameters
     ----------
-    n_meas : int, default=5
+    n_meas : int
         Number of measurements in samples.
 
-    n_vars : int, default=3
+    n_vars : int
         Number of variables in samples.
 
-    n_groups : int, default=4
+    n_groups : int
         Number of samples / groups.
     """
     ppstats.permutation_friedmanchisquare(
         *[np.random.randn(n_meas, n_vars) for g in range(n_groups)],
-        n=1
+        n=1,
     )
 
+
+def test_permutation_friedmanchisquare_errors(n_meas=3, n_vars=2, n_groups=4):
+    """Check permutation_friedmanchisquare errors."""
     with pytest.raises(ValueError):  # 1D inputs # TODO: should be OK
         ppstats.permutation_friedmanchisquare(
-            *[np.random.randn(n_meas) for g in range(n_groups)],
-            n=1
+            *[np.random.randn(n_meas) for _ in range(n_groups)],
+            n=1,
         )
 
     with pytest.raises(ValueError):  # only two groups
         ppstats.permutation_friedmanchisquare(
-            *[np.random.randn(n_meas) for g in range(2)],
-            n=1
+            *[np.random.randn(n_meas) for _ in range(2)],
+            n=1,
+        )
+
+    with pytest.raises(ValueError):  # not same n_meas
+        list_meas = np.random.randint(1, 10, size=n_groups)
+        ppstats.permutation_friedmanchisquare(
+            *[np.random.randn(n_meas_, n_vars) for n_meas_ in list_meas],
+            n=1,
         )
 
     with pytest.raises(ValueError):  # not same n_vars
         list_vars = np.random.randint(1, 10, size=n_groups)
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas, n_vars_) for n_vars_ in list_vars],
-            n=1
+            n=1,
         )
 
     with pytest.raises(ValueError):  # more than 2 dims
         ppstats.permutation_friedmanchisquare(
-            *[np.random.randn(n_meas, n_vars, 3) for g in range(n_groups)],
-            n=1
+            *[np.random.randn(n_meas, n_vars, 3) for _ in range(n_groups)],
+            n=1,
         )
 
 
-def test_permutation_friedmanchisquare_rates(n_reps=50, n_meas=10, n_vars=3,
-                                             n_groups=5, diff_mean=3.,
-                                             diff_std=0.5, alpha=0.05):
+def test_permutation_friedmanchisquare_rates(
+    n_reps=50,
+    n_meas=10,
+    n_vars=3,
+    n_groups=5,
+    diff_mean=3.,
+    diff_std=0.5,
+    alpha=0.05,
+):
     """Validate the permutation_friedmanchisquare function by generating random
     samples on which statistics and p-values are computed, and checking false
     positive and true positive rates.
@@ -1335,12 +1387,12 @@ def test_permutation_friedmanchisquare_rates(n_reps=50, n_meas=10, n_vars=3,
 
         chi2_pp, pvals = ppstats.permutation_friedmanchisquare(*args, n=500)
 
-        # assert chi2 values with respect scipy
+        # assert chi2 values with respect SciPy
         chi2_sp = np.zeros(n_vars)
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             chi2_sp[v] = stats.friedmanchisquare(*args_).statistic
-        assert np.allclose(chi2_pp, chi2_sp, atol=1e-9), "Statistics chi2 should be equivalent to scipy."
+        assert np.allclose(chi2_pp, chi2_sp, atol=1e-9), "Statistics chi2 should be equivalent to SciPy."
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
