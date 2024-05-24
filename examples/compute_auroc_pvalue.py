@@ -11,25 +11,36 @@ Warning: this example requires scikit-learn dependency (0.22 at least).
 """
 # Author: Quentin Barthélemy
 
+from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_curve, roc_auc_score
-from pypermut.ml import permutation_metric, standard_error_auroc
+from sklearn.model_selection import train_test_split
+
 from pypermut.misc import pvals_to_stars
-from matplotlib import pyplot as plt
+from pypermut.ml import permutation_metric, standard_error_auroc
 
 
 ###############################################################################
 # Artificial data and classifier
 # ------------------------------
 
-X, y = make_classification(n_classes=2, n_samples=100, n_features=100,
-                           n_informative=10, n_redundant=10,
-                           n_clusters_per_class=5, random_state=1)
-Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.5,
-                                                random_state=2)
+X, y = make_classification(
+    n_classes=2,
+    n_samples=100,
+    n_features=100,
+    n_informative=10,
+    n_redundant=10,
+    n_clusters_per_class=5,
+    random_state=1,
+)
+Xtrain, Xtest, ytrain, ytest = train_test_split(
+    X,
+    y,
+    test_size=0.5,
+    random_state=2,
+)
 # Logistic regression: a very good old-fashioned classifier
 clf = LogisticRegression().fit(Xtrain, ytrain)
 ytest_probas = clf.predict_proba(Xtest)[:, 1]
@@ -47,9 +58,9 @@ ytest_probas = clf.predict_proba(Xtest)[:, 1]
 fpr, tpr, _ = roc_curve(ytest, ytest_probas)
 
 fig, ax = plt.subplots()
-ax.set(title="ROC curve", xlabel='FPR', ylabel='TPR')
-ax.plot(fpr, tpr, 'C1', label='Logistic regression')
-ax.plot([0, 1], [0, 1], 'b--', label='Chance level')
+ax.set(title="ROC curve", xlabel="FPR", ylabel="TPR")
+ax.plot(fpr, tpr, "C1", label="Logistic regression")
+ax.plot([0, 1], [0, 1], "b--", label="Chance level")
 plt.xlim([0.0, 1.0])
 plt.ylim([0.0, 1.05])
 plt.legend(loc="lower right")
@@ -57,7 +68,7 @@ plt.show()
 
 # AUC
 auroc = roc_auc_score(ytest, ytest_probas)
-print('AUROC = {:.3f}\n'.format(auroc))
+print("AUROC = {:.3f}\n".format(auroc))
 
 
 ###############################################################################
@@ -71,9 +82,14 @@ np.random.seed(17)
 auroc_se = standard_error_auroc(ytest, ytest_probas, auroc)
 
 # p-value of AUC, by permutations
-auroc_, pval = permutation_metric(ytest, ytest_probas, roc_auc_score,
-                                  side='right', n=n_perm)
-print('AUROC = {:.3f} +/- {:.3f}, p={:.2e} ({})'
+auroc_, pval = permutation_metric(
+    ytest,
+    ytest_probas,
+    roc_auc_score,
+    side="right",
+    n=n_perm,
+)
+print("AUROC = {:.3f} +/- {:.3f}, p={:.2e} ({})"
       .format(auroc_, auroc_se, pval, pvals_to_stars(pval)))
 
 

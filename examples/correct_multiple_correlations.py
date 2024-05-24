@@ -8,11 +8,12 @@ for Pearson and Spearman correlations after correction for multiple tests.
 """
 # Author: Quentin Barthélemy
 
+from matplotlib import pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr, spearmanr
-from pypermut.stats import permutation_corr
+
 from pypermut.misc import print_results, print_pvals
-from matplotlib import pyplot as plt
+from pypermut.stats import permutation_corr
 
 
 ###############################################################################
@@ -31,12 +32,12 @@ Y = np.array([
 # Anscombe's anti-trio: to highlight the difference between classical and
 # permutated tests, the number of variables is artificially increased.
 Y = np.c_[Y, -Y]
-vlabels = ['y{}'.format(v + 1) for v in range(Y.shape[1])]
+vlabels = ["y{}".format(v + 1) for v in range(Y.shape[1])]
 
 # Plot Anscombe's trio and anti-trio
 fig, ax = plt.subplots()
-ax.set(title="Anscombe's trio and anti-trio", xlabel='x', ylabel='Y')
-[plt.scatter(x, y, label='y{}'.format(i + 1)) for i, y in enumerate(Y.T)]
+ax.set(title="Anscombe's trio and anti-trio", xlabel="x", ylabel="Y")
+[plt.scatter(x, y, label="y{}".format(i + 1)) for i, y in enumerate(Y.T)]
 ax.legend()
 plt.show()
 
@@ -47,24 +48,24 @@ plt.show()
 
 # Pearson test
 r_class = [pearsonr(y, x) for y in Y.T]
-print('Pearson tests:')
-print_results(r_class, vlabels, 'r')
+print("Pearson tests:")
+print_results(r_class, vlabels, "r")
 
 # Spearman test
 rho_class = [spearmanr(y, x) for y in Y.T]
-print('Spearman tests:')
-print_results(rho_class, vlabels, 'rho')
+print("Spearman tests:")
+print_results(rho_class, vlabels, "rho")
 
 # Correction for multiple tests, using Bonferroni's method: multiply p-values
 # by the number of tests.
 n_tests = Y.shape[1]
 
 p_corrected = np.array(r_class)[:, 1] * n_tests
-print('\nPearson tests, after Bonferroni correction:')
+print("\nPearson tests, after Bonferroni correction:")
 print_pvals(p_corrected, vlabels)
 
 p_corrected = np.array(rho_class)[:, 1] * n_tests
-print('Spearman tests, after Bonferroni correction:')
+print("Spearman tests, after Bonferroni correction:")
 print_pvals(p_corrected, vlabels)
 
 # Bonferroni correction is a crucial step to adjust p-values of each variable
@@ -81,15 +82,20 @@ n_perm = 10000
 np.random.seed(17)
 
 # Permutated Pearson test, corrected by Rmax
-r_perm, p_perm = permutation_corr(Y, x=x, n=n_perm, side='two')
-print('\nPermutated Pearson tests, with {} permutations:'.format(n_perm))
-print_results(np.c_[r_perm, p_perm], vlabels, 'r')
+r_perm, p_perm = permutation_corr(Y, x=x, n=n_perm, side="two")
+print("\nPermutated Pearson tests, with {} permutations:".format(n_perm))
+print_results(np.c_[r_perm, p_perm], vlabels, "r")
 
 # Permutated Spearman test, corrected by Rmax
-rho_perm, p_perm = permutation_corr(Y, x=x, n=n_perm, corr='spearman',
-                                    side='two')
-print('Permutated Spearman tests, with {} permutations:'.format(n_perm))
-print_results(np.c_[rho_perm, p_perm], vlabels, 'rho')
+rho_perm, p_perm = permutation_corr(
+    Y,
+    x=x,
+    n=n_perm,
+    corr="spearman",
+    side="two",
+)
+print("Permutated Spearman tests, with {} permutations:".format(n_perm))
+print_results(np.c_[rho_perm, p_perm], vlabels, "rho")
 
 # The Rmax method of the permutation correlation tests is used for adjusting
 # the p-values in a way that controls the family-wise error rate.
