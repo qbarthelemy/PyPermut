@@ -229,7 +229,7 @@ def test_permutation_corr_args(
             side=side,
         )
 
-    ppstats.permutation_corr(
+    stats, pvals = ppstats.permutation_corr(
         np.random.randn(n_meas, n_vars),
         x=np.random.randn(n_meas),
         n=1,
@@ -237,6 +237,8 @@ def test_permutation_corr_args(
         corr=corr_func,
         side=side,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_corr_errors(n_meas=5, n_vars=3):
@@ -399,13 +401,15 @@ def test_permutation_ttest_rel_args(
             side=side,
         )
 
-    ppstats.permutation_ttest_rel(
+    stats, pvals = ppstats.permutation_ttest_rel(
         np.random.randn(n_meas, n_vars),
         np.random.randn(n_meas, n_vars),
         n=1,
         with_replacement=with_replacement,
         side=side,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_ttest_rel_errors(n_meas=5, n_vars=3):
@@ -569,7 +573,7 @@ def test_permutation_ttest_ind_args(
             equal_var=equal_var,
         )
 
-    ppstats.permutation_ttest_ind(
+    stats, pvals = ppstats.permutation_ttest_ind(
         np.random.randn(n_meas_X, n_vars),
         np.random.randn(n_meas_Y, n_vars),
         n=1,
@@ -577,6 +581,8 @@ def test_permutation_ttest_ind_args(
         side=side,
         equal_var=equal_var,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_ttest_ind_errors(n_meas_X=5, n_meas_Y=6, n_vars=3):
@@ -730,12 +736,14 @@ def test_permutation_wilcoxon_args(
             with_replacement=with_replacement,
         )
 
-    ppstats.permutation_wilcoxon(
+    stats, pvals = ppstats.permutation_wilcoxon(
         np.random.randn(n_meas, n_vars),
         np.random.randn(n_meas, n_vars),
         n=1,
         with_replacement=with_replacement,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_wilcoxon_errors(n_meas=5, n_vars=3):
@@ -888,12 +896,14 @@ def test_permutation_mannwhitneyu_args(
             with_replacement=with_replacement,
         )
 
-    ppstats.permutation_mannwhitneyu(
+    stats, pvals = ppstats.permutation_mannwhitneyu(
         np.random.randn(n_meas_X, n_vars),
         np.random.randn(n_meas_Y, n_vars),
         n=1,
         with_replacement=with_replacement,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_mannwhitneyu_errors(n_meas_X=3, n_meas_Y=4, n_vars=2):
@@ -1020,10 +1030,12 @@ def test_permutation_f_oneway_args(list_meas, n_vars):
             n=1,
         )
 
-    ppstats.permutation_f_oneway(
+    stats, pvals = ppstats.permutation_f_oneway(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
         n=1,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_f_oneway_errors(list_meas=[2, 4, 6, 3], n_vars=3):
@@ -1152,10 +1164,12 @@ def test_permutation_kruskal_args(list_meas, n_vars):
             n=1,
         )
 
-    ppstats.permutation_kruskal(
+    stats, pvals = ppstats.permutation_kruskal(
         *[np.random.randn(n_meas, n_vars) for n_meas in list_meas],
         n=1,
     )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
 
 
 def test_permutation_kruskal_errors(list_meas=[4, 3, 5, 3], n_vars=3):
@@ -1281,20 +1295,22 @@ def test_permutation_friedmanchisquare_args(n_meas, n_vars, n_groups):
     n_groups : int
         Number of samples / groups.
     """
-    ppstats.permutation_friedmanchisquare(
-        *[np.random.randn(n_meas, n_vars) for g in range(n_groups)],
-        n=1,
-    )
-
-
-def test_permutation_friedmanchisquare_errors(n_meas=3, n_vars=2, n_groups=4):
-    """Check permutation_friedmanchisquare errors."""
-    with pytest.raises(ValueError):  # 1D inputs # TODO: should be OK
+    if n_vars == 1:
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas) for _ in range(n_groups)],
             n=1,
         )
 
+    stats, pvals = ppstats.permutation_friedmanchisquare(
+        *[np.random.randn(n_meas, n_vars) for _ in range(n_groups)],
+        n=1,
+    )
+    assert stats.shape == (n_vars,)
+    assert pvals.shape == (n_vars,)
+
+
+def test_permutation_friedmanchisquare_errors(n_meas=3, n_vars=2, n_groups=4):
+    """Check permutation_friedmanchisquare errors."""
     with pytest.raises(ValueError):  # only two groups
         ppstats.permutation_friedmanchisquare(
             *[np.random.randn(n_meas) for _ in range(2)],

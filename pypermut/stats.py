@@ -22,7 +22,7 @@ def permutation_corr(
     with_replacement=True,
     corr="pearson",
     side="one",
-    return_dist=False
+    return_dist=False,
 ):
 # TODO: allow x to be multivariate -> X
     """Rmax permutation test.
@@ -63,14 +63,14 @@ def permutation_corr(
         * "two" for a two-sided test.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    Rstats : list of float, length (n_vars)
+    Rstats : array of float, shape (n_vars,)
         The correlation coefficients between variables of X and y.
 
-    pvals : list of float, length (n_vars)
+    pvals : array of float, shape (n_vars,)
         The p-values computed from Rmax distribution of permuted measurements.
 
     Rmax : array, shape (n_perms,)
@@ -171,7 +171,7 @@ def permutation_ttest_rel(
     n=10000,
     with_replacement=True,
     side="one",
-    return_dist=False
+    return_dist=False,
 ):
     """tmax permutation test for related / paired samples.
 
@@ -202,16 +202,16 @@ def permutation_ttest_rel(
         * "two" for a two-sided test.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    tstats : list of int, length (n_vars)
-        List of statistics t between variables of X and Y.
+    tstats : array of int, shape (n_vars,)
+        The t statistics between variables of X and Y.
 
-    pvals : list of float, length (n_vars)
-        List of p-values computed from tmax distribution of permuted
-        measurements, for right-sided tests.
+    pvals : array of float, shape (n_vars,)
+        The p-values computed from tmax distribution of permuted measurements,
+        for right-sided tests.
 
     tmax : array, shape (n_perms,)
         The tmax distribution sampled under null hypothesis.
@@ -254,12 +254,16 @@ def permutation_ttest_rel(
         return tstats, pvals
 
 
-def permutation_ttest_ind(X, Y, *,
-                          n=10000,
-                          with_replacement=True,
-                          side="one",
-                          equal_var=True,
-                          return_dist=False):
+def permutation_ttest_ind(
+    X,
+    Y,
+    *,
+    n=10000,
+    with_replacement=True,
+    side="one",
+    equal_var=True,
+    return_dist=False,
+):
     """tmax permutation test for independent / unpaired samples.
 
     This function performs a tmax permutation test from Student's t-tests,
@@ -295,16 +299,16 @@ def permutation_ttest_ind(X, Y, *,
         variance.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    tstats : list of int, length (n_vars)
-        List of statistics t between variables of X and Y.
+    tstats : array of int, shape (n_vars,)
+        The t statistics between variables of X and Y.
 
-    pvals : list of float, length (n_vars)
-        List of p-values computed from tmax distribution of permuted
-        measurements, for right-sided tests.
+    pvals : array of float, shape (n_vars,)
+        The p-values computed from tmax distribution of permuted measurements,
+        for right-sided tests.
 
     tmax : array, shape (n_perms,)
         The tmax distribution sampled under null hypothesis.
@@ -363,7 +367,7 @@ def permutation_wilcoxon(
     n=10000,
     with_replacement=True,
     zero_method="wilcox",
-    return_dist=False
+    return_dist=False,
 ):
     """Tmin permutation test.
 
@@ -394,16 +398,16 @@ def permutation_wilcoxon(
         Method for zero-differences processing.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    Tstat : list of int, length (n_vars)
-        List of statistics T between variables of X and Y.
+    Tstat : array of int, shape (n_vars,)
+        The T statistics between variables of X and Y.
 
-    pvals : list of float, length (n_vars)
-        List of p-values computed from Tmin distribution of permuted
-        measurements, for left-sided tests.
+    pvals : array of float, shape (n_vars,)
+        The p-values computed from Tmin distribution of permuted measurements,
+        for left-sided tests.
 
     Tmin : array, shape (n_perms,)
         The Tmin distribution sampled under null hypothesis.
@@ -444,10 +448,14 @@ def permutation_wilcoxon(
         return Tstats, pvals
 
 
-def permutation_mannwhitneyu(X, Y, *,
-                             n=10000,
-                             with_replacement=True,
-                             return_dist=False):
+def permutation_mannwhitneyu(
+    X,
+    Y,
+    *,
+    n=10000,
+    with_replacement=True,
+    return_dist=False,
+):
     """Umin permutation test.
 
     This function performs a Umin permutation test from Mann-Whitney U tests
@@ -474,17 +482,17 @@ def permutation_mannwhitneyu(X, Y, *,
         replacement. Unused if n is "all".
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    Ustat : list of int, length (n_vars)
-        List of statistics U between variables of X and Y.
+    Ustat : array of int, shape (n_vars,)
+        The U statistics between variables of X and Y.
         Warning: these statistics U are not computed like scipy.stats.mannwhitneyu.
 
-    pvals : list of float, length (n_vars)
-        List of p-values computed from Umin distribution of permuted
-        measurements, for left-sided tests.
+    pvals : array of float, shape (n_vars,)
+        The p-values computed from Umin distribution of permuted measurements,
+        for left-sided tests.
 
     Umin : array, shape (n_perms,)
         The Umin distribution sampled under null hypothesis.
@@ -524,7 +532,7 @@ def permutation_mannwhitneyu(X, Y, *,
         return Ustats, pvals
 
 
-def permutation_f_oneway(*args, n=10000, return_dist=False):
+def permutation_f_oneway(*X, n=10000, return_dist=False):
 # TODO: allow n="all"
     """Fmax permutation test.
 
@@ -543,14 +551,14 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    Fstats : list of float, length (n_vars)
+    Fstats : array of float, shape (n_vars,)
         The F statistics between variables of samples.
 
-    pvals : list of float, length (n_vars)
+    pvals : array of float, shape (n_vars,)
         The p-values computed from Fmax distribution of permuted measurements.
 
     Fmax : array, shape (n_perms,)
@@ -562,14 +570,11 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html
     .. [2] https://en.wikipedia.org/wiki/Analysis_of_variance
     """  # noqa
-    args = list(map(np.asarray, args))
-    if len(args) < 2:
-        raise ValueError("Need at least two groups.")
-    [helpers._check_array(arg, "") for arg in args]
+    X = helpers._check_groups(X, n_groups_min=2)
 
     # under the null hypothesis, sample the Fmax distribution
     Fmax = core.permute_unpaired_samples(
-        args,
+        X,
         n_permutations=n,
         with_replacement=True,
         stat_func=mstats.f_oneway,
@@ -578,9 +583,9 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
     )
 
     # number of measurements for each sample / group
-    list_meas = np.asarray(list(map(len, args)))
+    list_meas = helpers._get_list_meas(X)
     # compute the real F statistics
-    Fstats = mstats.f_oneway(np.concatenate(args, axis=0), list_meas)
+    Fstats = mstats.f_oneway(np.concatenate(X, axis=0), list_meas)
     # compare it to the Fmax distribution with a right-sided test,
     # because significance is obtained for high F stats
     pvals = np.array([
@@ -593,7 +598,7 @@ def permutation_f_oneway(*args, n=10000, return_dist=False):
         return Fstats, pvals
 
 
-def permutation_kruskal(*args, n=10000, return_dist=False):
+def permutation_kruskal(*X, n=10000, return_dist=False):
 # TODO: allow n="all"
     """Hmax permutation test.
 
@@ -613,14 +618,14 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    Hstats : list of float, length (n_vars)
+    Hstats : array of float, shape (n_vars,)
         The H statistics between variables of samples.
 
-    pvals : list of float, length (n_vars)
+    pvals : array of float, shape (n_vars,)
         The p-values computed from Hmax distribution of permuted measurements.
 
     Hmax : array, shape (n_perms,)
@@ -632,14 +637,11 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html
     .. [2] https://en.wikipedia.org/wiki/Kruskal-Wallis_one-way_analysis_of_variance
     """  # noqa
-    args = list(map(np.asarray, args))
-    if len(args) < 2:
-        raise ValueError("Need at least two groups.")
-    [helpers._check_array(arg, "") for arg in args]
+    X = helpers._check_groups(X, n_groups_min=2)
 
     # under the null hypothesis, sample the Hmax distribution
     Hmax = core.permute_unpaired_samples(
-        args,
+        X,
         n_permutations=n,
         with_replacement=True,
         stat_func=mstats.kruskal,
@@ -647,9 +649,9 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
         side="one",
     )
 
-    list_meas = np.asarray(list(map(len, args)))
+    list_meas = helpers._get_list_meas(X)
     # compute the real H statistics
-    Hstats = mstats.kruskal(np.concatenate(args, axis=0), list_meas)
+    Hstats = mstats.kruskal(np.concatenate(X, axis=0), list_meas)
     # compare it to the Hmax distribution with a right-sided test,
     # because significance is obtained for high H stats
     pvals = np.array([
@@ -662,7 +664,7 @@ def permutation_kruskal(*args, n=10000, return_dist=False):
         return Hstats, pvals
 
 
-def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
+def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
 # TODO: allow n="all"; and use core.permute_paired_samples after its
 # generalization to S samples
     """chi2max permutation test.
@@ -682,14 +684,14 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Boolean to choose if null distribution is added to outputs.
+        Choose if null distribution is added to outputs.
 
     Returns
     -------
-    chi2stats : list of float, length (n_vars)
+    chi2stats : array of float, shape (n_vars,)
         The chi2 statistics between variables of samples.
 
-    pvals : list of float, length (n_vars)
+    pvals : array of float, shape (n_vars,)
         The p-values computed from chi2max distribution of permuted
         measurements.
 
@@ -702,36 +704,27 @@ def permutation_friedmanchisquare(*args, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.friedmanchisquare.html
     .. [2] https://en.wikipedia.org/wiki/Friedman_test
     """  # noqa
-    args = list(map(np.asarray, args))
-    n_groups = len(args)
-    if len(args) < 3:
-        raise ValueError(f"Need at least three groups, got {n_groups}.")
-    if args[0].ndim < 2:
-        raise ValueError("Inputs must be at least 2D.")
-    n_meas, n_vars = args[0].shape
-    for i in range(1, n_groups):
-        if args[i].shape != (n_meas, n_vars):
-            raise ValueError("Unequal sample shapes in friedmanchisquare.")
+    X = helpers._check_groups(X, n_groups_min=3, check_n_meas=True)
     helpers._check_n_permutations(n)
 
-    Data_ = np.dstack(args)  # shape = (n_meas, n_vars, n_groups)
-    Data = np.transpose(Data_.astype(float),
-                        axes=(0, 2, 1))  # shape = (n_meas, n_groups, n_vars)
+    n_groups, n_meas = len(X), X[0].shape[0]
+    X = np.dstack(X).astype(float)  # shape = (n_meas, n_vars, n_groups)
+    X = np.transpose(X, axes=(0, 2, 1))  # shape = (n_meas, n_groups, n_vars)
 
     # under the null hypothesis, sample the chi2max distribution
     chi2max = np.empty(n, dtype=float)
 
     for i_perm in range(n):
-        Dataperm = Data.copy()
+        Xperm = X.copy()
         for m in range(n_meas):  # for each measure, permute along groups
             permuted_indices = np.random.permutation(n_groups)
-            Dataperm[m] = Dataperm[m][permuted_indices]
+            Xperm[m] = Xperm[m][permuted_indices]
 
-        stat = mstats.friedmanchisquare(Dataperm)
+        stat = mstats.friedmanchisquare(Xperm)
         chi2max[i_perm] = np.max(stat)
 
     # compute the real chi2 statistics
-    chi2stats = mstats.friedmanchisquare(Data)
+    chi2stats = mstats.friedmanchisquare(X)
     # compare it to the chimax distribution with a right-sided test,
     # because significance is obtained for high chi2 stats
     pvals = np.array([

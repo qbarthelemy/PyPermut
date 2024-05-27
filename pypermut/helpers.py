@@ -6,7 +6,7 @@ import numpy as np
 
 
 def _check_array(X, X_name):
-    """This function checks dimensions of a single sample."""
+    """Check dimensions of a single sample."""
     X = np.asarray(X)
 
     if X.ndim > 2:
@@ -22,7 +22,7 @@ def _check_array(X, X_name):
 
 
 def _check_paired_arrays(X, Y):
-    """This function checks dimensions of paired samples."""
+    """Check dimensions of paired samples."""
     X = _check_array(X, "X")
     Y = _check_array(Y, "Y")
 
@@ -36,7 +36,7 @@ def _check_paired_arrays(X, Y):
 
 
 def _check_unpaired_arrays(X, Y):
-    """This function checks the second dimension of unpaired samples."""
+    """Check the second dimension of unpaired samples."""
     X = _check_array(X, "X")
     Y = _check_array(Y, "Y")
 
@@ -49,8 +49,49 @@ def _check_unpaired_arrays(X, Y):
     return X, Y
 
 
+def _check_groups(X, n_groups_min, check_n_meas=False):
+    """Check groups.
+
+    Parameters
+    ----------
+    X : array_like
+        The samples for each group.
+        For each sample, the first dimension represents the measurements, and
+        the second dimension represents different variables.
+
+    n_groups_min : int
+        Minimum number of groups.
+
+    check_n_meas : bool, default=False
+        Choose if samples have the same number of measurements.
+    """
+    n_groups = len(X)
+    if n_groups < n_groups_min:
+        raise ValueError(
+            f"Need at least {n_groups_min} groups, got {n_groups}."
+        )
+
+    #X = list(map(np.asarray, X))
+    X = [_check_array(x, "") for x in X]
+
+    n_meas, n_vars = X[0].shape
+    for i in range(1, n_groups):
+        if check_n_meas and X[i].shape[0] != n_meas:
+            raise ValueError("Samples have not the same number of measurements.")
+        if X[i].shape[1] != n_vars:
+            raise ValueError("Samples have not the same number of variables.")
+
+    return X
+
+
+def _get_list_meas(X):
+    """Get the number of measurements for each sample / group."""
+    list_meas = np.asarray(list(map(len, X)))
+    return list_meas
+
+
 def _check_n_permutations(n_permutations):
-    """This function checks the parameter n_permutations."""
+    """Check the parameter n_permutations."""
     if not isinstance(n_permutations, int):
         raise ValueError("Parameter n_perms_requested must be an integer.")
     if n_permutations < 1:
@@ -58,7 +99,7 @@ def _check_n_permutations(n_permutations):
 
 
 def _check_permutations(n_perms_requested, n_perms_max, with_replacement):
-    """This function checks the requested permutations."""
+    """Check the requested permutations."""
 
     if n_perms_requested == "all" or n_perms_requested >= n_perms_max:
         # => exact test, with all permutations

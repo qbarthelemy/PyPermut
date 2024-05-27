@@ -105,7 +105,7 @@ def test_permute_unpaired_samples(
     """Test permutation test of unpaired samples."""
     X = [np.random.random((n_meas, n_vars)) for _ in range(n_samples)]
 
-    list_meas = np.asarray(list(map(len, X)))
+    list_meas = helpers._get_list_meas(X)
     n_perms_max = core.count_permutations_unpaired_samples(list_meas)
     perms, n_perms, with_replacement = helpers._check_permutations(
         n_perms_requested=n_permutations,

@@ -183,7 +183,7 @@ def permute_paired_samples(
 
 
 def permute_unpaired_samples(
-    args,
+    X,
     n_permutations,
     with_replacement,
     stat_func,
@@ -238,8 +238,8 @@ def permute_unpaired_samples(
         Vector containing the statistics of the null distribution.
     """
     # number of measurements for each sample / group
-    list_meas = np.asarray(list(map(len, args)))
-    C = np.concatenate(args, axis=0)
+    list_meas = helpers._get_list_meas(X)
+    C = np.concatenate(X, axis=0)
     C -= C.mean(axis=0, keepdims=True)  # centering improves num. stability
     n_meas = C.shape[0]
 
@@ -250,10 +250,10 @@ def permute_unpaired_samples(
         with_replacement=with_replacement,
     )
     if not with_replacement:
-        if len(args) != 2:
+        if len(X) != 2:
             raise ValueError("Without replacement strategy is available only "
                              "for two samples.")
-        combs = list(combinations(range(n_meas), len(args[0])))
+        combs = list(combinations(range(n_meas), len(X[0])))
 
     # loop on permutations to sample the null distribution
     null_dist = np.empty(n_perms, dtype=float)
@@ -462,4 +462,3 @@ def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
     permutated_inds = permutated_inds_X + permutated_inds_Y
 
     return permutated_inds
-
