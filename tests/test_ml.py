@@ -20,7 +20,7 @@ def permutation_metric_func(y_true, y_score):
     return np.mean(y_true - y_score)
 
 
-@pytest.mark.parametrize("side", ("left", "two", "right"))
+@pytest.mark.parametrize("side", ("left", "two", "double", "right"))
 @pytest.mark.parametrize("n_samples", [10, 13, 15])
 @pytest.mark.parametrize("n_classes", [2, 3, 4])
 def test_permutation_metric_args(side, n_samples, n_classes):
@@ -32,7 +32,7 @@ def test_permutation_metric_args(side, n_samples, n_classes):
         Side of the test:
 
         * "left" for a left-sided test,
-        * "two" or 'double' for a two-sided test,
+        * "two" or "double" for a two-sided test,
         * "right" for a right-sided test.
 
     n_samples : int
@@ -41,19 +41,16 @@ def test_permutation_metric_args(side, n_samples, n_classes):
     n_classes : int
         Number of classes.
     """
-    y_true = np.random.randn(n_samples, n_classes)
-    y_score = np.random.randn(n_samples, n_classes)
-
     m, p = ppml.permutation_metric(
-        y_true,
-        y_score,
-        permutation_metric_func,
+        y_true=np.random.randn(n_samples, n_classes),
+        y_score=np.random.randn(n_samples, n_classes),
+        func=permutation_metric_func,
         n=1,
         side=side,
     )
 
 
-def test_permutation_metric_errors(n_samples=10, n_classes=3):
+def test_permutation_metric_errors(n_samples=5, n_classes=3):
     """Check permutation_metric errors."""
     with pytest.raises(ValueError):  # not same n_samples
         ppml.permutation_metric(

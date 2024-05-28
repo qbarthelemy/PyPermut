@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr, spearmanr
 
-from pypermut.misc import print_results, print_pvals
+from pypermut.misc import correct_bonferroni, print_results, print_pvals
 from pypermut.stats import permutation_corr
 
 
@@ -47,24 +47,23 @@ plt.show()
 # --------------------
 
 # Pearson test
-r_class = [pearsonr(y, x) for y in Y.T]
+r_class = np.array([pearsonr(y, x) for y in Y.T])
 print("Pearson tests:")
 print_results(r_class, vlabels, "r")
 
 # Spearman test
-rho_class = [spearmanr(y, x) for y in Y.T]
+rho_class = np.array([spearmanr(y, x) for y in Y.T])
 print("Spearman tests:")
 print_results(rho_class, vlabels, "rho")
 
 # Correction for multiple tests, using Bonferroni's method: multiply p-values
 # by the number of tests.
-n_tests = Y.shape[1]
 
-p_corrected = np.array(r_class)[:, 1] * n_tests
+p_corrected = correct_bonferroni(r_class[:, 1])
 print("\nPearson tests, after Bonferroni correction:")
 print_pvals(p_corrected, vlabels)
 
-p_corrected = np.array(rho_class)[:, 1] * n_tests
+p_corrected = correct_bonferroni(rho_class[:, 1])
 print("Spearman tests, after Bonferroni correction:")
 print_pvals(p_corrected, vlabels)
 

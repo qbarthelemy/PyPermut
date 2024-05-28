@@ -63,7 +63,7 @@ def permutation_corr(
         * "two" for a two-sided test.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -202,7 +202,7 @@ def permutation_ttest_rel(
         * "two" for a two-sided test.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -299,7 +299,7 @@ def permutation_ttest_ind(
         variance.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -398,7 +398,7 @@ def permutation_wilcoxon(
         Method for zero-differences processing.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -482,7 +482,7 @@ def permutation_mannwhitneyu(
         replacement. Unused if n is "all".
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -551,7 +551,7 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -618,7 +618,7 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------
@@ -684,7 +684,7 @@ def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
         Number of permutations for the permutation test.
 
     return_dist : bool, default=False
-        Choose if null distribution is added to outputs.
+        Choose if null distribution is returned.
 
     Returns
     -------

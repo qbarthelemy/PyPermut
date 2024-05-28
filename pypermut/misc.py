@@ -51,19 +51,19 @@ def pvals_to_stars(
 
     Parameters
     ----------
-    p_vals : array of float
-        Array of p-values.
+    p_vals : array, shape (n_vals,)
+        The p-values.
 
     p_thresholds : list of float, default=[0.001, 0.01, 0.05, 0.1, 1]
-        List of p-value thresholds.
+        The p-value thresholds.
 
     p_notations : list of string, default=["***", "**", "*", "+", "", ""]
-        List of star-based notations, of length(p_thresholds) + 1.
+        Star-based notations, of length(p_thresholds) + 1.
 
     Returns
     -------
-    stars : array of string
-        Array of stars.
+    stars : array of string, shape (n_vals,)
+        Stars associated to p-values.
     """
     if len(p_thresholds) != len(p_notations) - 1:
         raise ValueError(
@@ -78,20 +78,43 @@ def pvals_to_stars(
     return stars
 
 
+def correct_bonferroni(p_vals, n_tests=None):
+    """Correct p-values by Bonferroni's method.
+
+    Correction for multiple tests, using Bonferroni's method:
+    multiply p-values by the number of tests.
+
+    Parameters
+    ----------
+    p_vals : array, shape (n_vals,)
+        The p-values.
+
+    n_tests : None | int, default=None
+        Number of tests. If None, n_tests is set to n_vals.
+
+    Returns
+    -------
+    p_vals_corrected : array, shape (n_vals,)
+        The p-values corrected by Bonferroni's method.
+    """
+    if n_tests is None:
+        n_tests = len(p_vals)
+    return p_vals * n_tests
+
+
 def print_results(results, r_labels, stat_label):
     """Print results of several tests: statistic value and the p-value.
 
     Parameters
     ----------
     results : list of list
-        List of test results, ie a list containing the statistic value and the
-        p-value.
+        Test results, ie a list containing the statistic value and the p-value.
 
     r_labels : list of string
-        List of labels, one for each test.
+        Labels, one for each test.
 
     stat_label : string
-        String denoting the statistic name.
+        Statistic name.
     """
     if len(results) != len(r_labels):
         raise ValueError(
@@ -112,10 +135,10 @@ def print_pvals(pvals, r_labels):
     Parameters
     ----------
     pvals : list of float
-        List of p-values.
+        The p-values.
 
     r_labels : list of string
-        List of labels, one for each test.
+        The labels, one for each test.
     """
     if len(pvals) != len(r_labels):
         raise ValueError(
@@ -140,7 +163,7 @@ def plot_pairwise_results(ax, names, pvals):
         Names of tested pairs.
 
     pvals : list of float, length (n_names * (n_names - 1) / 2)
-        List of p-values for all pairwise tests.
+        The p-values for all pairwise tests.
 
     Returns
     -------

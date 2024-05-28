@@ -59,7 +59,7 @@ def permute_measurements(
     Returns
     -------
     null_dist : array, shape (n_permutations,)
-        Vector containing the statistics of the null distribution.
+        Statistics of the null distribution.
     """
     n_meas = Y.shape[0]
 
@@ -145,7 +145,7 @@ def permute_paired_samples(
     Returns
     -------
     null_dist : array, shape (n_permutations,)
-        Vector containing the statistics of the null distribution.
+        Statistics of the null distribution.
     """
     D = X - Y
     n_meas = D.shape[0]
@@ -235,7 +235,7 @@ def permute_unpaired_samples(
     Returns
     -------
     null_dist : array, shape (n_permutations,)
-        Vector containing the statistics of the null distribution.
+        Statistics of the null distribution.
     """
     # number of measurements for each sample / group
     list_meas = helpers._get_list_meas(X)
@@ -336,7 +336,7 @@ def count_permutations_unpaired_samples(list_meas):
     Parameters
     ----------
     list_meas : list of int
-        List of number of measurements for each sample.
+        Number of measurements for each sample.
 
     Returns
     -------
@@ -373,7 +373,7 @@ def get_permutation_measurements(n_meas, perm_number):
     Returns
     -------
     permuted_indices : list, length (n_meas)
-        List of permuted indices, for the permutation number.
+        Permuted indices, for the permutation number.
     """
     sequence = range(n_meas)
     level = len(sequence)
@@ -444,15 +444,15 @@ def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
     Parameters
     ----------
     list_meas : list of two int
-        List of number of measurements for samples X and Y.
+        Number of measurements for samples X and Y.
 
     permutated_inds_X : list, length (n_meas_X)
-        List of permutation indices for X.
+        Permutation indices for X.
 
     Returns
     -------
     permutated_inds : list, length (n_meas_X + n_meas_Y)
-        List of permutation indices to apply to the concatenation of X and Y.
+        Permutation indices to apply to the concatenation of X and Y.
     """
     assert len(list_meas) == 2, "Function valid only for 2 samples."
     permutated_inds_Y = [

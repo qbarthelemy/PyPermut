@@ -90,6 +90,12 @@ def _get_list_meas(X):
     return list_meas
 
 
+def _get_list_ind_meas(list_meas):
+    """Get the indices of each group after concatenation."""
+    list_ind_meas = np.insert(np.cumsum(list_meas), 0, 0)
+    return list_ind_meas
+
+
 def _check_n_permutations(n_permutations):
     """Check the parameter n_permutations."""
     if not isinstance(n_permutations, int):

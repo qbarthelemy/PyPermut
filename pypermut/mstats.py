@@ -3,6 +3,8 @@
 import numpy as np
 import scipy.stats as stats
 
+from . import helpers
+
 
 def pearsonr(xY):
     """Pearson correlation coefficient.
@@ -131,7 +133,7 @@ def studentt_ind(C, list_meas):
         The vertical concatenation of sets of measurements X and Y.
 
     list_meas : list of int
-        List of number of measurements for each sample: [n_meas_X, n_meas_Y].
+        Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
     Returns
     -------
@@ -162,7 +164,7 @@ def welcht_ind(C, list_meas):
         The vertical concatenation of sets of measurements X and Y.
 
     list_meas : list of int
-        List of number of measurements for each sample: [n_meas_X, n_meas_Y].
+        Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
     Returns
     -------
@@ -238,7 +240,7 @@ def mannwhitneyu(C, list_meas):
         The vertical concatenation of sets of measurements X and Y.
 
     list_meas : list of int
-        List of number of measurements for each sample: [n_meas_X, n_meas_Y].
+        Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
     Returns
     -------
@@ -267,7 +269,7 @@ def f_oneway(C, list_meas):
         for each variable.
 
     list_meas : list of int
-        List of number of measurements for each group.
+        Number of measurements for each group.
 
     Returns
     -------
@@ -275,7 +277,7 @@ def f_oneway(C, list_meas):
         The statistics F between variables of groups.
     """
     # indices of each group after vertical concatenation
-    list_inds = np.insert(np.cumsum(list_meas), 0, 0)
+    list_inds = helpers._get_list_ind_meas(list_meas)
     n_groups = len(list_meas)
     n_meas = list_inds[-1]  # total number of measurements
 
@@ -306,7 +308,7 @@ def kruskal(C, list_meas):
         The vertical concatenation of groups of measurements.
 
     list_meas : list of int
-        List of number of measurements for each group.
+        Number of measurements for each group.
 
     Returns
     -------
@@ -314,7 +316,7 @@ def kruskal(C, list_meas):
         The statistics H between variables of groups.
     """
     # indices of each group after vertical concatenation
-    list_inds = np.insert(np.cumsum(list_meas), 0, 0)
+    list_inds = helpers._get_list_ind_meas(list_meas)
     n_groups = len(list_meas)
     n_meas = list_inds[-1]  # total number of measurements
 
