@@ -12,7 +12,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr, spearmanr
 
-from pypermut.misc import correct_bonferroni, print_results, print_pvals
+from pypermut.correction import correct_bonferroni
+from pypermut.misc import print_results, print_pvals
 from pypermut.stats import permutation_corr
 
 

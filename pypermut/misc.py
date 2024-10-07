@@ -78,34 +78,6 @@ def pvals_to_stars(
     return stars
 
 
-def correct_bonferroni(p_vals, n_tests=None):
-    """Correct p-values by Bonferroni's method.
-
-    Correction for multiple tests, using Bonferroni's method:
-    multiply p-values by the number of tests.
-
-    Parameters
-    ----------
-    p_vals : array, shape (n_vals,)
-        The p-values.
-
-    n_tests : None | int, default=None
-        Number of tests. If None, n_tests is set to n_vals.
-
-    Returns
-    -------
-    p_vals_corrected : array, shape (n_vals,)
-        The p-values corrected by Bonferroni's method.
-
-    References
-    ----------
-    .. [1] https://en.wikipedia.org/wiki/Bonferroni_correction
-    """
-    if n_tests is None:
-        n_tests = len(p_vals)
-    return p_vals * n_tests
-
-
 def print_results(results, r_labels, stat_label):
     """Print results of several tests: statistic value and the p-value.
 
