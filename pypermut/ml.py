@@ -38,7 +38,7 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
     n : int, default=10000
         Number of permutations for the permutation test.
 
-    side : string, default="right"
+    side : {"left", "two", "right"}, default="right"
         Side of the test:
 
         * "left" for a left-sided test,
@@ -63,7 +63,8 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
         raise ValueError(
             "Inputs y_true and y_score do not have compatible dimensions: "
             "y_true is of dimension {} while y_score is {}."
-            .format(y_true.shape, y_score.shape))
+            .format(y_true.shape, y_score.shape)
+        )
     n_samples = y_true.shape[0]
 
     # under the null hypothesis, sample the metric distribution

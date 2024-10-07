@@ -96,6 +96,10 @@ def correct_bonferroni(p_vals, n_tests=None):
     -------
     p_vals_corrected : array, shape (n_vals,)
         The p-values corrected by Bonferroni's method.
+
+    References
+    ----------
+    .. [1] https://en.wikipedia.org/wiki/Bonferroni_correction
     """
     if n_tests is None:
         n_tests = len(p_vals)
