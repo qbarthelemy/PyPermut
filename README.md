@@ -1,6 +1,6 @@
 # P*y*&#43004;*ermut*
 
-[![Code PythonVersion](https://img.shields.io/badge/python-3.7+-blue)](https://img.shields.io/badge/python-3.7+-blue)
+[![Code PythonVersion](https://img.shields.io/badge/python-3.8+-blue)](https://img.shields.io/badge/python-3.8+-blue)
 [![License](https://img.shields.io/badge/licence-BSD--3--Clause-green)](https://img.shields.io/badge/license-BSD--3--Clause-green)
 [![Country](https://img.shields.io/badge/made%20in-France-blue)](https://img.shields.io/badge/made%20in-France-blue)
 
