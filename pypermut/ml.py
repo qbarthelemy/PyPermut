@@ -116,7 +116,8 @@ def standard_error_auroc(y_labels, y_probas, auroc):
         raise ValueError(
             "Inputs y_labels and y_probas do not have compatible dimensions: "
             "y_labels is of dimension {} while y_probas is {}."
-            .format(y_labels.shape, y_probas.shape))
+            .format(y_labels.shape, y_probas.shape)
+        )
     if not 0 <= auroc <= 1:
         raise ValueError(f"Input auroc={auroc} must be included in [0, 1].")
 
