@@ -9,8 +9,8 @@ import warnings
 import numpy as np
 from scipy.stats import percentileofscore
 
-from . import helpers
 from . import core
+from . import helpers
 from . import mstats
 
 
@@ -84,7 +84,7 @@ def permutation_corr(
     .. [3] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.spearmanr.html
     .. [4] https://en.wikipedia.org/wiki/Spearman's_rank_correlation_coefficient
     """  # noqa
-    Y = helpers._check_array(Y, "Y")
+    Y = helpers.check_array(Y, "Y")
     n_meas = Y.shape[0]
 
     if x is None:
@@ -222,7 +222,7 @@ def permutation_ttest_rel(
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html
     .. [2] https://en.wikipedia.org/wiki/Student's_t-test#Dependent_t-test_for_paired_samples
     """  # noqa
-    X, Y = helpers._check_paired_arrays(X, Y)
+    X, Y = helpers.check_paired_arrays(X, Y)
 
     if side not in ["one", "two"]:
         raise ValueError(f"Invalid value for side={side}.")
@@ -320,7 +320,7 @@ def permutation_ttest_ind(
     .. [2] https://en.wikipedia.org/wiki/Student's_t-test#Independent_two-sample_t-test
     .. [3] https://en.wikipedia.org/wiki/Welch's_t-test
     """  # noqa
-    X, Y = helpers._check_unpaired_arrays(X, Y)
+    X, Y = helpers.check_unpaired_arrays(X, Y)
 
     if side not in ["one", "two"]:
         raise ValueError(f"Invalid value for side={side}.")
@@ -418,7 +418,7 @@ def permutation_wilcoxon(
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html
     .. [2] https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test
     """  # noqa
-    X, Y = helpers._check_paired_arrays(X, Y)
+    X, Y = helpers.check_paired_arrays(X, Y)
 
     if not zero_method in ["wilcox", "pratt", "zsplit"]:
         raise ValueError(f"Invalid value for zero_method={zero_method}.")
@@ -503,7 +503,7 @@ def permutation_mannwhitneyu(
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
     .. [2] https://en.wikipedia.org/wiki/Mann-Whitney_U_test
     """  # noqa
-    X, Y = helpers._check_unpaired_arrays(X, Y)
+    X, Y = helpers.check_unpaired_arrays(X, Y)
 
     # under the null hypothesis, sample the Umin distribution
     Umin = core.permute_unpaired_samples(
@@ -570,7 +570,7 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.f_oneway.html
     .. [2] https://en.wikipedia.org/wiki/Analysis_of_variance
     """  # noqa
-    X = helpers._check_groups(X, n_groups_min=2)
+    X = helpers.check_groups(X, n_groups_min=2)
 
     # under the null hypothesis, sample the Fmax distribution
     Fmax = core.permute_unpaired_samples(
@@ -583,7 +583,7 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
     )
 
     # number of measurements for each sample / group
-    list_meas = helpers._get_list_meas(X)
+    list_meas = helpers.get_list_meas(X)
     # compute the real F statistics
     Fstats = mstats.f_oneway(np.concatenate(X, axis=0), list_meas)
     # compare it to the Fmax distribution with a right-sided test,
@@ -637,7 +637,7 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.kruskal.html
     .. [2] https://en.wikipedia.org/wiki/Kruskal-Wallis_one-way_analysis_of_variance
     """  # noqa
-    X = helpers._check_groups(X, n_groups_min=2)
+    X = helpers.check_groups(X, n_groups_min=2)
 
     # under the null hypothesis, sample the Hmax distribution
     Hmax = core.permute_unpaired_samples(
@@ -649,7 +649,7 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
         side="one",
     )
 
-    list_meas = helpers._get_list_meas(X)
+    list_meas = helpers.get_list_meas(X)
     # compute the real H statistics
     Hstats = mstats.kruskal(np.concatenate(X, axis=0), list_meas)
     # compare it to the Hmax distribution with a right-sided test,
@@ -704,8 +704,8 @@ def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
     .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.friedmanchisquare.html
     .. [2] https://en.wikipedia.org/wiki/Friedman_test
     """  # noqa
-    X = helpers._check_groups(X, n_groups_min=3, check_n_meas=True)
-    helpers._check_n_permutations(n)
+    X = helpers.check_groups(X, n_groups_min=3, check_n_meas=True)
+    helpers.check_n_permutations(n)
 
     n_groups, n_meas = len(X), X[0].shape[0]
     X = np.dstack(X).astype(float)  # shape = (n_meas, n_vars, n_groups)

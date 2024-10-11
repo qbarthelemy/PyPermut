@@ -277,7 +277,7 @@ def f_oneway(C, list_meas):
         The statistics F between variables of groups.
     """
     # indices of each group after vertical concatenation
-    list_inds = helpers._get_list_ind_meas(list_meas)
+    list_inds = helpers.get_list_ind_meas(list_meas)
     n_groups = len(list_meas)
     n_meas = list_inds[-1]  # total number of measurements
 
@@ -316,7 +316,7 @@ def kruskal(C, list_meas):
         The statistics H between variables of groups.
     """
     # indices of each group after vertical concatenation
-    list_inds = helpers._get_list_ind_meas(list_meas)
+    list_inds = helpers.get_list_ind_meas(list_meas)
     n_groups = len(list_meas)
     n_meas = list_inds[-1]  # total number of measurements
 

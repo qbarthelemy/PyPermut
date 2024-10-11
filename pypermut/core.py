@@ -64,7 +64,7 @@ def permute_measurements(
     n_meas = Y.shape[0]
 
     n_perms_max = count_permutation_measurements(n_meas)
-    perms, n_perms, with_replacement = helpers._check_permutations(
+    perms, n_perms, with_replacement = helpers.check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
         with_replacement=with_replacement,
@@ -151,7 +151,7 @@ def permute_paired_samples(
     n_meas = D.shape[0]
 
     n_perms_max = count_permutations_paired_samples(2, n_meas)
-    perms, n_perms, with_replacement = helpers._check_permutations(
+    perms, n_perms, with_replacement = helpers.check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
         with_replacement=with_replacement,
@@ -238,13 +238,13 @@ def permute_unpaired_samples(
         Statistics of the null distribution.
     """
     # number of measurements for each sample / group
-    list_meas = helpers._get_list_meas(X)
+    list_meas = helpers.get_list_meas(X)
     C = np.concatenate(X, axis=0)
     C -= C.mean(axis=0, keepdims=True)  # centering improves num. stability
     n_meas = C.shape[0]
 
     n_perms_max = count_permutations_unpaired_samples(list_meas)
-    perms, n_perms, with_replacement = helpers._check_permutations(
+    perms, n_perms, with_replacement = helpers.check_permutations(
         n_perms_requested=n_permutations,
         n_perms_max=n_perms_max,
         with_replacement=with_replacement,
