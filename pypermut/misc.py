@@ -11,7 +11,6 @@ def perc_to_pval(perc, side):
     ----------
     perc : float
         Percentile of the observed statistic, in [0, 100].
-
     side : string
         Side of the test:
 
@@ -53,10 +52,8 @@ def pvals_to_stars(
     ----------
     p_vals : array, shape (n_vals,)
         The p-values.
-
     p_thresholds : list of float, default=[0.001, 0.01, 0.05, 0.1, 1]
         The p-value thresholds.
-
     p_notations : list of string, default=["***", "**", "*", "+", "", ""]
         Star-based notations, of length(p_thresholds) + 1.
 
@@ -85,10 +82,8 @@ def print_results(results, r_labels, stat_label):
     ----------
     results : list of list
         Test results, ie a list containing the statistic value and the p-value.
-
     r_labels : list of string
         Labels, one for each test.
-
     stat_label : string
         Statistic name.
     """
@@ -112,7 +107,6 @@ def print_pvals(pvals, r_labels):
     ----------
     pvals : list of float
         The p-values.
-
     r_labels : list of string
         The labels, one for each test.
     """
@@ -134,10 +128,8 @@ def plot_pairwise_results(ax, names, pvals):
     ----------
     ax : matplotlib axes
         Axis of the figure.
-
     names : list of string, length (n_names)
         Names of tested pairs.
-
     pvals : list of float, length (n_names * (n_names - 1) / 2)
         The p-values for all pairwise tests.
 

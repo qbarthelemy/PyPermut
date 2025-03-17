@@ -27,17 +27,13 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
     y_true : array_like, shape (n_samples, n_classes)
         True binary labels, with first dimension representing the sample
         dimension and with second dimension representing the different classes.
-
     y_score : array_like, shape (n_samples, n_classes)
         Scores of prediction, same dimensions as y_true. Scores can be
         probabilities or labels.
-
     func : callable
         Function to compute the metric, with signature `func(y_true, y_score)`.
-
     n : int, default=10000
         Number of permutations for the permutation test.
-
     side : {"left", "two", "right"}, default="right"
         Side of the test:
 
@@ -49,7 +45,6 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
     -------
     m : float
         The value of the metric.
-
     pval : float
         The p-value associated to the metric.
 
@@ -91,10 +86,8 @@ def standard_error_auroc(y_labels, y_probas, auroc):
     ----------
     y_labels : array_like, shape (n_samples,)
         True binary labels.
-
     y_probas : array_like, shape (n_samples,)
         Probabilities of predicted labels, same dimension as y_labels.
-
     auroc : float
         AUROC value, between 0 and 1.
 

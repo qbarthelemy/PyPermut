@@ -16,7 +16,7 @@ np.random.seed(17)
 
 
 def permutation_metric_func(y_true, y_score):
-    """Simple function for test purpose """
+    """Simple function for test purpose."""
     return np.mean(y_true - y_score)
 
 
@@ -34,10 +34,8 @@ def test_permutation_metric_args(side, n_samples, n_classes):
         * "left" for a left-sided test,
         * "two" or "double" for a two-sided test,
         * "right" for a right-sided test.
-
     n_samples : int
         Number of samples.
-
     n_classes : int
         Number of classes.
     """

@@ -36,26 +36,21 @@ def permutation_corr(
         A first sample, with the first dimension representing the measurements
         (measures along time for example), and the second dimension
         representing different variables.
-
     x : None | array_like, shape (n_meas,), default=None
         Another sample, same number of measurements as Y. By default, it is a
         monotonous vector giving a longitudinal test. When x is a time vector,
         the null hypothesis is that there is no time effect in measures.
-
     n : int | "all", default=10000
         Number of permutations for the permutation test.
         If n is "all", all possible permutations are tested, giving exact test.
-
     with_replacement : bool, default=True
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n is "all".
-
     corr : {"pearson", "spearman"}, default "pearson"
         Define the correlation type:
 
         * "pearson" for the Pearson product-moment correlation coefficient r,
         * "spearman" for the Spearman rank-order correlation coefficient rho.
-
     side : {"one", "two"}, default="one"
         Side of the test:
 
@@ -69,10 +64,8 @@ def permutation_corr(
     -------
     Rstats : array of float, shape (n_vars,)
         The correlation coefficients between variables of X and y.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from Rmax distribution of permuted measurements.
-
     Rmax : array, shape (n_perms,)
         The Rmax distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -183,24 +176,19 @@ def permutation_ttest_rel(
     X : array_like, shape (n_meas, n_vars)
         A first sample, with the first dimension representing the measurements,
         and the second dimension representing different variables.
-
     Y : array_like, shape (n_meas, n_vars)
         A second sample, same dimensions as X.
-
     n : int | "all", default=10000
         Number of permutations for the permutation test.
         If n is "all", all possible permutations are tested, giving exact test.
-
     with_replacement : bool, default=True
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n is "all".
-
     side : {"one", "two"}, default="one"
         Side of the test:
 
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -208,11 +196,9 @@ def permutation_ttest_rel(
     -------
     tstats : array of int, shape (n_vars,)
         The t statistics between variables of X and Y.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from tmax distribution of permuted measurements,
         for right-sided tests.
-
     tmax : array, shape (n_perms,)
         The tmax distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -274,24 +260,19 @@ def permutation_ttest_ind(
     X : array_like, shape (n_meas_X, n_vars)
         A first sample, with the first dimension representing the measurements,
         and the second dimension representing different variables.
-
     Y : array_like, shape (n_meas_Y, n_vars)
         A second sample, same number of variables as X.
-
     n : int | "all", default=10000
         Number of permutations for the permutation test.
         If n is "all", all possible permutations are tested, giving exact test.
-
     with_replacement : bool, default=True
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n is "all".
-
     side : {"one", "two"}, default="one"
         Side of the test:
 
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
-
     equal_var : bool, default=True
         If True, it performs the standard independent two samples test that
         assumes equal variances.
@@ -305,11 +286,9 @@ def permutation_ttest_ind(
     -------
     tstats : array of int, shape (n_vars,)
         The t statistics between variables of X and Y.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from tmax distribution of permuted measurements,
         for right-sided tests.
-
     tmax : array, shape (n_perms,)
         The tmax distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -382,21 +361,16 @@ def permutation_wilcoxon(
     X : array_like, shape (n_meas, n_vars)
         A first sample, with the first dimension representing the measurements,
         and the second dimension representing different variables.
-
     Y : array_like, shape (n_meas, n_vars)
         A second sample, same dimensions as X.
-
     n : int | "all", default=10000
         Number of permutations for the permutation test.
         If n is "all", all possible permutations are tested, giving exact test.
-
     with_replacement : bool, default=True
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n is "all".
-
     zero_method : {"pratt", "wilcox", "zsplit"}, default="wilcox"
         Method for zero-differences processing.
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -404,11 +378,9 @@ def permutation_wilcoxon(
     -------
     Tstat : array of int, shape (n_vars,)
         The T statistics between variables of X and Y.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from Tmin distribution of permuted measurements,
         for left-sided tests.
-
     Tmin : array, shape (n_perms,)
         The Tmin distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -469,18 +441,14 @@ def permutation_mannwhitneyu(
     X : array_like, shape (n_meas_X, n_vars)
         A first sample, with the first dimension representing the measurements,
         and the second dimension representing different variables.
-
     Y : array_like, shape (n_meas_Y, n_vars)
         A second sample, same number of variables as X.
-
     n : int | "all", default=10000
         Number of permutations for the permutation test.
         If n is "all", all possible permutations are tested, giving exact test.
-
     with_replacement : bool, default=True
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n is "all".
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -489,11 +457,9 @@ def permutation_mannwhitneyu(
     Ustat : array of int, shape (n_vars,)
         The U statistics between variables of X and Y.
         Warning: these statistics U are not computed like scipy.stats.mannwhitneyu.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from Umin distribution of permuted measurements,
         for left-sided tests.
-
     Umin : array, shape (n_perms,)
         The Umin distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -546,10 +512,8 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
         For each sample, the first dimension represents the measurements
         (which can be different for each sample), and the second dimension
         represents different variables (identical for all samples).
-
     n : int, default=10000
         Number of permutations for the permutation test.
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -557,10 +521,8 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
     -------
     Fstats : array of float, shape (n_vars,)
         The F statistics between variables of samples.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from Fmax distribution of permuted measurements.
-
     Fmax : array, shape (n_perms,)
         The Fmax distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -613,10 +575,8 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
         For each sample, the first dimension represents the measurements
         (which can be different for each sample), and the second dimension
         represents different variables (identical for all samples).
-
     n : int, default=10000
         Number of permutations for the permutation test.
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -624,10 +584,8 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
     -------
     Hstats : array of float, shape (n_vars,)
         The H statistics between variables of samples.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from Hmax distribution of permuted measurements.
-
     Hmax : array, shape (n_perms,)
         The Hmax distribution sampled under null hypothesis.
         Returned only when return_dist is True.
@@ -679,10 +637,8 @@ def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
         For each sample, the first dimension represents the measurements
         (identical for all samples), and the second dimension represents
         different variables (identical for all samples).
-
     n : int, default=10000
         Number of permutations for the permutation test.
-
     return_dist : bool, default=False
         Choose if null distribution is returned.
 
@@ -690,11 +646,9 @@ def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
     -------
     chi2stats : array of float, shape (n_vars,)
         The chi2 statistics between variables of samples.
-
     pvals : array of float, shape (n_vars,)
         The p-values computed from chi2max distribution of permuted
         measurements.
-
     chi2max : array, shape (n_perms,)
         The chi2max distribution sampled under null hypothesis.
         Returned only when return_dist is True.

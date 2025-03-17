@@ -29,27 +29,21 @@ def permute_measurements(
         A first sample, with the first dimension representing the measurements
         (measures along time for example), and the second dimension
         representing different variables.
-
     x : array_like, shape (n_meas,)
         Another sample, same number of measurements as Y.
-
     n_permutations : int | "all"
         Number of permutations for the permutation test.
         If n_permutations is "all", all possible permutations are tested.
-
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n_permutations is "all".
-
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
         with signature `stat_func(C)`, where C is the horizontal concatenation
         of samples x and Y.
-
     var_func : callable
         Function to estimate the null distribution across the several
         variables.
-
     side : {"one", "two"}
         Side of the test:
 
@@ -116,26 +110,20 @@ def permute_paired_samples(
     X : array_like, shape (n_meas, n_vars)
         A first sample, with the first dimension representing the measurements,
         and the second dimension representing different variables.
-
     Y : array_like, shape (n_meas, n_vars)
         A second sample, same dimensions as X.
-
     n_permutations : int | "all"
         Number of permutations for the permutation test.
         If n_permutations is "all", all possible permutations are tested.
-
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n_permutations is "all".
-
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
         with signature `stat_func(X-Y)`.
-
     var_func : callable
         Function to estimate the null distribution across the several
         variables.
-
     side : {"one", "two"}
         Side of the test:
 
@@ -165,7 +153,8 @@ def permute_paired_samples(
             perm_coeffs = np.random.choice(
                 [1, -1],
                 size=(n_meas, 1),
-                replace=True)
+                replace=True,
+            )
         else:
             perm_coeffs = get_permutation_2_paired_samples(
                 n_meas,
@@ -206,26 +195,21 @@ def permute_unpaired_samples(
         For each sample, the first dimension represents the measurements
         (which can be different for each sample), and the second dimension
         represents different variables (identical for all samples).
-
     n_permutations : int | "all"
         Number of permutations for the permutation test.
         If n_permutations is "all", all possible permutations are tested.
-
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement (currently, available only for two samples).
         Unused if n_permutations is "all".
-
     stat_func : callable
         Function to compute the multivariate statistics (see module mstats),
         with signature `stat_func(C, list_meas)`, where C is the vertical
         concatenation of samples, and list_meas is the list of the number of
         measurements for each sample.
-
     var_func : callable
         Function to estimate the null distribution across the several
         variables.
-
     side : {"one", "two"}
         Side of the test:
 
@@ -310,7 +294,6 @@ def count_permutations_paired_samples(n_samples, n_meas):
     ----------
     n_samples : int
         Number of samples.
-
     n_meas : int
         Number of measurements of samples.
 
@@ -366,7 +349,6 @@ def get_permutation_measurements(n_meas, perm_number):
     ----------
     n_meas : int
         Number of measurements in samples.
-
     perm_number : int
         Number indicating the permutation index, from 0 to n_meas!-1.
 
@@ -409,7 +391,6 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
     ----------
     n_meas : int
         Number of measurements of paired samples.
-
     perm_number : int
         Number indicating the permutation index, from 0 to 2**n_meas-1.
 
@@ -445,7 +426,6 @@ def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
     ----------
     list_meas : list of two int
         Number of measurements for samples X and Y.
-
     permutated_inds_X : list, length (n_meas_X)
         Permutation indices for X.
 

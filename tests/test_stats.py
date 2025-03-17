@@ -32,7 +32,6 @@ def test_permutation_measurements_best(n, corr_func):
     n : int
         Length of samples that will be tested. Do not use values over 8, since
         it would take too long to permute completely.
-
     corr_func : string
         Define the correlation type:
 
@@ -125,7 +124,6 @@ def test_permutation_unpaired_samples_best(n1, n2):
     ----------
     n1 : int
         Length of first sample that will be tested.
-
     n2 : int
         Length of second sample that will be tested.
     """
@@ -198,20 +196,16 @@ def test_permutation_corr_args(
 
         * "pearson" for the Pearson product-moment correlation coefficient r,
         * "spearman" for the Spearman rank-order correlation coefficient rho.
-
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
-
     side : {"one", "two"}
         Side of the test:
 
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
-
     n_meas : int
         Number of measurements in samples X and Y.
-
     n_vars : int
         Number of variables in samples X and Y.
     """
@@ -287,22 +281,16 @@ def test_permutation_corr_rates(
 
         * "pearson" for the Pearson product-moment correlation coefficient r,
         * "spearman" for the Spearman rank-order correlation coefficient rho.
-
     n_reps : int, default=20
         Number of repetitions.
-
     n_meas : int, default=25
         Number of measurements in samples X and Y.
-
     n_vars : int, default=10
         Number of variables in samples X and Y.
-
     trend_amplitude : float, default=3
         Amplitude of the generated temporal trend over unitary flat noise.
-
     side : string, default="one"
         TODO
-
     alpha : float, default=0.05
         Type-I error used for the generation of false and true positive rates.
 
@@ -310,7 +298,6 @@ def test_permutation_corr_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """
@@ -379,16 +366,13 @@ def test_permutation_ttest_rel_args(
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
-
     side : {"one", "two"}
         Side of the test:
 
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
-
     n_meas : int
         Number of measurements in samples X and Y.
-
     n_vars : int
         Number of variables in samples X and Y.
     """
@@ -454,20 +438,15 @@ def test_permutation_ttest_rel_rates(
     ----------
     n_reps : int, default=50
         Number of repetitions.
-
     n_meas : int, default=100
         Number of measurements in samples X and Y.
-
     n_vars : int, default=10
         Number of variables in samples X and Y.
-
     diff_mean : float, default=-2.0
         Value of the mean of the distribution in Y different from X.
-
     diff_std : float, default=0.8
         Value of the standard deviation of the distribution in Y different from
         X.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -475,7 +454,6 @@ def test_permutation_ttest_rel_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """
@@ -541,25 +519,20 @@ def test_permutation_ttest_ind_args(
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
-
     side : {"one", "two"}
         Side of the test:
 
         * "one" for a one-sided test (right side),
         * "two" for a two-sided test.
-
     equal_var : bool
         If True, it performs the standard independent two samples test that
         assumes equal variances.
         If False, it performs the Welch's t-test, which does not assume equal
         variance.
-
     n_meas_X : int
         Number of measurements in X.
-
     n_meas_Y : int
         Number of measurements in Y.
-
     n_vars : int
         Number of variables in X and Y.
     """
@@ -626,22 +599,16 @@ def test_permutation_ttest_ind_rates(
         assumes equal variances.
         If False, it performs the Welch's t-test, which does not assume equal
         variance.
-
     n_reps : int, default=50
         Number of repetitions.
-
     n_meas_X : int, default=100
         Number of measurements in X.
-
     n_meas_Y : int, default=110
         Number of measurements in Y.
-
     n_vars : int, default=10
         Number of variables in X and Y.
-
     diff_mean : float, default=-2.0
         Value of the mean of the distribution in Y different from X.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -649,7 +616,6 @@ def test_permutation_ttest_ind_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate
     """
@@ -718,13 +684,10 @@ def test_permutation_wilcoxon_args(
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
-
     zero_method : {"pratt", "wilcox", "zsplit"}
         Method for zero-differences processing.
-
     n_meas : int
         Number of measurements in samples X and Y.
-
     n_vars : int
         Number of variables in samples X and Y.
     """
@@ -792,23 +755,17 @@ def test_permutation_wilcoxon_rates(
     ----------
     zero_method : {"pratt", "wilcox", "zsplit"}
         Method for zero-differences processing.
-
     n_reps : int, default=50
         Number of repetitions.
-
     n_meas : int, default=100
         Number of measurements in samples X and Y.
-
     n_vars : int, default=10
         Number of variables in samples X and Y.
-
     diff_mean : float, default=2.0
         Value of the mean of the distribution in Y different from X.
-
     diff_std : float, default=1.0
         Value of the standard deviation of the distribution in Y different from
         X.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -816,7 +773,6 @@ def test_permutation_wilcoxon_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate
     """
@@ -878,13 +834,10 @@ def test_permutation_mannwhitneyu_args(
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement.
-
     n_meas_X : int
         Number of measurements in X.
-
     n_meas_Y : int
         Number of measurements in Y.
-
     n_vars : int
         Number of variables in X and Y.
     """
@@ -942,23 +895,17 @@ def test_permutation_mannwhitneyu_rates(
     ----------
     n_reps : int, default=50
         Number of repetitions.
-
     n_meas_X : int, default=110
         Number of measurements in X.
-
     n_meas_Y : int, default=100
         Number of measurements in Y.
-
     n_vars : int, default=10
         Number of variables in X and Y.
-
     diff_mean : float, default=1.0
         Value of the mean of the distribution in Y different from X.
-
     diff_std : float, default=1.0
         Value of the standard deviation of the distribution in Y different from
         X.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -966,7 +913,6 @@ def test_permutation_mannwhitneyu_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """
@@ -1020,7 +966,6 @@ def test_permutation_f_oneway_args(list_meas, n_vars):
     list_meas : list of int
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
-
     n_vars : int
         Number of variables in samples.
     """
@@ -1079,22 +1024,17 @@ def test_permutation_f_oneway_rates(
     ----------
     n_reps : int, default=50
         Number of repetitions.
-
     list_meas : list of int, default=[80, 100, 50, 70]
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
-
     n_vars : int, default=3
         Number of variables in samples.
-
     diff_mean : float, default=1.0
         Value of the mean of the distribution in the last variable different
         from others.
-
     diff_std : float, default=1.0
         Value of the standard deviation of the distribution in the last
         variable different from others.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -1102,7 +1042,6 @@ def test_permutation_f_oneway_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """
@@ -1154,7 +1093,6 @@ def test_permutation_kruskal_args(list_meas, n_vars):
     list_meas : list of int
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
-
     n_vars : int
         Number of variables in samples.
     """
@@ -1213,22 +1151,17 @@ def test_permutation_kruskal_rates(
     ----------
     n_reps : int, default=50
         Number of repetitions.
-
     list_meas : list of int, default=[80, 100, 50, 70]
         List of number of measurements of each sample.
         Its length defines the number of samples / groups.
-
     n_vars : int, default=3
         Number of variables in samples.
-
     diff_mean : float, default=1.0
         Value of the mean of the distribution in the last variable different
         from others.
-
     diff_std : float, default=1.0
         Value of the standard deviation of the distribution in the last
         variable different from others.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -1236,7 +1169,6 @@ def test_permutation_kruskal_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """
@@ -1288,10 +1220,8 @@ def test_permutation_friedmanchisquare_args(n_meas, n_vars, n_groups):
     ----------
     n_meas : int
         Number of measurements in samples.
-
     n_vars : int
         Number of variables in samples.
-
     n_groups : int
         Number of samples / groups.
     """
@@ -1357,24 +1287,18 @@ def test_permutation_friedmanchisquare_rates(
     ----------
     n_reps : int, default=50
         Number of repetitions.
-
     n_meas : int, default=10
         Number of measurements in samples.
-
     n_vars : int, default=3
         Number of variables in samples.
-
     n_groups : int, default=5
         Number of samples / groups.
-
     diff_mean : float, default=3.0
         Value of the mean of the distribution in the last variable different
         from others.
-
     diff_std : float, default=0.5
         Value of the standard deviation of the distribution in the last
         variable different from others.
-
     alpha : float, default=0.05
         Type-I error use for the generation of false and true positive rates.
 
@@ -1382,7 +1306,6 @@ def test_permutation_friedmanchisquare_rates(
     -------
     fpr : float
         False positive rate.
-
     tpr : float
         True positive rate.
     """

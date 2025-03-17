@@ -200,7 +200,6 @@ def test_get_permutation_unpaired_samples(n1, n2):
     ----------
     n1 : int
         Length of first sample that will be tested.
-
     n2 : int
         Length of second sample that will be tested.
     """

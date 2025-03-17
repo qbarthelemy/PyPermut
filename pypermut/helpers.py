@@ -12,7 +12,6 @@ def check_array(X, X_name):
     ----------
     X : array_like
         Sample to check.
-
     X_name : str
         Name of sample.
 
@@ -42,7 +41,6 @@ def check_paired_arrays(X, Y):
     ----------
     X : array_like
         First paired sample to check.
-
     Y : array_like
         Second paired sample to check.
 
@@ -50,7 +48,6 @@ def check_paired_arrays(X, Y):
     -------
     X : array_like, shape (n_meas, n_vars)
         First paired sample checked.
-
     Y : array_like, shape (n_meas, n_vars)
         Second paired sample checked.
     """
@@ -73,7 +70,6 @@ def check_unpaired_arrays(X, Y):
     ----------
     X : array_like
         First unpaired sample to check.
-
     Y : array_like
         Second unpaired sample to check.
 
@@ -81,7 +77,6 @@ def check_unpaired_arrays(X, Y):
     -------
     X : array_like, shape (n_meas_X, n_vars)
         First unpaired sample checked.
-
     Y : array_like, shape (n_meas_Y, n_vars)
         Second unpaired sample checked.
     """
@@ -106,10 +101,8 @@ def check_groups(X, n_groups_min, check_n_meas=False):
         The samples for each group.
         For each sample, the first dimension represents the measurements, and
         the second dimension represents different variables.
-
     n_groups_min : int
         Minimum number of groups.
-
     check_n_meas : bool, default=False
         Choose if samples have the same number of measurements.
 
@@ -195,10 +188,8 @@ def check_permutations(n_perms_requested, n_perms_max, with_replacement):
     ----------
     n_perms_requested : int | "all"
         Number of permutations requested for the test.
-
     n_perms_max : int
         Maximum number of possible permutations for the test.
-
     with_replacement : bool
         Boolean to choose the bootstrap strategy: with replacement, or without
         replacement. Unused if n_perms_requested is "all".
@@ -207,10 +198,8 @@ def check_permutations(n_perms_requested, n_perms_max, with_replacement):
     -------
     perms : array_like
         Permutations for the test.
-
     n_perms : int
         Number of permutations for the test.
-
     with_replacement : bool
         Boolean for the chosen bootstrap strategy: with replacement, or without
         replacement.

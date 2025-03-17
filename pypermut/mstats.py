@@ -131,7 +131,6 @@ def studentt_ind(C, list_meas):
     ----------
     C : array, shape (n_meas_X + n_meas_Y, n_vars)
         The vertical concatenation of sets of measurements X and Y.
-
     list_meas : list of int
         Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
@@ -162,7 +161,6 @@ def welcht_ind(C, list_meas):
     ----------
     C : array, shape (n_meas_X + n_meas_Y, n_vars)
         The vertical concatenation of sets of measurements X and Y.
-
     list_meas : list of int
         Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
@@ -191,7 +189,6 @@ def wilcoxon(D, zero_method):
     ----------
     D : array, shape (n_meas, n_vars)
         The difference between sets of measurements: D = X - Y.
-
     zero_method : {"pratt", "wilcox", "zsplit"}
         Method for zero-differences processing.
 
@@ -238,7 +235,6 @@ def mannwhitneyu(C, list_meas):
     ----------
     C : array, shape (n_meas_X + n_meas_Y, n_vars)
         The vertical concatenation of sets of measurements X and Y.
-
     list_meas : list of int
         Number of measurements for each sample: [n_meas_X, n_meas_Y].
 
@@ -267,7 +263,6 @@ def f_oneway(C, list_meas):
     C : array, shape (n_meas, n_vars)
         The vertical concatenation of groups of measurements, already centered
         for each variable.
-
     list_meas : list of int
         Number of measurements for each group.
 
@@ -306,7 +301,6 @@ def kruskal(C, list_meas):
     ----------
     C : array, shape (n_meas, n_vars)
         The vertical concatenation of groups of measurements.
-
     list_meas : list of int
         Number of measurements for each group.
 
