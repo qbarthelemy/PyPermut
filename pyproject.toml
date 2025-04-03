@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pypermut"
-version = "0.2.1"
+version = "0.2.2"
 description = "PyPermut is a Python package implementing permutation tests"
 authors = ["Quentin Barthelemy", "Anonymous", "Louis Mayaud"]
 license = "BSD-3-Clause"

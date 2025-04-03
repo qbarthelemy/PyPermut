@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup_kwargs = {
     'name': 'pypermut',
-    'version': '0.2.1',
+    'version': '0.2.2',
     'description': 'Python package for permutation tests, for statistics and machine learning',
     'long_description': 'Python package for permutation tests, for statistics and machine learning',
     'author': 'Quentin Barthelemy',
