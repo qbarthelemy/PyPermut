@@ -108,8 +108,7 @@ pip install path/to/pypermut
 
 To install PyPermut in editable / development mode, in the folder:
 ```shell
-pip install poetry
-poetry install
+python setup.py develop
 ```
 
 ## Testing
