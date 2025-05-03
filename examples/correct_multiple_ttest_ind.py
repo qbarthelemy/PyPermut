@@ -30,17 +30,53 @@ vlabels = ["var{}".format(v) for v in range(n_vars)]
 
 # Plot trivariate samples
 fig = plt.figure(figsize=(12, 5))
-ax1 = fig.add_subplot(121, projection="3d", title="3D visualization",
-                      xlabel=vlabels[0], ylabel=vlabels[1], zlabel=vlabels[2])
+ax1 = fig.add_subplot(
+    121,
+    projection="3d",
+    title="3D visualization",
+    xlabel=vlabels[0],
+    ylabel=vlabels[1],
+    zlabel=vlabels[2],
+)
 ax1.scatter(X[:, 0], X[:, 1], X[:, 2], label="1st sample")
 ax1.scatter(Y[:, 0], Y[:, 1], Y[:, 2], marker="^", label="2nd sample")
 plt.legend(loc="center right")
-ax2 = fig.add_subplot(122, projection="3d", title="2D projection",
-                      xlabel=vlabels[0], ylabel=vlabels[1], zlabel=vlabels[2])
+ax2 = fig.add_subplot(
+    122,
+    projection="3d",
+    title="2D projection",
+    xlabel=vlabels[0],
+    ylabel=vlabels[1],
+    zlabel=vlabels[2],
+)
 for D, c in zip([X, Y], ["C0o", "C1^"]):
-    ax2.plot(D[:, 0], D[:, 1], c, zdir="z", zs=ax1.get_zlim()[0], ms=4, alpha=0.5)
-    ax2.plot(D[:, 0], D[:, 2], c, zdir="y", zs=ax1.get_ylim()[-1], ms=4, alpha=0.5)
-    ax2.plot(D[:, 1], D[:, 2], c, zdir="x", zs=ax1.get_xlim()[0], ms=4, alpha=0.5)
+    ax2.plot(
+        D[:, 0],
+        D[:, 1],
+        c,
+        zdir="z",
+        zs=ax1.get_zlim()[0],
+        ms=4,
+        alpha=0.5,
+    )
+    ax2.plot(
+        D[:, 0],
+        D[:, 2],
+        c,
+        zdir="y",
+        zs=ax1.get_ylim()[-1],
+        ms=4,
+        alpha=0.5,
+    )
+    ax2.plot(
+        D[:, 1],
+        D[:, 2],
+        c,
+        zdir="x",
+        zs=ax1.get_xlim()[0],
+        ms=4,
+        alpha=0.5,
+    )
 plt.show()
 
 
@@ -96,9 +132,12 @@ def hotelling(X, Y):
 
     return tsq, pval
 
+
 tsq, p_multiv = hotelling(X, Y)
-print("\nHotelling t-squared test:\n t^2={:.2f}, p={:.3e} ({})"
-      .format(tsq, p_multiv, pvals_to_stars(p_multiv)))
+print(
+    "\nHotelling t-squared test:\n t^2={:.2f}, p={:.3e} ({})"
+    .format(tsq, p_multiv, pvals_to_stars(p_multiv))
+)
 
 # Hotelling's test detects a trend in the difference between samples too, and
 # is not able to say on which dimension.

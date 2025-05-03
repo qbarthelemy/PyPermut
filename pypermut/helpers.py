@@ -117,13 +117,15 @@ def check_groups(X, n_groups_min, check_n_meas=False):
             f"Need at least {n_groups_min} groups, got {n_groups}."
         )
 
-    #X = list(map(np.asarray, X))
+    # X = list(map(np.asarray, X))
     X = [check_array(x, "") for x in X]
 
     n_meas, n_vars = X[0].shape
     for i in range(1, n_groups):
         if check_n_meas and X[i].shape[0] != n_meas:
-            raise ValueError("Samples have not the same number of measurements.")
+            raise ValueError(
+                "Samples have not the same number of measurements."
+            )
         if X[i].shape[1] != n_vars:
             raise ValueError("Samples have not the same number of variables.")
 

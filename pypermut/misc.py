@@ -139,11 +139,10 @@ def plot_pairwise_results(ax, names, pvals):
         Axis of the figure.
     """
     n_names, n_pvals = len(names), len(pvals)
-    if  n_pvals != n_names * (n_names - 1) // 2:
+    if n_pvals != n_names * (n_names - 1) // 2:
         raise ValueError(
             "Inputs names and pvals do not have compatible lengths: "
-            "names is of length {} while pvals is {}."
-            .format(n_names, n_pvals)
+            f"names is of length {n_names} while pvals is {n_pvals}."
         )
 
     # prepare pairwise indices

@@ -20,7 +20,8 @@ np.random.seed(17)
 
 
 @pytest.mark.parametrize("n", range(2, 8))
-@pytest.mark.parametrize("corr_func",
+@pytest.mark.parametrize(
+    "corr_func",
     ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
 )
 def test_permutation_measurements_best(n, corr_func):
@@ -61,9 +62,15 @@ def test_permutation_measurements_best(n, corr_func):
         return_dist=True,
     )
 
-    assert dist.shape[0] == max_perms, "Null distribution should contain n! statistics."
-    assert np.isclose(r[0], 1., atol=1e-9), "Best permutation case should give r of exactly 1."
-    assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Best permutation case should give p-value of exactly 1/(n!)."
+    assert dist.shape[0] == max_perms, (
+        "Null distribution should contain n! statistics."
+    )
+    assert np.isclose(r[0], 1., atol=1e-9), (
+        "Best permutation case should give r of exactly 1."
+    )
+    assert np.isclose(p[0], 1./max_perms, atol=1e-9), (
+        "Best permutation case should give p-value of exactly 1/(n!)."
+    )
 
 
 @pytest.mark.parametrize("n", range(2, 14))
@@ -97,8 +104,13 @@ def test_permutation_paired_samples_best(n):
         side="one",
         return_dist=True,
     )
-    assert dist.shape[0] == max_perms, "Student t-test rel: null distribution should contain 2^n statistics."
-    assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Student t-test rel: best permutation case should give p-value of exactly 1/(2^n)."
+    assert dist.shape[0] == max_perms, (
+        "Student t-test rel: null distribution should contain 2^n statistics."
+    )
+    assert np.isclose(p[0], 1./max_perms, atol=1e-9), (
+        "Student t-test rel: best permutation case should give p-value of "
+        "exactly 1/(2^n)."
+    )
 
     # use a Wilcoxon permutation T test for paired samples with all possible
     # permutations: it should give a p-value of exactly 2/(2^n)
@@ -110,8 +122,13 @@ def test_permutation_paired_samples_best(n):
         zero_method="wilcox",
         return_dist=True,
     )
-    assert dist.shape[0] == max_perms, "Wilcoxon T test: null distribution should contain 2^n statistics."
-    assert np.isclose(p[0], 2./max_perms, atol=1e-9), "Wilcoxon T test: best permutation case should give p-value of exactly 1/(2^n)."
+    assert dist.shape[0] == max_perms, (
+        "Wilcoxon T test: null distribution should contain 2^n statistics."
+    )
+    assert np.isclose(p[0], 2./max_perms, atol=1e-9), (
+        "Wilcoxon T test: best permutation case should give p-value of exactly"
+        " 1/(2^n)."
+    )
 
 
 @pytest.mark.parametrize("n1", range(2, 9))
@@ -151,11 +168,17 @@ def test_permutation_unpaired_samples_best(n1, n2):
         side="one",
         return_dist=True,
     )
-    assert dist.shape[0] == max_perms, "Student t-test ind: null distribution should contain (n1+n2)!/(n1!n2!) statistics."
+    assert dist.shape[0] == max_perms, (
+        "Student t-test ind: null distribution should contain "
+        "(n1+n2)!/(n1!n2!) statistics."
+    )
     # TODO: assert p-value
     # NOT DONE, because percentileofscore randomly detects the presence of stat
     # of null permutation in vector dist...
-    #assert np.isclose(p[0], 1./max_perms, atol=1e-9), "Student t-test ind: best permutation case should give p-value of exactly 1/((n1+n2)!/(n1!n2!))."
+    # assert np.isclose(p[0], 1./max_perms, atol=1e-9), (
+    #     "Student t-test ind: best permutation case should give p-value of "
+    #     "exactly 1/((n1+n2)!/(n1!n2!))."
+    # )
 
     # use a Mann-Whitney permutation U test for unpaired samples with all
     # possible permutations: it should give a p-value of exactly
@@ -166,14 +189,21 @@ def test_permutation_unpaired_samples_best(n1, n2):
         n="all",
         return_dist=True,
     )
-    assert dist.shape[0] == max_perms, "Mann-Whitney U test: null distribution should contain (n1+n2)!/(n1!n2!) statistics."
-    assert np.isclose(p[0], 2./max_perms, atol=1e-9), "Mann-Whitney U test: best permutation case should give p-value of exactly 1/((n1+n2)!/(n1!n2!))."
+    assert dist.shape[0] == max_perms, (
+        "Mann-Whitney U test: null distribution should contain "
+        "(n1+n2)!/(n1!n2!) statistics."
+    )
+    assert np.isclose(p[0], 2./max_perms, atol=1e-9), (
+       "Mann-Whitney U test: best permutation case should give p-value of "
+       "exactly 1/((n1+n2)!/(n1!n2!))."
+    )
 
 
 ###############################################################################
 
 
-@pytest.mark.parametrize("corr_func",
+@pytest.mark.parametrize(
+    "corr_func",
     ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
 )
 @pytest.mark.parametrize("with_replacement", (True, False))
@@ -258,7 +288,8 @@ def test_permutation_corr_errors(n_meas=5, n_vars=3):
         )
 
 
-@pytest.mark.parametrize("corr_func",
+@pytest.mark.parametrize(
+    "corr_func",
     ("pearson", "spearman", "spearman_fast", "spearman_fast_nonunique")
 )
 def test_permutation_corr_rates(
@@ -333,7 +364,9 @@ def test_permutation_corr_rates(
                 R_sp[v] = r
             else:
                 R_sp[v] = stats.spearmanr(x, y).correlation
-        assert np.allclose(R_pp, R_sp, atol=1e-9), "Statistics R should be equivalent to SciPy."
+        assert np.allclose(R_pp, R_sp, atol=1e-9), (
+            "Statistics R should be equivalent to SciPy."
+        )
 
         # the trend was only added to the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -482,7 +515,9 @@ def test_permutation_ttest_rel_rates(
         t_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             t_sp[v] = stats.ttest_rel(x, y).statistic
-        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to SciPy."
+        assert np.allclose(t_pp, t_sp, atol=1e-9), (
+            "Statistics t should be equivalent to SciPy."
+        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -651,7 +686,9 @@ def test_permutation_ttest_ind_rates(
         t_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             t_sp[v] = stats.ttest_ind(x, y, equal_var=equal_var).statistic
-        assert np.allclose(t_pp, t_sp, atol=1e-9), "Statistics t should be equivalent to SciPy."
+        assert np.allclose(t_pp, t_sp, atol=1e-9), (
+            "Statistics t should be equivalent to SciPy."
+        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -801,7 +838,9 @@ def test_permutation_wilcoxon_rates(
         T_sp = np.zeros(n_vars)
         for v, (x, y) in enumerate(zip(X.T, Y.T)):
             T_sp[v] = stats.wilcoxon(x, y, zero_method=zero_method).statistic
-        assert np.allclose(T_pp, T_sp, atol=1e-9), "Statistics T should be equivalent to SciPy."
+        assert np.allclose(T_pp, T_sp, atol=1e-9), (
+            "Statistics T should be equivalent to SciPy."
+        )
 
         # the offset was only added to the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -940,7 +979,9 @@ def test_permutation_mannwhitneyu_rates(
 #        U_sp = np.zeros(n_vars)
 #        for v, (x, y) in enumerate(zip(X.T, Y.T)):
 #            U_sp[v] = stats.mannwhitneyu(x, y, alternative="less").statistic
-#        assert np.allclose(U_pp, U_sp, atol=1e-9), "Statistics U should be equivalent to SciPy."
+#        assert np.allclose(U_pp, U_sp, atol=1e-9), (
+#            "Statistics U should be equivalent to SciPy."
+#        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -994,8 +1035,10 @@ def test_permutation_f_oneway_errors(list_meas=[2, 4, 6, 3], n_vars=3):
     with pytest.raises(ValueError):  # not same n_vars
         list_vars = np.random.randint(1, 10, size=len(list_meas))
         ppstats.permutation_f_oneway(
-            *[np.random.randn(n_meas, n_vars_)
-            for n_meas, n_vars_ in zip(list_meas, list_vars)],
+            *[
+                np.random.randn(n_meas, n_vars_)
+                for n_meas, n_vars_ in zip(list_meas, list_vars)
+            ],
             n=1,
         )
 
@@ -1067,7 +1110,9 @@ def test_permutation_f_oneway_rates(
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             F_sp[v] = stats.f_oneway(*args_).statistic
-        assert np.allclose(F_pp, F_sp, atol=1e-9), "Statistics F should be equivalent to SciPy."
+        assert np.allclose(F_pp, F_sp, atol=1e-9), (
+            "Statistics F should be equivalent to SciPy."
+        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -1121,8 +1166,10 @@ def test_permutation_kruskal_errors(list_meas=[4, 3, 5, 3], n_vars=3):
     with pytest.raises(ValueError):  # not same n_vars
         list_vars = np.random.randint(1, 10, size=len(list_meas))
         ppstats.permutation_kruskal(
-            *[np.random.randn(n_meas, n_vars_)
-            for n_meas, n_vars_ in zip(list_meas, list_vars)],
+            *[
+                np.random.randn(n_meas, n_vars_)
+                for n_meas, n_vars_ in zip(list_meas, list_vars)
+            ],
             n=1,
         )
 
@@ -1194,7 +1241,9 @@ def test_permutation_kruskal_rates(
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             H_sp[v] = stats.kruskal(*args_).statistic
-        assert np.allclose(H_pp, H_sp, atol=1e-9), "Statistics H should be equivalent to SciPy."
+        assert np.allclose(H_pp, H_sp, atol=1e-9), (
+            "Statistics H should be equivalent to SciPy."
+        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))
@@ -1331,7 +1380,9 @@ def test_permutation_friedmanchisquare_rates(
         for v in range(n_vars):
             args_ = [arg[:, v] for arg in args]
             chi2_sp[v] = stats.friedmanchisquare(*args_).statistic
-        assert np.allclose(chi2_pp, chi2_sp, atol=1e-9), "Statistics chi2 should be equivalent to SciPy."
+        assert np.allclose(chi2_pp, chi2_sp, atol=1e-9), (
+            "Statistics chi2 should be equivalent to SciPy."
+        )
 
         # the distribution is different only for the last index
         false_positives.append(sum([int(p < alpha) for p in pvals[:-1]]))

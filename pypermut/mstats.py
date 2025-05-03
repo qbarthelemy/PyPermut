@@ -144,7 +144,7 @@ def studentt_ind(C, list_meas):
     var1 = np.var(C[0:n_meas_X], axis=0, ddof=1)
     var2 = np.var(C[n_meas_X:], axis=0, ddof=1)
     svar = ((n_meas_X-1) * var1 + (n_meas_Y-1) * var2) \
-           / (n_meas_X + n_meas_Y - 2.0)
+        / (n_meas_X + n_meas_Y - 2.0)
     denom = np.sqrt(svar * (1.0/n_meas_X + 1.0/n_meas_Y))
     with np.errstate(divide="ignore", invalid="ignore"):
         t = np.divide(D, denom)
@@ -200,7 +200,7 @@ def wilcoxon(D, zero_method):
     if zero_method == "wilcox":
         # WARNING: non-multivariate processing for this option
         T = np.zeros(D.shape[1])
-        for v, d in enumerate(D.T): # loop on variables...
+        for v, d in enumerate(D.T):  # loop on variables...
             d = np.compress(np.not_equal(d, 0), d, axis=-1)
 
             r = stats.rankdata(np.abs(d))

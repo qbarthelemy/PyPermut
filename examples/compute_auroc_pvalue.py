@@ -89,8 +89,10 @@ auroc_, pval = permutation_metric(
     side="right",
     n=n_perm,
 )
-print("AUROC = {:.3f} +/- {:.3f}, p={:.2e} ({})"
-      .format(auroc_, auroc_se, pval, pvals_to_stars(pval)))
+print(
+    "AUROC = {:.3f} +/- {:.3f}, p={:.2e} ({})"
+    .format(auroc_, auroc_se, pval, pvals_to_stars(pval))
+)
 
 
 ###############################################################################

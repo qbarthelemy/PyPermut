@@ -14,6 +14,7 @@ from . import helpers
 from . import mstats
 
 
+# TODO: allow x to be multivariate -> X
 def permutation_corr(
     Y,
     *,
@@ -24,7 +25,6 @@ def permutation_corr(
     side="one",
     return_dist=False,
 ):
-# TODO: allow x to be multivariate -> X
     """Rmax permutation test.
 
     This function performs a Rmax permutation test from correlations between a
@@ -100,19 +100,28 @@ def permutation_corr(
         if np.all(y_unique == x.shape[0]) and x_unique == x.shape[0]:
             corr_func = mstats.spearmanr_fast_unique
         else:
-            warnings.warn("Not all observations are unique, using the "
-                "spearman_fast function that is slight slower "
-                "(but still fast!)", UserWarning, stacklevel=2)
+            warnings.warn(
+                "Not all observations are unique, using the spearman_fast "
+                "function that is slight slower (but still fast!)",
+                UserWarning,
+                stacklevel=2
+            )
             corr_func = mstats.spearmanr_fast
     elif corr == "spearman_fast_unique":
         # Warning, only use if you are sure (this is kept for unit tests)
-        warnings.warn("Use spearman_fast instead of spearman_fast_unique",
-            UserWarning, stacklevel=2)
+        warnings.warn(
+            "Use spearman_fast instead of spearman_fast_unique",
+            UserWarning,
+            stacklevel=2,
+        )
         corr_func = mstats.spearmanr_fast_unique
     elif corr == "spearman_fast_nonunique":
         # Warning, only use if you are sure (this is kept for unit tests)
-        warnings.warn("Use spearman_fast instead of spearman_fast_nonunique",
-            UserWarning, stacklevel=2)
+        warnings.warn(
+            "Use spearman_fast instead of spearman_fast_nonunique",
+            UserWarning,
+            stacklevel=2,
+        )
         corr_func = mstats.spearmanr_fast
     else:
         raise ValueError(f"Invalid value for corr={corr}.")
@@ -392,7 +401,7 @@ def permutation_wilcoxon(
     """  # noqa
     X, Y = helpers.check_paired_arrays(X, Y)
 
-    if not zero_method in ["wilcox", "pratt", "zsplit"]:
+    if zero_method not in ["wilcox", "pratt", "zsplit"]:
         raise ValueError(f"Invalid value for zero_method={zero_method}.")
 
     # under the null hypothesis, sample the Tmin distribution
@@ -498,8 +507,8 @@ def permutation_mannwhitneyu(
         return Ustats, pvals
 
 
-def permutation_f_oneway(*X, n=10000, return_dist=False):
 # TODO: allow n="all"
+def permutation_f_oneway(*X, n=10000, return_dist=False):
     """Fmax permutation test.
 
     This function performs a Fmax permutation test from one-way ANOVAs,
@@ -560,8 +569,8 @@ def permutation_f_oneway(*X, n=10000, return_dist=False):
         return Fstats, pvals
 
 
-def permutation_kruskal(*X, n=10000, return_dist=False):
 # TODO: allow n="all"
+def permutation_kruskal(*X, n=10000, return_dist=False):
     """Hmax permutation test.
 
     This function performs a Hmax permutation test from Kruskal-Wallis H
@@ -622,9 +631,9 @@ def permutation_kruskal(*X, n=10000, return_dist=False):
         return Hstats, pvals
 
 
-def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
 # TODO: allow n="all"; and use core.permute_paired_samples after its
 # generalization to S samples
+def permutation_friedmanchisquare(*X, n=10000, return_dist=False):
     """chi2max permutation test.
 
     This function performs a chi2max permutation test from Friedman chi2

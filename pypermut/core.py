@@ -85,6 +85,7 @@ def permute_measurements(
     return null_dist
 
 
+# TODO: generalization to S paired samples
 def permute_paired_samples(
     X,
     Y,
@@ -95,7 +96,6 @@ def permute_paired_samples(
     side,
     **kwargs,
 ):
-# TODO: generalization to S paired samples
     """Permute two paired samples.
 
     This generic function permutes two paired samples X and Y:
@@ -413,10 +413,10 @@ def get_permutation_2_paired_samples(n_meas, perm_number):
     return perm_coeffs
 
 
-def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
 # TODO: generalization to more than 2 samples; and the signature should be:
 # get_permutation_unpaired_samples(list_meas, perm_number)
 # requiring to get combinations by their indices.
+def get_permutation_unpaired_samples(list_meas, permutated_inds_X):
     """Return the indices to permute two unpaired samples.
 
     This function returns the indices to permute two unpaired samples X and Y,

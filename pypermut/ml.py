@@ -51,7 +51,7 @@ def permutation_metric(y_true, y_score, func, *, n=10000, side="right"):
     References
     ----------
     .. [1] https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics
-    """
+    """  # noqa
     y_true = np.asarray(y_true)
     y_score = np.asarray(y_score)
     if y_true.shape != y_score.shape:
@@ -114,9 +114,9 @@ def standard_error_auroc(y_labels, y_probas, auroc):
     if not 0 <= auroc <= 1:
         raise ValueError(f"Input auroc={auroc} must be included in [0, 1].")
 
-    X_A = y_probas[y_labels==1]
+    X_A = y_probas[y_labels == 1]
     n_A = X_A.shape[0]
-    X_N = y_probas[y_labels==0]
+    X_N = y_probas[y_labels == 0]
     n_N = X_N.shape[0]
 
     # Eq(2)

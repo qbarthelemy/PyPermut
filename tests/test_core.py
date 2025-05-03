@@ -155,12 +155,16 @@ def test_get_permutation_measurements(n):
     # uniqueness: there should be exactly max_perms permutations,
     # and using a set will help determine if there are repeated results
     permutations = set(tuple(perm) for perm in perms)
-    assert len(permutations) == max_perms, "Generated permutations are not unique."
+    assert len(permutations) == max_perms, (
+        "Generated permutations are not unique."
+    )
 
     # null and reverse permutations
     inds = list(range(n))
     assert perms[0] == inds, "First permutation is not the null permutation."
-    assert perms[-1] == list(reversed(inds)), "Last permutation is not the reverse permutation."
+    assert perms[-1] == list(reversed(inds)), (
+        "Last permutation is not the reverse permutation."
+    )
 
 
 @pytest.mark.parametrize("n", range(2, 15))
@@ -184,11 +188,17 @@ def test_get_permutation_2_paired_samples(n):
     # uniqueness: there should be exactly max_perms permutations,
     # and using a set will help determine if there are repeated results
     permutations = set(tuple(map(tuple, perm)) for perm in perms)
-    assert len(permutations) == max_perms, "Generated permutations are not unique."
+    assert len(permutations) == max_perms, (
+        "Generated permutations are not unique."
+    )
 
     # null and full permutations
-    assert all(v == 1 for v in perms[0]), "First permutation is not the null permutation."
-    assert all(v == -1 for v in perms[-1]), "Last permutation is not the full permutation."
+    assert all(v == 1 for v in perms[0]), (
+        "First permutation is not the null permutation."
+    )
+    assert all(v == -1 for v in perms[-1]), (
+        "Last permutation is not the full permutation."
+    )
 
 
 @pytest.mark.parametrize("n1", range(2, 14))
@@ -218,7 +228,11 @@ def test_get_permutation_unpaired_samples(n1, n2):
     # uniqueness: there should be exactly max_perms permutations,
     # and using a set will help determine if there are repeated results
     permutations = set(tuple(perm) for perm in perms)
-    assert len(permutations) == max_perms, "Generated permutations are not unique."
+    assert len(permutations) == max_perms, (
+        "Generated permutations are not unique."
+    )
 
     # null permutation
-    assert perms[0] == list(range(n1 + n2)), "First permutation is not the null permutation."
+    assert perms[0] == list(range(n1 + n2)), (
+        "First permutation is not the null permutation."
+    )
