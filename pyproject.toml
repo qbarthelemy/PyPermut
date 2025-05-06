@@ -1,11 +1,18 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "pypermut"
 version = "0.2.2"
 description = "PyPermut is a Python package implementing permutation tests"
-authors = ["Quentin Barthelemy", "Anonymous", "Louis Mayaud"]
+authors = [
+    { name = "Quentin Barthelemy" },
+    { name = "Anonymous" },
+    { name = "Louis Mayaud" },
+]
 license = "BSD-3-Clause"
 readme = "README.md"
-homepage = "https://github.com/qbarthelemy/PyPermut"
 classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
@@ -14,19 +21,13 @@ classifiers = [
     "Topic :: Statistics",
     "Topic :: Machine Learning",
 ]
-packages = [
-    { include = "pypermut" },
+requires-python = ">=3.9"
+dependencies = [
+    "numpy >= 1.16.5",
+    "scipy >= 1.6.0",
+    "matplotlib >= 3.0.1",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-numpy = "^1.16.5"
-scipy = "^1.6.0"
-matplotlib = "^3.0.0"
-
-[tool.poetry.dev-dependencies]
-pytest = "^3.0"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[project.optional-dependencies]
+docs = ["sphinx", "sphinx-gallery", "numpydoc", "scikit-learn"]
+tests = ["flake8", "pytest"]
