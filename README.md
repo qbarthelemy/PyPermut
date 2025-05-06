@@ -1,7 +1,7 @@
 # P*y*&#43004;*ermut*
 
 [![Code PythonVersion](https://img.shields.io/badge/python-3.9+-blue)](https://img.shields.io/badge/python-3.9+-blue)
-[![Tests](https://github.com/qbarthelemy/pypermut/actions/workflows/testing/badge.svg?branch=main&event=push)](https://github.com/qbarthelemy/pypermut/actions)
+[![Tests](https://github.com/qbarthelemy/PyPermut/workflows/testing/badge.svg?branch=main&event=push)](https://github.com/qbarthelemy/pypermut/actions)
 [![License](https://img.shields.io/badge/licence-BSD--3--Clause-green)](https://img.shields.io/badge/license-BSD--3--Clause-green)
 [![Country](https://img.shields.io/badge/made%20in-France-blue)](https://img.shields.io/badge/made%20in-France-blue)
 
